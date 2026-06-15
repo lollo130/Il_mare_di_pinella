@@ -18,7 +18,7 @@
   const root = document.querySelector("[data-reviews]");
   if (!root) return;
 
-  const ENDPOINT = "/api/reviews";
+  const ENDPOINT = "/api/reviews?v=1";
   const GOOGLE_SEARCH = "https://www.google.com/maps/search/Il+Mare+di+Pinella+Siracusa";
 
   /* ---- Avatar: tavolozza per le iniziali (quando manca la foto Google) ---- */
