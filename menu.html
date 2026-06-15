@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menù — Il Mare di Pinella</title>
+  <meta name="description" content="Il menù completo de Il Mare di Pinella: antipasti, primi, secondi di mare, contorni, dolci, bevande e carta dei vini siciliana. Con prezzi, traduzioni e allergeni." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: {
+      colors: { cream:"#FAF5EA", ink:"#122146", cobalt:"#1B4096", gold:"#E3A81B", citrus:"#E2722B", pistachio:"#6E9A2E", terracotta:"#C0492F" },
+      fontFamily: { display:['"Cormorant Garamond"',"serif"], body:['"Space Grotesk"',"sans-serif"] },
+    } } };
+  </script>
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="icon" type="image/png" href="assets/img/logo.png" />
+</head>
+
+<body>
+
+  <!-- Sfondo a gradiente fluido animato — riflesso del sole siciliano (main.js) -->
+  <canvas class="bg-mesh" data-mesh aria-hidden="true"></canvas>
+  <div class="bg-mesh-veil" aria-hidden="true"></div>
+
+  <!-- ================= NAVBAR ================= -->
+  <nav class="nav is-scrolled" data-nav>
+    <a class="nav__logo" href="index.html" aria-label="Il Mare di Pinella — Home">
+      <img src="assets/img/logo.png" alt="Il Mare di Pinella — Osteria di mare siracusana" />
+    </a>
+    <div class="nav__links">
+      <a href="index.html">Home</a>
+      <a href="famiglia.html">Storia</a>
+      <a href="recensioni.html">Recensioni</a>
+      <a href="index.html#contatti">Contatti</a>
+      <a href="index.html#prenota" class="btn btn--sm">Prenota un tavolo</a>
+    </div>
+    <button class="nav__toggle" data-nav-toggle aria-label="Apri menu">☰</button>
+  </nav>
+
+  <!-- ================= INTESTAZIONE MENÙ ================= -->
+  <header class="section section--cream" style="padding-top:8rem;position:relative;overflow:hidden">
+    <!-- Limone siciliano fluttuante a parallasse -->
+    <div class="parallax-decor parallax-decor--left" data-parallax="0.16" style="top:30%" aria-hidden="true">
+      <svg width="130" height="160" viewBox="0 0 150 190" fill="none">
+        <path d="M96 24 C150 30 150 92 104 104 C66 96 64 44 96 24Z" fill="#7FB23A"/>
+        <path d="M99 30 C122 44 120 80 104 100" stroke="#3D6B18" stroke-width="2" opacity="0.5"/>
+        <ellipse cx="66" cy="120" rx="50" ry="44" fill="#F4D24A"/>
+        <ellipse cx="52" cy="104" rx="13" ry="8" fill="#FFFFFF" opacity="0.45"/>
+        <path d="M16 122 q-9 -2 -12 4" stroke="#E3A81B" stroke-width="5" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div>
+    <div class="wrap center" style="max-width:720px;margin-inline:auto;position:relative;z-index:1">
+      <span class="eyebrow" data-reveal>Cucina di mare · Sicilia</span>
+      <h1 class="section-title" data-reveal data-delay="1" style="font-size:clamp(2.8rem,7vw,5rem)">Il nostro Menù</h1>
+      <p class="section-lead" data-reveal data-delay="2" style="margin-inline:auto">
+        Dal pescato del giorno ai dolci della tradizione — oppure il nostro menù fisso.
+        <em>Explore the à la carte menu or our €30 set menu.</em>
+      </p>
+
+      <!-- ===== Selettore: Alla carta / Fisso ===== -->
+      <div class="menu-mode" data-menu-mode role="tablist" aria-label="Tipo di menù" data-reveal data-delay="3">
+        <button class="menu-mode__btn is-active" data-mode-btn="carta" role="tab" aria-selected="true"><span>Menù alla carta</span><small>À la carte</small></button>
+        <button class="menu-mode__btn" data-mode-btn="fisso" role="tab" aria-selected="false"><span>Menù Fisso · €30</span><small>Set menu</small></button>
+      </div>
+    </div>
+
+    <!-- ===== Filtri dinamici (solo "alla carta") ===== -->
+    <div class="wrap" data-reveal data-delay="2" data-carta-only>
+      <div class="menu-filters" data-menu-filters>
+        <button class="filter-btn is-active" data-filter="all">Tutto · All</button>
+        <button class="filter-btn" data-filter="mare">Mare · Sea</button>
+        <button class="filter-btn" data-filter="terra">Terra · Land</button>
+        <button class="filter-btn" data-filter="veg">Vegetariano · Veg</button>
+        <button class="filter-btn" data-filter="gf">Senza glutine · GF</button>
+        <button class="filter-btn" data-filter="vini">Vini · Wines</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Onda minimal -->
+  <div class="wave" aria-hidden="true"><canvas data-wave data-stroke="#1B4096"></canvas></div>
+
+  <!-- ================= MENÙ (renderizzato da menu.js) ================= -->
+  <section class="section section--cream" style="padding-top:2rem">
+    <div class="wrap">
+
+      <!-- Pannello "alla carta" -->
+      <div class="menu-panel is-active" data-mode="carta">
+        <div data-menu><!-- contenuto generato da assets/js/menu.js --></div>
+      </div>
+
+      <!-- Pannello "menù fisso" -->
+      <div class="menu-panel" data-mode="fisso" hidden>
+        <div class="fixed-menu">
+          <div class="fixed-menu__head">
+            <span class="eyebrow">Menù degustazione · Set menu</span>
+            <h2 class="fixed-menu__title">Menù «Il Mare di Pinella»</h2>
+            <div class="fixed-menu__price">€30</div>
+            <ul class="fixed-menu__include">
+              <li>1 Antipasto</li>
+              <li>1 Primo</li>
+              <li>1 Secondo + contorno</li>
+              <li>Pane e coperto</li>
+            </ul>
+            <p class="fixed-menu__note">Bevande escluse · Drinks not included</p>
+            <p class="muted" style="font-size:.9rem;margin:.6rem 0 0">Scegli un piatto per ogni portata. · <em>Choose one dish per course.</em></p>
+          </div>
+
+          <div class="fixed-menu__grid">
+            <section class="fixed-cat">
+              <h3 class="fixed-cat__title">Antipasti <small>Starters</small></h3>
+              <ul>
+                <li>Fritto misto</li>
+                <li>Zuppa di cozze</li>
+                <li>Caponata di spada</li>
+                <li>Bruschette all'italiana</li>
+              </ul>
+            </section>
+            <section class="fixed-cat">
+              <h3 class="fixed-cat__title">Primi <small>First courses</small></h3>
+              <ul>
+                <li>Risotto alla marinara</li>
+                <li>Spaghetti alla siracusana</li>
+                <li>Casarecce alla Norma</li>
+              </ul>
+            </section>
+            <section class="fixed-cat">
+              <h3 class="fixed-cat__title">Secondi <small>Main courses</small></h3>
+              <ul>
+                <li>Polpo arrosto su purè di patate</li>
+                <li>Calamaro alla griglia</li>
+                <li>Scaloppina ai funghi</li>
+              </ul>
+            </section>
+            <section class="fixed-cat">
+              <h3 class="fixed-cat__title">Contorni <small>Sides</small></h3>
+              <ul>
+                <li>Patate al forno</li>
+                <li>Patatine fritte</li>
+                <li>Insalata mista</li>
+              </ul>
+            </section>
+          </div>
+
+          <div class="center" style="margin-top:2rem">
+            <a href="index.html#prenota" class="btn magnetic" data-magnetic="0.25"><span class="magnetic__inner">Prenota per il menù fisso</span></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= ALLERGENI (legenda bilingue) ================= -->
+  <section class="section section--deep">
+    <div class="wrap">
+      <div class="center" style="max-width:640px;margin-inline:auto">
+        <span class="eyebrow">Informazioni utili</span>
+        <h2 class="section-title" style="font-size:clamp(1.9rem,4vw,3rem)">Allergeni / Allergens</h2>
+        <p class="muted">
+          I numeri accanto a ogni piatto indicano gli allergeni presenti.
+          <em>Numbers next to each dish indicate allergens — please ask our staff.</em>
+        </p>
+      </div>
+      <div class="allergens" data-reveal>
+        <div class="allergen"><b>1</b><span>Glutine / <em>Gluten</em></span></div>
+        <div class="allergen"><b>2</b><span>Crostacei / <em>Crustaceans</em></span></div>
+        <div class="allergen"><b>3</b><span>Uova / <em>Eggs</em></span></div>
+        <div class="allergen"><b>4</b><span>Pesce / <em>Fish</em></span></div>
+        <div class="allergen"><b>5</b><span>Frutta a guscio / <em>Tree nuts</em></span></div>
+        <div class="allergen"><b>6</b><span>Latte / <em>Milk</em></span></div>
+        <div class="allergen"><b>7</b><span>Sedano / <em>Celery</em></span></div>
+        <div class="allergen"><b>8</b><span>Solfiti / <em>Sulphites</em></span></div>
+        <div class="allergen"><b>9</b><span>Molluschi / <em>Molluscs</em></span></div>
+      </div>
+      <div class="center" style="margin-top:2.4rem">
+        <a class="btn magnetic" data-magnetic="0.25" href="index.html#prenota">
+          <span class="magnetic__inner">Prenota un tavolo</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__grid">
+        <div class="stack">
+          <h4>Il Mare di Pinella</h4>
+          <p style="opacity:.85;margin-top:-.3rem;font-style:italic;font-family:var(--font-display);font-size:1.05rem">Osteria di mare siracusana</p>
+          <p style="opacity:.85;max-width:34ch">Cucina di mare e tradizione siciliana.</p>
+        </div>
+        <div class="stack">
+          <h4 style="font-size:1.15rem">Naviga</h4>
+          <a href="index.html">Home</a>
+          <a href="famiglia.html">Storia</a>
+          <a href="recensioni.html">Recensioni</a>
+          <a href="index.html#prenota">Prenota</a>
+          <a href="index.html#contatti">Contatti</a>
+        </div>
+        <div class="stack">
+          <h4 style="font-size:1.15rem">Seguici</h4>
+          <a href="https://www.instagram.com/ilmaredipinella" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.facebook.com/people/Il-Mare-di-Pinella/61590315401542/?locale=it_IT" target="_blank" rel="noopener">Facebook</a>
+          <a href="https://linktr.ee/ilmaredipinella" target="_blank" rel="noopener">Linktree</a>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© <span data-year>2026</span> Il Mare di Pinella — Tutti i diritti riservati.</span>
+        <span>Fatto con cura in Sicilia</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/menu.js" defer></script>
+</body>
+</html>

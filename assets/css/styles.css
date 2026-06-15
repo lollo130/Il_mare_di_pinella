@@ -1,0 +1,831 @@
+/* ==========================================================================
+   IL MARE DI PINELLA — Foglio di stile (v2: eleganza premium + anima siciliana)
+   Filosofia: base chiara "bianco ceramica", Blu Cobalto usato con criterio,
+   accenti caldi (oro/limone, arancio) solo dove serve, maioliche discrete.
+   Font: Cormorant Garamond (titoli) · Space Grotesk (corpo).
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. TOKEN / VARIABILI
+   -------------------------------------------------------------------------- */
+:root {
+  /* --- Basi chiare (dominante, calda, rilassante) --- */
+  --cream:       #FAF5EA;   /* bianco ceramica morbido — sfondo dominante   */
+  --cream-deep:  #F2E9D6;   /* avorio leggermente più caldo per alternanza  */
+  --ceramic:     #FFFFFF;   /* bianco puro per le card                      */
+
+  /* --- Scuri eleganti --- */
+  --ink:         #122146;   /* navy profondo per il corpo del testo         */
+  --cobalt:      #1B4096;   /* Blu Cobalto — titoli, bordi, footer, nav     */
+  --cobalt-soft: #29539E;   /* cobalto più chiaro per dettagli              */
+
+  /* --- Accenti caldi (uso parsimonioso) --- */
+  --gold:        #E3A81B;   /* giallo limone/oro — CTA principali           */
+  --gold-soft:   #F2D27A;   /* oro tenue per badge/sfondi leggeri           */
+  --citrus:      #E2722B;   /* arancio agrume — accenti, secondo CTA        */
+  --pistachio:   #6E9A2E;   /* verde pistacchio sobrio — tag/badge          */
+  --terracotta:  #C0492F;   /* rosso carretto — dettagli maiolica           */
+
+  /* --- Tipografia --- */
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-body:    "Space Grotesk", system-ui, sans-serif;
+
+  /* --- Ombre soffuse e premium --- */
+  --shadow-xs: 0 1px 2px rgba(18, 33, 70, 0.06);
+  --shadow-sm: 0 6px 18px -8px rgba(18, 33, 70, 0.16);
+  --shadow-md: 0 18px 40px -18px rgba(18, 33, 70, 0.22);
+  --shadow-lg: 0 30px 70px -28px rgba(18, 33, 70, 0.30);
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --radius: 18px;
+}
+
+/* --------------------------------------------------------------------------
+   2. RESET + BASE
+   -------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  /* Fallback caldo statico sotto la mesh animata (riflesso di sole su ceramica) */
+  background-color: var(--cream);
+  background-image:
+    radial-gradient(120% 90% at 12% 8%,  rgba(242,210,122,0.55) 0%, transparent 55%),
+    radial-gradient(110% 80% at 88% 0%,  rgba(226,114,43,0.30) 0%, transparent 50%),
+    radial-gradient(120% 100% at 70% 100%, rgba(27,64,150,0.18) 0%, transparent 55%);
+  background-attachment: fixed;
+  line-height: 1.65;
+  overflow-x: hidden;
+  font-size: 17px;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.05;
+  margin: 0 0 0.5em;
+  color: var(--cobalt);
+  letter-spacing: 0.005em;
+}
+
+p { margin: 0 0 1rem; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+::selection { background: var(--gold-soft); color: var(--ink); }
+
+/* --------------------------------------------------------------------------
+   3. LAYOUT
+   -------------------------------------------------------------------------- */
+.wrap { width: min(1160px, 90vw); margin-inline: auto; }
+.section { position: relative; padding: clamp(4rem, 8vw, 7.5rem) 0; }
+
+/* Veli traslucidi: la mesh animata respira attraverso tutte le sezioni,
+   restando però perfettamente leggibili (lavata calda ~70-78% opaca). */
+.section--cream { background: rgba(255, 253, 248, 0.74); }
+.section--deep  { background: rgba(250, 242, 224, 0.68); }
+/* Singolo blocco separatore caldo (testo scuro sopra, leggibile) */
+.section--warm  { background: linear-gradient(120deg, var(--gold-soft), #F6C26B); color: var(--ink); }
+/* Sezione strutturale scura elegante (uso mirato del cobalto) */
+.section--cobalt { background: var(--cobalt); color: var(--cream); }
+.section--cobalt h1, .section--cobalt h2, .section--cobalt h3 { color: var(--ceramic); }
+
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.26em;
+  font-size: 0.72rem;
+  color: var(--citrus);
+  margin-bottom: 1rem;
+}
+.eyebrow::after { content: ""; display: inline-block; width: 30px; height: 2px; background: var(--gold); vertical-align: middle; margin-left: 0.7rem; }
+.section--cobalt .eyebrow { color: var(--gold); }
+
+.section-title { font-size: clamp(2.4rem, 5.5vw, 4.2rem); }
+.section-lead  { font-size: clamp(1.05rem, 1.8vw, 1.22rem); max-width: 58ch; color: var(--ink); }
+.muted { opacity: 0.78; }
+.stack > * + * { margin-top: 1rem; }
+.center { text-align: center; }
+
+/* --------------------------------------------------------------------------
+   4. DETTAGLI D'AUTORE — divisori e rifiniture (NIENTE texture a piastrelle)
+   -------------------------------------------------------------------------- */
+/* Divisore di linea finissimo con piccolo motivo centrale */
+.rule {
+  display: flex; align-items: center; gap: 1rem; justify-content: center;
+  margin: 2.4rem auto; max-width: 320px; color: var(--cobalt);
+}
+.rule::before, .rule::after { content: ""; height: 1px; flex: 1; background: linear-gradient(90deg, transparent, var(--cobalt) 60%); opacity: 0.4; }
+.rule::after { background: linear-gradient(90deg, var(--cobalt) 40%, transparent); }
+.rule svg { width: 26px; height: 26px; flex-shrink: 0; opacity: 0.7; }
+
+/* Piccolo dettaglio maiolica d'angolo per le sezioni */
+.corner-tile {
+  position: absolute; width: 70px; height: 70px; opacity: 0.4; pointer-events: none;
+}
+.corner-tile--tr { top: 22px; right: 22px; }
+.corner-tile--bl { bottom: 22px; left: 22px; }
+
+/* --------------------------------------------------------------------------
+   4b. BG MESH — gradiente fluido animato (canvas leggero, gestito da main.js)
+   Riflesso del sole su mare e pietre calde: avorio, limone, agrume, cobalto.
+   Il canvas ha un backing-store minuscolo (≈200px) ridisegnato in rAF e viene
+   ingrandito + sfocato via CSS: costo trascurabile, fluidità a 60fps.
+   -------------------------------------------------------------------------- */
+.bg-mesh {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  pointer-events: none;
+  /* Sfocatura morbida (acquerello) + leggero overscale per i bordi del blur */
+  filter: blur(22px) saturate(1.15);
+  transform: scale(1.12);
+  opacity: 0.95;
+}
+@media (max-width: 880px) {
+  .bg-mesh { filter: blur(16px) saturate(1.12); transform: scale(1.16); }
+}
+/* Velo finale: smorza il centro per garantire leggibilità del testo */
+.bg-mesh-veil {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(125% 95% at 50% 38%, transparent 0%, rgba(255,253,248,0.28) 78%, rgba(255,253,248,0.5) 100%);
+}
+
+/* --------------------------------------------------------------------------
+   4c. DECORI FLUTTUANTI — limone, fetta d'agrume, frammento di maiolica
+   Si muovono in parallasse (main.js). Niente griglie: forme calde e organiche.
+   -------------------------------------------------------------------------- */
+.floaty { will-change: transform; }
+.floaty svg { display: block; filter: drop-shadow(0 14px 28px rgba(18,33,70,0.16)); }
+
+/* --------------------------------------------------------------------------
+   5. NAVBAR
+   -------------------------------------------------------------------------- */
+.nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 60;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.85rem clamp(1rem, 4vw, 2.4rem);
+  transition: background-color 0.4s var(--ease), box-shadow 0.4s var(--ease), padding 0.4s var(--ease);
+}
+.nav.is-scrolled {
+  background: rgba(250, 245, 234, 0.86);
+  backdrop-filter: blur(12px) saturate(1.1);
+  box-shadow: var(--shadow-sm);
+  border-bottom: 1px solid rgba(27, 64, 150, 0.12);
+}
+.nav__logo { display: flex; align-items: center; }
+.nav__logo img {
+  height: 76px; width: auto; display: block;
+  image-rendering: -webkit-optimize-contrast;
+  filter: drop-shadow(0 4px 14px rgba(27,64,150,0.22));
+  transition: transform 0.35s var(--ease);
+}
+.nav__logo:hover img { transform: scale(1.04) rotate(-1deg); }
+.nav.is-scrolled .nav__logo img { height: 62px; }
+@media (max-width: 880px) {
+  .nav__logo img { height: 56px; }
+  .nav.is-scrolled .nav__logo img { height: 50px; }
+}
+.nav__links { display: flex; align-items: center; gap: 1.6rem; }
+.nav__links a { font-weight: 500; font-size: 0.95rem; color: var(--ink); position: relative; }
+.nav__links a:not(.btn)::after {
+  content: ""; position: absolute; left: 0; bottom: -5px; height: 2px; width: 0;
+  background: var(--gold); transition: width 0.3s var(--ease);
+}
+.nav__links a:not(.btn):hover::after { width: 100%; }
+.nav__toggle { display: none; background: var(--cobalt); color: var(--cream); border: 0; border-radius: 10px; padding: 0.5rem 0.7rem; cursor: pointer; font-size: 1.1rem; }
+
+/* --------------------------------------------------------------------------
+   6. BOTTONI
+   -------------------------------------------------------------------------- */
+.btn {
+  --bg: var(--gold); --fg: var(--ink);
+  display: inline-flex; align-items: center; gap: 0.55rem;
+  font-family: var(--font-body); font-weight: 600; font-size: 1rem;
+  padding: 0.85rem 1.7rem; border: 0; border-radius: 999px; cursor: pointer;
+  background: var(--bg); color: var(--fg);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), background 0.25s;
+  will-change: transform;
+}
+.btn:hover { box-shadow: var(--shadow-md); }
+.btn--ghost  { --bg: transparent; --fg: var(--cobalt); box-shadow: inset 0 0 0 1.5px var(--cobalt); }
+.btn--ghost:hover { background: var(--cobalt); color: var(--cream); }
+.btn--citrus { --bg: var(--citrus); --fg: var(--ceramic); }
+.btn--cobalt { --bg: var(--cobalt); --fg: var(--cream); }
+.btn--sm { padding: 0.55rem 1.1rem; font-size: 0.9rem; }
+.section--cobalt .btn--ghost { --fg: var(--cream); box-shadow: inset 0 0 0 1.5px rgba(250,245,234,0.6); }
+
+/* Magnetico morbido (solo trasformazione, controllato) */
+.magnetic { position: relative; will-change: transform; }
+.magnetic__inner { display: inline-flex; align-items: center; gap: 0.55rem; pointer-events: none; }
+
+/* --------------------------------------------------------------------------
+   7. HERO — calda, ricca, griglia asimmetrica ordinata
+   -------------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  min-height: 100vh; min-height: 100dvh;        /* prima schermata a tutto schermo */
+  display: flex; flex-direction: column; justify-content: center;
+  padding: clamp(6rem, 12vw, 9rem) 0 clamp(3rem, 6vw, 5rem);
+  overflow: hidden; background: transparent;
+}
+.hero__grid { width: min(1500px, 94vw); display: grid; grid-template-columns: 1fr 1.12fr; gap: clamp(2.5rem, 5.5vw, 6rem); align-items: center; }
+
+/* Logo SVG grande nella hero (sostituisce il titolo testuale) */
+.hero__logo { width: 100%; max-width: clamp(340px, 44vw, 640px); margin: 0 0 1.6rem; }
+.hero__logo svg { width: 100%; height: auto; display: block; overflow: visible; }
+
+/* Titolo accessibile nascosto: lo legge screen reader / motori di ricerca */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+/* Occhiello caldo a pillola, arancio agrume */
+.hero .eyebrow.eyebrow--pill {
+  background: linear-gradient(120deg, rgba(226,114,43,0.14), rgba(227,168,27,0.16));
+  color: var(--citrus);
+  padding: 0.5rem 1.05rem; border-radius: 999px; margin-bottom: 1.4rem;
+  border: 1px solid rgba(226,114,43,0.28); letter-spacing: 0.2em;
+  box-shadow: 0 6px 18px -10px rgba(226,114,43,0.5);
+}
+.hero .eyebrow.eyebrow--pill::after { display: none; }
+.hero .eyebrow.eyebrow--pill .dot {
+  position: relative; display: inline-block; width: 8px; height: 8px;
+  border-radius: 50%; background: var(--citrus); margin-right: 0.6rem; vertical-align: middle;
+  box-shadow: 0 0 0 0 rgba(226,114,43,0.55);
+}
+/* Punto luce pulsante (anello che si espande in loop) */
+.hero .eyebrow.eyebrow--pill .dot::after {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  background: var(--citrus);
+  animation: dot-pulse 1.9s ease-out infinite;
+}
+@keyframes dot-pulse {
+  0%   { transform: scale(1);   opacity: 0.7; }
+  70%  { transform: scale(3.4); opacity: 0; }
+  100% { transform: scale(3.4); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .hero .eyebrow.eyebrow--pill .dot::after { animation: none; } }
+
+.hero__title {
+  font-size: clamp(4.2rem, 11vw, 9.2rem); color: var(--cobalt); line-height: 0.9;
+  letter-spacing: -0.015em;
+  /* Alone caldissimo: stacca il cobalto dalle onde colorate senza sporcare */
+  text-shadow: 0 1px 0 rgba(255,250,240,0.7), 0 2px 24px rgba(255,236,200,0.9), 0 0 3px rgba(255,251,242,0.7);
+}
+.hero__title .accent {
+  color: var(--citrus); font-style: italic;
+  background: linear-gradient(100deg, var(--citrus), var(--gold));
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  /* L'alone del titolo trapasserebbe il testo trasparente sbiadendolo:
+     niente text-shadow qui, solo un lift caldo e nitido via drop-shadow. */
+  text-shadow: none;
+  filter: drop-shadow(0 2px 9px rgba(226,114,43,0.28));
+}
+.hero__sub { font-size: clamp(1.12rem, 2vw, 1.4rem); max-width: 44ch; color: var(--ink); text-shadow: 0 1px 10px rgba(255,248,235,0.95), 0 0 2px rgba(255,250,242,0.8); }
+.hero__cta { display: flex; flex-wrap: wrap; gap: 0.9rem; margin-top: 2.1rem; }
+
+/* Pillole calde "fiducia" sotto al sottotitolo — riempiono e scaldano */
+.hero__chips { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; }
+.hero__chip {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  background: rgba(255,255,255,0.66); backdrop-filter: blur(6px);
+  border: 1px solid rgba(27,64,150,0.14); color: var(--ink);
+  font-size: 0.82rem; font-weight: 600; padding: 0.42rem 0.85rem; border-radius: 999px;
+  box-shadow: var(--shadow-xs);
+}
+.hero__chip svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+/* Mosaico 4 foto — composizione cinematografica, angoli morbidi, ombra ricca */
+.hero__mosaic { display: grid; grid-template-columns: 1.25fr 0.58fr 0.72fr; grid-template-rows: clamp(250px, 33vh, 340px) clamp(210px, 27vh, 300px); gap: 18px; position: relative; }
+.hero__mosaic img {
+  width: 100%; height: 100%; object-fit: cover; border-radius: 26px;
+  /* Cornice "ceramica lucida" + ombra soffice e calda per staccare dalle onde */
+  border: 5px solid #fff;
+  box-shadow: 0 30px 60px -18px rgba(18,33,70,0.40), 0 10px 22px -8px rgba(227,168,27,0.30);
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+}
+.hero__mosaic img:hover { transform: translateY(-6px) scale(1.015); box-shadow: 0 40px 78px -18px rgba(18,33,70,0.46), 0 14px 28px -8px rgba(227,168,27,0.38); }
+/* Sovrapposizione editoriale: leggere rotazioni + z-index per "incastrare" le foto */
+.hero__mosaic img:nth-child(1) { grid-row: 1 / 3; border-radius: 34px 26px 26px 34px; transform: rotate(-1.4deg); z-index: 3; }
+.hero__mosaic img:nth-child(2) { grid-column: 2 / 4; border-radius: 26px 34px 26px 26px; transform: rotate(1deg); }
+.hero__mosaic img:nth-child(3) { border-radius: 26px; transform: rotate(1.2deg); }
+.hero__mosaic img:nth-child(4) { border-radius: 26px 26px 34px 26px; transform: rotate(-1.1deg); margin-left: -16px; z-index: 2; }
+.hero__mosaic img:hover { z-index: 4; }
+/* Etichetta "Siracusa" sul mosaico, per calore e contesto */
+.hero__mosaic-tag {
+  position: absolute; left: 12px; bottom: 12px; z-index: 2;
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: rgba(27,64,150,0.92); color: var(--cream);
+  font-family: var(--font-body); font-weight: 600; font-size: 0.78rem;
+  padding: 0.4rem 0.9rem; border-radius: 999px; box-shadow: var(--shadow-md);
+}
+.hero__mosaic-tag svg { width: 14px; height: 14px; color: var(--gold); }
+
+/* --------------------------------------------------------------------------
+   8. CARD GENERICHE
+   -------------------------------------------------------------------------- */
+.card {
+  background: var(--ceramic); color: var(--ink);
+  border-radius: var(--radius); padding: 1.6rem;
+  box-shadow: var(--shadow-sm); border: 1px solid rgba(27,64,150,0.10);
+}
+.badge-list { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+.badge { background: var(--cream-deep); color: var(--cobalt); font-weight: 600; font-size: 0.82rem; padding: 0.4rem 0.95rem; border-radius: 999px; border: 1px solid rgba(27,64,150,0.18); }
+.badge--pistachio { background: rgba(110,154,46,0.14); color: var(--pistachio); border-color: rgba(110,154,46,0.35); }
+
+/* --------------------------------------------------------------------------
+   9. STORIA — layout narrativo
+   -------------------------------------------------------------------------- */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 5vw, 4rem); align-items: center; }
+.story-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+.story-gallery img { border-radius: var(--radius); aspect-ratio: 1; object-fit: cover; box-shadow: var(--shadow-sm); }
+.story-gallery img:first-child { grid-column: span 2; aspect-ratio: 16/10; }
+.story-quote { font-family: var(--font-display); font-style: italic; font-size: 1.6rem; color: var(--cobalt); border-left: 3px solid var(--gold); padding-left: 1.2rem; }
+.story-sub { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.5rem, 2.5vw, 1.95rem); color: var(--cobalt); margin-top: 0.5rem; }
+
+/* --------------------------------------------------------------------------
+   10. MENÙ INTERATTIVO
+   -------------------------------------------------------------------------- */
+.menu-filters { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin: 2rem 0 2.6rem; }
+.filter-btn {
+  font-family: var(--font-body); font-weight: 600; font-size: 0.92rem;
+  padding: 0.55rem 1.25rem; border-radius: 999px; cursor: pointer;
+  background: var(--ceramic); color: var(--cobalt);
+  border: 1.5px solid rgba(27,64,150,0.25);
+  transition: background 0.25s var(--ease), color 0.25s, border-color 0.25s, transform 0.2s var(--ease);
+}
+.filter-btn:hover { transform: translateY(-2px); border-color: var(--gold); }
+/* Stato attivo caldo: arancio agrume */
+.filter-btn.is-active { background: var(--citrus); color: var(--ceramic); border-color: var(--citrus); box-shadow: var(--shadow-sm); }
+
+/* Crossfade fluido al cambio filtro (gestito da menu.js) */
+[data-menu] { transition: opacity 0.25s var(--ease); }
+
+.menu-cat { margin-bottom: 3rem; }
+.menu-cat__title { display: flex; align-items: baseline; gap: 0.8rem; font-size: clamp(1.8rem, 3vw, 2.6rem); color: var(--cobalt); margin-bottom: 1.4rem; }
+.menu-cat__title small { font-family: var(--font-body); font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--citrus); }
+.menu-cat__title::after { content: ""; flex: 1; height: 1px; background: rgba(27,64,150,0.2); }
+
+.menu-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem 2.6rem; }
+.menu-item {
+  display: flex; gap: 0.8rem; align-items: baseline;
+  padding: 0.85rem 0; border-bottom: 1px dashed rgba(27,64,150,0.18);
+  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+}
+.menu-item__main { flex: 1; }
+.menu-item__head { display: flex; align-items: baseline; gap: 0.6rem; }
+.menu-item__name { font-family: var(--font-display); font-weight: 600; font-size: 1.35rem; color: var(--ink); }
+.menu-item__dots { flex: 1; border-bottom: 1px dotted rgba(27,64,150,0.35); transform: translateY(-4px); min-width: 14px; }
+.menu-item__price { font-weight: 700; color: var(--cobalt); white-space: nowrap; }
+.menu-item__en { font-style: italic; color: var(--citrus); font-size: 0.92rem; }
+.menu-item__desc { font-size: 0.92rem; color: var(--ink); opacity: 0.8; margin-top: 0.15rem; }
+.menu-item__all { font-size: 0.78rem; font-weight: 700; color: var(--pistachio); margin-left: 0.4rem; }
+.menu-item__tags { display: inline-flex; gap: 0.3rem; margin-left: 0.4rem; }
+.menu-item .chip { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.1rem 0.45rem; border-radius: 6px; }
+.chip--mare { background: rgba(27,64,150,0.12); color: var(--cobalt); }
+.chip--terra { background: rgba(192,73,47,0.14); color: var(--terracotta); }
+.chip--veg  { background: rgba(110,154,46,0.16); color: var(--pistachio); }
+/* Stato filtrato fuori */
+.menu-item.is-hidden, .menu-cat.is-hidden { display: none; }
+.menu-empty { text-align: center; padding: 2rem; color: var(--cobalt); font-style: italic; display: none; }
+
+/* Galleria piatti in evidenza (foto reali) */
+.dish-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: clamp(1.5rem, 2.6vw, 2.4rem); }
+.dish-card { background: var(--ceramic); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-md); border: 1px solid rgba(27,64,150,0.1); transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease); }
+.dish-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); }
+.dish-card__media { position: relative; overflow: hidden; }
+.dish-card__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,32,70,0.28), transparent 55%); opacity: 0; transition: opacity 0.4s var(--ease); pointer-events: none; }
+.dish-card:hover .dish-card__media::after { opacity: 1; }
+.dish-card img { aspect-ratio: 4/5; object-fit: cover; object-position: center; width: 100%; display: block; transform: scale(1.25); transform-origin: center 45%; transition: transform 0.6s var(--ease); }
+.dish-card:hover img { transform: scale(1.33); }
+.dish-card__body { padding: 1.3rem 1.4rem 1.5rem; }
+.dish-card__name { font-family: var(--font-display); font-size: clamp(1.55rem, 2vw, 1.9rem); color: var(--cobalt); margin: 0 0 0.35rem; }
+.dish-card__desc { font-size: 1rem; opacity: 0.8; margin: 0; }
+
+/* --------------------------------------------------------------------------
+   10b. SELETTORE MENÙ (Alla carta / Fisso) + MENÙ FISSO
+   -------------------------------------------------------------------------- */
+.menu-mode {
+  display: inline-flex; gap: 0.4rem; margin: 1.6rem auto 0; padding: 0.4rem;
+  border-radius: 999px; background: var(--ceramic);
+  border: 1px solid rgba(27,64,150,0.16); box-shadow: var(--shadow-sm);
+}
+.menu-mode__btn {
+  display: flex; flex-direction: column; align-items: center; gap: 0.05rem; line-height: 1.1;
+  font-family: var(--font-body); font-weight: 600; font-size: 0.98rem; color: var(--cobalt);
+  background: transparent; border: 0; border-radius: 999px; padding: 0.6rem 1.4rem; cursor: pointer;
+  transition: background 0.25s var(--ease), color 0.25s, transform 0.2s var(--ease);
+}
+.menu-mode__btn small { font-weight: 400; font-size: 0.72rem; opacity: 0.7; }
+.menu-mode__btn:hover { transform: translateY(-1px); }
+.menu-mode__btn.is-active { background: var(--citrus); color: #fff; box-shadow: var(--shadow-sm); }
+.menu-mode__btn.is-active small { opacity: 0.9; }
+
+/* Crossfade fra i pannelli */
+.menu-panel { opacity: 0; transition: opacity 0.35s var(--ease); }
+.menu-panel.is-active { opacity: 1; }
+.menu-panel[hidden] { display: none; }
+
+/* Card del menù fisso */
+.fixed-menu {
+  position: relative; overflow: hidden; max-width: 1000px; margin-inline: auto;
+  background: var(--ceramic); border: 1px solid rgba(27,64,150,0.12); border-radius: 26px;
+  padding: clamp(1.8rem, 4vw, 3rem); box-shadow: var(--shadow-md);
+}
+.fixed-menu::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 7px;
+  background: linear-gradient(90deg, var(--cobalt), var(--gold) 45%, var(--citrus) 75%, var(--cobalt));
+}
+.fixed-menu__head { text-align: center; max-width: 580px; margin: 0.4rem auto 2.2rem; }
+.fixed-menu__title { font-size: clamp(1.9rem, 4.5vw, 2.9rem); margin: 0.2rem 0 0.1rem; }
+.fixed-menu__price { font-family: var(--font-display); font-weight: 700; color: var(--citrus); font-size: clamp(3.2rem, 10vw, 5.2rem); line-height: 1; }
+.fixed-menu__include { list-style: none; padding: 0; margin: 1.1rem 0 0.7rem; display: flex; flex-wrap: wrap; gap: 0.5rem 0.7rem; justify-content: center; }
+.fixed-menu__include li { background: var(--cream-deep); color: var(--cobalt); font-weight: 600; font-size: 0.85rem; padding: 0.42rem 0.95rem; border-radius: 999px; border: 1px solid rgba(27,64,150,0.16); }
+.fixed-menu__note { font-size: 0.86rem; color: var(--citrus); font-weight: 700; margin: 0.3rem 0 0; letter-spacing: 0.02em; }
+.fixed-menu__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem 2.8rem; }
+.fixed-cat__title { display: flex; align-items: baseline; gap: 0.6rem; font-size: clamp(1.4rem, 2.6vw, 1.95rem); color: var(--cobalt); margin: 0 0 0.6rem; }
+.fixed-cat__title small { font-family: var(--font-body); font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--citrus); white-space: nowrap; }
+.fixed-cat__title::after { content: ""; flex: 1; height: 1px; background: rgba(27,64,150,0.18); }
+.fixed-cat ul { list-style: none; padding: 0; margin: 0; }
+.fixed-cat li { padding: 0.5rem 0; border-bottom: 1px dashed rgba(27,64,150,0.16); font-family: var(--font-display); font-size: 1.18rem; color: var(--ink); }
+.fixed-cat li:last-child { border-bottom: 0; }
+@media (max-width: 700px) { .fixed-menu__grid { grid-template-columns: 1fr; gap: 1.2rem 0; } }
+
+/* --------------------------------------------------------------------------
+   11. ALLERGENI
+   -------------------------------------------------------------------------- */
+.allergens {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 0.6rem; margin-top: 1.4rem;
+}
+.allergen {
+  display: flex; align-items: center; gap: 0.55rem;
+  background: var(--ceramic); color: var(--ink);
+  border: 1px solid rgba(27,64,150,0.14); border-radius: 12px; padding: 0.55rem 0.8rem;
+  font-size: 0.84rem;
+}
+.allergen b { color: var(--ceramic); background: var(--pistachio); border-radius: 6px; min-width: 1.5rem; text-align: center; }
+.allergen em { color: var(--citrus); font-style: italic; }
+
+/* --------------------------------------------------------------------------
+   12. FORM PRENOTAZIONI
+   -------------------------------------------------------------------------- */
+.booking-grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: clamp(1.5rem, 5vw, 3.5rem); align-items: center; }
+.form-card { background: var(--ceramic); border-radius: 24px; padding: clamp(1.6rem, 3vw, 2.4rem); box-shadow: var(--shadow-md); border: 1px solid rgba(27,64,150,0.12); }
+.field { margin-bottom: 1.05rem; }
+.field label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.35rem; color: var(--cobalt); }
+.field input, .field select, .field textarea {
+  width: 100%; font-family: var(--font-body); font-size: 1rem;
+  padding: 0.78rem 0.95rem; border-radius: 12px;
+  border: 1.5px solid rgba(27,64,150,0.2); background: var(--cream);
+  color: var(--ink); transition: border-color 0.25s, box-shadow 0.25s, transform 0.2s;
+}
+.field input::placeholder, .field textarea::placeholder { color: rgba(18,33,70,0.4); }
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline: none; border-color: var(--gold); box-shadow: 0 0 0 4px rgba(227,168,27,0.18); transform: translateY(-1px);
+}
+.field.is-invalid input, .field.is-invalid select, .field.is-invalid textarea { border-color: var(--terracotta); animation: shake 0.4s; }
+.field.is-valid input, .field.is-valid select, .field.is-valid textarea { border-color: var(--pistachio); }
+.field__error { color: var(--terracotta); font-size: 0.78rem; font-weight: 600; margin-top: 0.3rem; min-height: 0.9rem; }
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
+
+/* --------------------------------------------------------------------------
+   13. SOCIAL HUB
+   -------------------------------------------------------------------------- */
+.social-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.2rem; }
+.social-card {
+  display: flex; align-items: center; gap: 1rem; padding: 1.4rem;
+  border-radius: var(--radius); background: var(--ceramic);
+  border: 1px solid rgba(27,64,150,0.12); box-shadow: var(--shadow-sm);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+  color: var(--ink);
+}
+.social-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); }
+.social-card .ico { width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; flex-shrink: 0; color: #fff; }
+.social-card .ico svg { width: 26px; height: 26px; }
+.social-card span { font-weight: 600; font-size: 1.05rem; color: var(--cobalt); }
+.social-card small { display: block; font-weight: 400; opacity: 0.7; font-size: 0.84rem; color: var(--ink); }
+.ico--fb   { background: #1877F2; }
+.ico--ig   { background: linear-gradient(135deg, #F58529, #DD2A7B 55%, #8134AF); }
+.ico--tree { background: #43E660; color: #15331c; }
+
+.contact-info { display: grid; gap: 0.8rem; margin-top: 1.4rem; }
+.contact-info a, .contact-info span { display: flex; align-items: center; gap: 0.6rem; color: var(--ink); }
+.contact-info svg { width: 20px; height: 20px; color: var(--citrus); flex-shrink: 0; }
+
+/* --------------------------------------------------------------------------
+   13d. RECENSIONI + STELLE
+   -------------------------------------------------------------------------- */
+/* Componente stelle: due righe sovrapposte, quella d'oro ritagliata in larghezza */
+.stars { position: relative; display: inline-block; line-height: 0; white-space: nowrap; }
+.stars__row { display: inline-flex; gap: 2px; }
+.stars__row--base { color: rgba(27, 64, 150, 0.16); }
+.stars__row--fill { position: absolute; inset: 0; overflow: hidden; color: var(--gold); }
+.stars svg { width: 18px; height: 18px; display: block; }
+.stars--lg svg { width: 30px; height: 30px; }
+
+/* Riepilogo voto medio */
+.reviews-overall {
+  display: flex; align-items: center; gap: 1.6rem; flex-wrap: wrap;
+  background: var(--ceramic); border: 1px solid rgba(27,64,150,0.12);
+  border-radius: 22px; padding: 1.6rem 1.9rem; box-shadow: var(--shadow-md);
+  margin-bottom: 2.4rem;
+}
+.reviews-overall__score {
+  font-family: var(--font-display); font-weight: 700; line-height: 1;
+  font-size: clamp(3rem, 8vw, 4.6rem); color: var(--cobalt);
+}
+.reviews-overall__meta { display: flex; flex-direction: column; gap: 0.5rem; }
+.reviews-overall__count { margin: 0; font-size: 0.92rem; color: var(--ink); opacity: 0.85; display: flex; align-items: center; gap: 0.4rem; }
+.reviews-overall__count b { color: var(--cobalt); }
+
+/* Griglia card */
+.reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.2rem; }
+.review-card {
+  background: var(--ceramic); border: 1px solid rgba(27,64,150,0.1);
+  border-radius: var(--radius); padding: 1.4rem 1.5rem; box-shadow: var(--shadow-sm);
+  display: flex; flex-direction: column; gap: 0.8rem;
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+.review-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+.review-card__head { display: flex; align-items: center; gap: 0.8rem; }
+.review-card__avatar {
+  width: 46px; height: 46px; flex-shrink: 0; border-radius: 50%;
+  display: grid; place-items: center; color: #fff;
+  font-weight: 700; font-size: 1.05rem; letter-spacing: 0.02em;
+}
+.review-card__id { display: flex; flex-direction: column; line-height: 1.25; }
+.review-card__name { font-weight: 600; color: var(--cobalt); font-size: 1.02rem; }
+.review-card__date { font-size: 0.78rem; opacity: 0.7; display: inline-flex; align-items: center; gap: 0.35rem; }
+.review-card__text { margin: 0; font-size: 0.96rem; color: var(--ink); opacity: 0.9; }
+.review-card__text::before { content: "\201C"; color: var(--gold); font-family: var(--font-display); font-size: 1.4rem; margin-right: 0.1rem; vertical-align: -0.2rem; }
+
+/* --------------------------------------------------------------------------
+   13e. PAGINA "LA FAMIGLIA DI PINELLA"
+   -------------------------------------------------------------------------- */
+/* Etichetta inglese evocativa sotto a titoli/testi bilingui */
+.lang-en { display: block; font-style: italic; color: var(--citrus); opacity: 0.92; }
+
+/* Bagliori sfumati caldi nell'hero (citrus + limone) */
+.fam-hero { position: relative; }
+.fam-glow { position: absolute; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(90px); }
+.fam-glow--citrus { width: 460px; height: 460px; background: radial-gradient(circle, rgba(226,114,43,0.35), transparent 68%); top: 4%; right: -6%; }
+.fam-glow--lemon  { width: 400px; height: 400px; background: radial-gradient(circle, rgba(244,210,90,0.45), transparent 68%); bottom: -4%; left: 8%; }
+@media (max-width: 880px) { .fam-glow { filter: blur(60px); width: 260px; height: 260px; } }
+
+/* Titolo monumentale */
+.fam-title { font-size: clamp(3rem, 8.5vw, 6.6rem); }
+.fam-title__pinella {
+  font-style: italic;
+  background: linear-gradient(100deg, var(--citrus), var(--gold));
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  text-shadow: none; filter: drop-shadow(0 2px 9px rgba(226,114,43,0.28));
+}
+.fam-quote {
+  font-family: var(--font-display); font-style: italic; font-size: clamp(1.4rem, 2.6vw, 2rem);
+  color: var(--citrus); margin: 0 0 1.2rem; border-left: 3px solid var(--gold); padding-left: 1.1rem;
+}
+.fam-quote .lang-en { font-size: 0.92rem; margin-top: 0.3rem; opacity: 0.8; }
+
+/* Box fotografico hero */
+.fam-hero-photo { position: relative; }
+.fam-hero-photo img {
+  width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 32px;
+  border: 6px solid #fff;
+  box-shadow: 0 36px 72px -22px rgba(18,33,70,0.42), 0 12px 26px -8px rgba(227,168,27,0.32);
+}
+.fam-hero-photo__cap {
+  position: absolute; left: 16px; bottom: 16px;
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: rgba(27,64,150,0.92); color: var(--cream);
+  font-weight: 600; font-size: 0.82rem; padding: 0.45rem 0.95rem; border-radius: 999px; box-shadow: var(--shadow-md);
+}
+.fam-hero-photo__cap svg { width: 15px; height: 15px; color: var(--gold); }
+
+/* Galleria asimmetrica "ceramica smaltata" */
+.fam-gallery { display: grid; grid-template-columns: repeat(6, 1fr); grid-auto-rows: 190px; gap: 16px; }
+.fam-gallery__item {
+  position: relative; overflow: hidden; margin: 0; border-radius: 24px;
+  border: 5px solid #fff;
+  box-shadow: 0 22px 48px -18px rgba(18,33,70,0.34), 0 8px 18px -8px rgba(227,168,27,0.22);
+}
+.fam-gallery__item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s var(--ease); }
+.fam-gallery__item:hover img { transform: scale(1.07); }
+.fam-gallery__item figcaption {
+  position: absolute; inset: auto 0 0 0; padding: 1.4rem 1rem 0.9rem; color: #fff;
+  background: linear-gradient(to top, rgba(15,26,58,0.82), transparent);
+  transform: translateY(8px); opacity: 0; transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+}
+.fam-gallery__item:hover figcaption, .fam-gallery__item:focus-within figcaption { opacity: 1; transform: none; }
+.fam-gallery__item figcaption b { font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; display: block; }
+.fam-gallery__item figcaption .lang-en { color: rgba(255,255,255,0.85); font-size: 0.82rem; }
+/* Composizione asimmetrica ma ordinata */
+.fam-gallery__item:nth-child(1) { grid-column: span 3; grid-row: span 2; }
+.fam-gallery__item:nth-child(2) { grid-column: span 3; }
+.fam-gallery__item:nth-child(3) { grid-column: span 3; }
+.fam-gallery__item:nth-child(4) { grid-column: span 2; }
+.fam-gallery__item:nth-child(5) { grid-column: span 4; }
+@media (max-width: 880px) {
+  .fam-gallery { grid-template-columns: 1fr 1fr; grid-auto-rows: 160px; }
+  .fam-gallery__item:nth-child(n) { grid-column: span 1; grid-row: span 1; }
+  .fam-gallery__item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+  .fam-gallery__item figcaption { opacity: 1; transform: none; } /* su touch sempre visibile */
+}
+
+/* Storytelling a blocchi con icona */
+.fam-story { display: flex; flex-direction: column; gap: 1.6rem; max-width: 880px; margin-inline: auto; }
+.fam-block {
+  display: flex; align-items: center; gap: 1.6rem;
+  background: var(--ceramic); border: 1px solid rgba(27,64,150,0.1);
+  border-radius: 22px; padding: 1.5rem 1.8rem; box-shadow: var(--shadow-sm);
+}
+.fam-block--rev { flex-direction: row-reverse; }
+.fam-block__icon {
+  flex-shrink: 0; width: 92px; height: 92px; border-radius: 22px;
+  display: grid; place-items: center; background: var(--cream-deep);
+}
+.fam-block__icon svg { width: 56px; height: 56px; }
+.fam-block__body h3 { font-size: clamp(1.5rem, 3vw, 2rem); margin: 0 0 0.5rem; }
+.fam-block__body h3 .lang-en { font-size: 0.86rem; font-family: var(--font-body); font-weight: 600; }
+.fam-block__body p { margin: 0 0 0.5rem; color: var(--ink); }
+.fam-block__body p.lang-en { font-size: 0.92rem; opacity: 0.85; }
+@media (max-width: 700px) {
+  .fam-block, .fam-block--rev { flex-direction: column; text-align: center; align-items: center; }
+  .fam-block__body p.lang-en { opacity: 0.8; }
+}
+
+/* --------------------------------------------------------------------------
+   13b. PARALLASSE SOFT — dettagli decorativi laterali (mossi da main.js)
+   -------------------------------------------------------------------------- */
+.parallax-decor {
+  position: absolute; z-index: 0; pointer-events: none;
+  opacity: 0.92; will-change: transform;
+}
+/* Galleggiamento dolce + rotazione quasi impercettibile (mosso dal vento).
+   La parallasse (JS) muove il contenitore; il float anima l'SVG figlio →
+   nessun conflitto di transform. */
+.parallax-decor svg {
+  display: block; filter: drop-shadow(0 16px 30px rgba(18,33,70,0.16));
+  animation: soft-float 8.5s ease-in-out infinite;
+}
+.parallax-decor--right svg { animation-duration: 10.5s; animation-delay: -2.5s; }
+@keyframes soft-float {
+  0%, 100% { transform: translateY(0)      rotate(-2.2deg); }
+  50%      { transform: translateY(-14px)  rotate(2.2deg); }
+}
+/* Riposizionati più all'interno: non più tagliati dai bordi della pagina */
+.parallax-decor--left  { left: clamp(10px, 2.5vw, 48px); }
+.parallax-decor--right { right: clamp(10px, 2.5vw, 48px); }
+/* I contenuti restano sopra ai decori */
+.section > .wrap, .hero > .wrap { position: relative; z-index: 1; }
+@media (max-width: 880px) { .parallax-decor { display: none; } }
+
+/* --------------------------------------------------------------------------
+   13c. PANNELLO SUCCESSO PRENOTAZIONE (messaggio animato)
+   -------------------------------------------------------------------------- */
+.booking-success { text-align: center; padding: 0.5rem 0 0.3rem; }
+.booking-success__check {
+  width: 76px; height: 76px; margin: 0 auto 1rem; border-radius: 50%;
+  background: rgba(110,154,46,0.14); display: grid; place-items: center;
+  animation: pop-in 0.5s var(--ease) both;
+}
+.booking-success__check svg { width: 40px; height: 40px; stroke: var(--pistachio); }
+.booking-success__check svg path { stroke-dasharray: 32; stroke-dashoffset: 32; animation: draw-check 0.5s 0.2s var(--ease) forwards; }
+.booking-success h3 { color: var(--cobalt); margin-bottom: 0.4rem; }
+.booking-success .recap { background: var(--cream); border-radius: 14px; padding: 0.9rem 1.1rem; margin: 1.1rem 0; text-align: left; border: 1px solid rgba(27,64,150,0.12); }
+.booking-success .recap b { color: var(--cobalt); }
+.booking-reset { background: none; border: 0; color: var(--citrus); font-weight: 600; cursor: pointer; font-family: var(--font-body); text-decoration: underline; }
+@keyframes pop-in { 0% { transform: scale(0.4); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+@keyframes draw-check { to { stroke-dashoffset: 0; } }
+
+/* --------------------------------------------------------------------------
+   13d. MODALE DI CONFERMA — premium, con decori di maiolica (creato da booking.js)
+   -------------------------------------------------------------------------- */
+.modal {
+  position: fixed; inset: 0; z-index: 200;
+  display: grid; place-items: center; padding: 1.2rem;
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.35s var(--ease), visibility 0s linear 0.35s;
+}
+.modal.is-open { opacity: 1; visibility: visible; transition: opacity 0.35s var(--ease); }
+.modal__backdrop {
+  position: absolute; inset: 0;
+  background: rgba(15, 26, 58, 0.55);
+  backdrop-filter: blur(6px) saturate(1.1);
+}
+.modal__dialog {
+  position: relative; z-index: 1; overflow: hidden;
+  width: min(460px, 100%);
+  background: var(--ceramic); color: var(--ink);
+  border-radius: 26px; padding: clamp(1.6rem, 4vw, 2.4rem);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(27,64,150,0.12);
+  transform: translateY(16px) scale(0.94); opacity: 0;
+  transition: transform 0.45s var(--ease), opacity 0.45s var(--ease);
+}
+.modal.is-open .modal__dialog { transform: none; opacity: 1; }
+/* Cornice superiore caldissima a nastro */
+.modal__dialog::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 7px;
+  background: linear-gradient(90deg, var(--cobalt), var(--gold) 45%, var(--citrus) 75%, var(--cobalt));
+}
+/* Decori di maiolica negli angoli (ornamento d'autore, non tappezzeria) */
+.modal__tile { position: absolute; width: 96px; height: 96px; opacity: 0.16; pointer-events: none; }
+.modal__tile--tl { top: -14px; left: -14px; }
+.modal__tile--br { bottom: -14px; right: -14px; transform: rotate(180deg); }
+.modal__close {
+  position: absolute; top: 12px; right: 14px; z-index: 2;
+  width: 38px; height: 38px; border: 0; border-radius: 50%;
+  background: var(--cream-deep); color: var(--cobalt);
+  font-size: 1.4rem; line-height: 1; cursor: pointer;
+  display: grid; place-items: center;
+  transition: background 0.25s, transform 0.25s var(--ease);
+}
+.modal__close:hover { background: var(--gold-soft); transform: rotate(90deg); }
+.modal__close:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.modal .booking-success { position: relative; z-index: 1; }
+.modal .booking-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; justify-content: center; margin-top: 0.4rem; }
+
+/* --------------------------------------------------------------------------
+   14. WAVE — singola linea sottile e fluida
+   -------------------------------------------------------------------------- */
+.wave { line-height: 0; display: block; }
+.wave canvas { display: block; width: 100%; height: clamp(40px, 6vw, 70px); }
+
+/* --------------------------------------------------------------------------
+   15. FOOTER — cobalto elegante
+   -------------------------------------------------------------------------- */
+.footer { background: var(--cobalt); color: var(--cream); padding: 3.5rem 0 2rem; position: relative; overflow: hidden; }
+.footer__grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 2rem; position: relative; z-index: 1; }
+.footer h4 { color: var(--gold); font-size: 1.35rem; }
+.footer .nav__logo { color: var(--cream); }
+.footer .stack a:not(.nav__logo) { display: block; opacity: 0.85; transition: opacity 0.2s, color 0.2s; }
+.footer a:hover { color: var(--gold); opacity: 1; }
+.footer__bottom { margin-top: 2.4rem; padding-top: 1.4rem; border-top: 1px solid rgba(250,245,234,0.2); font-size: 0.82rem; opacity: 0.8; display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: space-between; position: relative; z-index: 1; }
+
+/* --------------------------------------------------------------------------
+   16. REVEAL ON SCROLL — fade + lieve shift verso l'alto
+   -------------------------------------------------------------------------- */
+[data-reveal] { opacity: 0; transform: translateY(26px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); will-change: transform, opacity; }
+[data-reveal].is-visible { opacity: 1; transform: none; }
+[data-reveal][data-delay="1"] { transition-delay: 0.08s; }
+[data-reveal][data-delay="2"] { transition-delay: 0.16s; }
+[data-reveal][data-delay="3"] { transition-delay: 0.24s; }
+[data-reveal][data-delay="4"] { transition-delay: 0.32s; }
+
+/* --------------------------------------------------------------------------
+   17. TOAST
+   -------------------------------------------------------------------------- */
+.toast {
+  position: fixed; left: 50%; bottom: 26px; transform: translate(-50%, 160%);
+  background: var(--cobalt); color: var(--cream); font-weight: 600;
+  padding: 0.85rem 1.4rem; border-radius: 999px; box-shadow: var(--shadow-lg);
+  z-index: 90; transition: transform 0.5s var(--ease); max-width: 90vw; text-align: center;
+}
+.toast.is-on { transform: translate(-50%, 0); }
+
+/* --------------------------------------------------------------------------
+   18. RESPONSIVE
+   -------------------------------------------------------------------------- */
+@media (max-width: 880px) {
+  body { font-size: 16px; }
+  .nav__links { display: none; }
+  .nav__toggle { display: inline-flex; }
+  .nav.is-open .nav__links {
+    display: flex; flex-direction: column; align-items: flex-start;
+    position: absolute; top: 100%; right: 1rem; left: 1rem;
+    background: rgba(250,245,234,0.98); padding: 1.2rem; border-radius: 16px; gap: 1rem;
+    box-shadow: var(--shadow-lg); border: 1px solid rgba(27,64,150,0.12);
+  }
+  .hero__grid, .grid-2, .booking-grid, .footer__grid { grid-template-columns: 1fr; }
+  .menu-list { grid-template-columns: 1fr; gap: 0 0; }
+  .hero__logo-featured img { height: 68px; }
+  .hero__mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: 170px 140px; }
+  .hero__mosaic img:nth-child(1) { grid-row: 1 / 3; border-radius: 20px; }
+  .hero__mosaic img:nth-child(2) { grid-column: 2; grid-row: 1; border-radius: 20px; }
+  .hero__mosaic img:nth-child(3) { grid-column: 2; grid-row: 2; border-radius: 20px; }
+  .hero__mosaic img:nth-child(4) { display: none; }
+}
+
+/* --------------------------------------------------------------------------
+   19. PREFERENZA RIDOTTA DI MOVIMENTO
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
+  html { scroll-behavior: auto; }
+}

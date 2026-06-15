@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c 'import sys; *)",
+      "Bash(python -c ' *)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(npm install *)",
+      "Bash(sed -n '314p' index.html)",
+      "Bash(sed -n '408p' index.html)",
+      "Bash(sed -n '409p' index.html)",
+      "Bash(sed -i '313,408d' index.html)",
+      "Bash(sed -n '308,312p' index.html)"
+    ]
+  }
+}

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recensioni — Il Mare di Pinella</title>
+  <meta name="description" content="Le recensioni dei clienti de Il Mare di Pinella: cosa dicono i nostri ospiti della cucina di mare siciliana a Siracusa. Voti e stelle dei nostri visitatori." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: {
+      colors: { cream:"#FAF5EA", ink:"#122146", cobalt:"#1B4096", gold:"#E3A81B", citrus:"#E2722B", pistachio:"#6E9A2E", terracotta:"#C0492F" },
+      fontFamily: { display:['"Cormorant Garamond"',"serif"], body:['"Space Grotesk"',"sans-serif"] },
+    } } };
+  </script>
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="icon" type="image/png" href="assets/img/logo.png" />
+</head>
+
+<body>
+
+  <!-- Sfondo a gradiente fluido animato — riflesso del sole siciliano (main.js) -->
+  <canvas class="bg-mesh" data-mesh aria-hidden="true"></canvas>
+  <div class="bg-mesh-veil" aria-hidden="true"></div>
+
+  <!-- ================= NAVBAR ================= -->
+  <nav class="nav is-scrolled" data-nav>
+    <a class="nav__logo" href="index.html" aria-label="Il Mare di Pinella — Home">
+      <img src="assets/img/logo.png" alt="Il Mare di Pinella — Osteria di mare siracusana" />
+    </a>
+    <div class="nav__links">
+      <a href="index.html">Home</a>
+      <a href="menu.html">Menù</a>
+      <a href="recensioni.html">Recensioni</a>
+      <a href="index.html#contatti">Contatti</a>
+      <a href="index.html#prenota" class="btn btn--sm">Prenota un tavolo</a>
+    </div>
+    <button class="nav__toggle" data-nav-toggle aria-label="Apri menu">☰</button>
+  </nav>
+
+  <!-- ================= INTESTAZIONE ================= -->
+  <header class="section section--cream" style="padding-top:8rem;position:relative;overflow:hidden">
+    <!-- Limone siciliano fluttuante a parallasse -->
+    <div class="parallax-decor parallax-decor--right" data-parallax="0.16" style="top:26%" aria-hidden="true">
+      <svg width="130" height="160" viewBox="0 0 150 190" fill="none">
+        <path d="M96 24 C150 30 150 92 104 104 C66 96 64 44 96 24Z" fill="#7FB23A"/>
+        <path d="M99 30 C122 44 120 80 104 100" stroke="#3D6B18" stroke-width="2" opacity="0.5"/>
+        <ellipse cx="66" cy="120" rx="50" ry="44" fill="#F4D24A"/>
+        <ellipse cx="52" cy="104" rx="13" ry="8" fill="#FFFFFF" opacity="0.45"/>
+        <path d="M16 122 q-9 -2 -12 4" stroke="#E3A81B" stroke-width="5" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div>
+    <div class="wrap center" style="max-width:720px;margin-inline:auto;position:relative;z-index:1">
+      <span class="eyebrow" data-reveal>Dicono di noi · Reviews</span>
+      <h1 class="section-title" data-reveal data-delay="1" style="font-size:clamp(2.8rem,7vw,5rem)">Le recensioni dei nostri ospiti</h1>
+      <p class="section-lead" data-reveal data-delay="2" style="margin-inline:auto">
+        Grazie a chi si siede alla nostra tavola e poi ci regala due parole.
+        Ecco cosa raccontano i clienti de Il Mare di Pinella.
+      </p>
+    </div>
+  </header>
+
+  <!-- Onda minimal -->
+  <div class="wave" aria-hidden="true"><canvas data-wave data-stroke="#1B4096"></canvas></div>
+
+  <!-- ================= RECENSIONI (renderizzate da reviews.js) ================= -->
+  <section class="section section--cream" style="padding-top:2rem">
+    <div class="wrap">
+      <div data-reviews><!-- contenuto generato da assets/js/reviews.js --></div>
+
+      <div class="center" style="margin-top:3rem">
+        <!-- ⚠️ PROPRIETARI: mettete qui il link alla VOSTRA scheda Google -->
+        <a class="btn magnetic" data-magnetic="0.25" data-google-link
+           href="https://www.google.com/maps/search/Il+Mare+di+Pinella+Siracusa" target="_blank" rel="noopener">
+          <span class="magnetic__inner">Lascia una recensione su Google →</span>
+        </a>
+        <p class="muted" style="font-size:.82rem;margin-top:.9rem">La tua opinione ci aiuta a migliorare ogni giorno.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__grid">
+        <div class="stack">
+          <h4>Il Mare di Pinella</h4>
+          <p style="opacity:.85;margin-top:-.3rem;font-style:italic;font-family:var(--font-display);font-size:1.05rem">Osteria di mare siracusana</p>
+          <p style="opacity:.85;max-width:34ch">Cucina di mare e tradizione siciliana.</p>
+        </div>
+        <div class="stack">
+          <h4 style="font-size:1.15rem">Naviga</h4>
+          <a href="index.html">Home</a>
+          <a href="menu.html">Menù</a>
+          <a href="recensioni.html">Recensioni</a>
+          <a href="index.html#prenota">Prenota</a>
+          <a href="index.html#contatti">Contatti</a>
+        </div>
+        <div class="stack">
+          <h4 style="font-size:1.15rem">Seguici</h4>
+          <a href="https://www.instagram.com/ilmaredipinella" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.facebook.com/people/Il-Mare-di-Pinella/61590315401542/?locale=it_IT" target="_blank" rel="noopener">Facebook</a>
+          <a href="https://linktr.ee/ilmaredipinella" target="_blank" rel="noopener">Linktree</a>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© <span data-year>2026</span> Il Mare di Pinella — Tutti i diritti riservati.</span>
+        <span>Fatto con cura in Sicilia</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/reviews.js?v=3" defer></script>
+</body>
+</html>

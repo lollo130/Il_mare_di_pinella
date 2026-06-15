@@ -1,0 +1,18 @@
+# ==========================================================================
+# IL MARE DI PINELLA — configurazione Netlify
+# ==========================================================================
+
+[build]
+  # Sito statico: la cartella da pubblicare è la radice del progetto
+  publish = "."
+
+[functions]
+  # Le funzioni serverless stanno in netlify/functions/
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# URL pulito: /api/reviews  ->  la function reviews
+[[redirects]]
+  from = "/api/reviews"
+  to = "/.netlify/functions/reviews"
+  status = 200

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>La Famiglia di Pinella — Il Mare di Pinella</title>
+  <meta name="description" content="La famiglia di Pinella: il fattore accoglienza. Non sei un cliente, sei un ospite a casa nostra. La storia, i volti e i gesti di un'osteria di mare a Siracusa." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: {
+      colors: { cream:"#FAF5EA", ink:"#122146", cobalt:"#1B4096", gold:"#E3A81B", citrus:"#E2722B", pistachio:"#6E9A2E", terracotta:"#C0492F" },
+      fontFamily: { display:['"Cormorant Garamond"',"serif"], body:['"Space Grotesk"',"sans-serif"] },
+    } } };
+  </script>
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="icon" type="image/png" href="assets/img/logo.png" />
+</head>
+
+<body>
+
+  <!-- Sfondo a gradiente fluido animato — riflesso del sole siciliano (main.js) -->
+  <canvas class="bg-mesh" data-mesh aria-hidden="true"></canvas>
+  <div class="bg-mesh-veil" aria-hidden="true"></div>
+
+  <!-- ================= NAVBAR ================= -->
+  <nav class="nav is-scrolled" data-nav>
+    <a class="nav__logo" href="index.html" aria-label="Il Mare di Pinella — Home">
+      <img src="assets/img/logo.png" alt="Il Mare di Pinella — Osteria di mare siracusana" />
+    </a>
+    <div class="nav__links">
+      <a href="menu.html">Menù</a>
+      <a href="recensioni.html">Recensioni</a>
+      <a href="index.html#contatti">Contatti</a>
+      <a href="index.html" class="btn btn--sm btn--cobalt">← Torna alla Home</a>
+    </div>
+    <button class="nav__toggle" data-nav-toggle aria-label="Apri menu">☰</button>
+  </nav>
+
+  <!-- ================= HERO ================= -->
+  <header class="hero fam-hero" id="top">
+    <!-- Bagliori sfumati: arancio agrume + giallo limone -->
+    <div class="fam-glow fam-glow--citrus" aria-hidden="true"></div>
+    <div class="fam-glow fam-glow--lemon" aria-hidden="true"></div>
+
+    <!-- Limone fluttuante a parallasse -->
+    <div class="parallax-decor parallax-decor--left" data-parallax="-0.12" style="bottom:10%" aria-hidden="true">
+      <svg width="120" height="150" viewBox="0 0 150 190" fill="none">
+        <path d="M96 24 C150 30 150 92 104 104 C66 96 64 44 96 24Z" fill="#7FB23A"/>
+        <path d="M99 30 C122 44 120 80 104 100" stroke="#3D6B18" stroke-width="2" opacity="0.5"/>
+        <ellipse cx="66" cy="120" rx="50" ry="44" fill="#F4D24A"/>
+        <ellipse cx="52" cy="104" rx="13" ry="8" fill="#FFFFFF" opacity="0.45"/>
+        <path d="M16 122 q-9 -2 -12 4" stroke="#E3A81B" stroke-width="5" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div>
+
+    <div class="wrap hero__grid">
+      <div>
+        <span class="eyebrow eyebrow--pill" data-reveal><span class="dot" aria-hidden="true"></span>Il fattore accoglienza · The welcome factor</span>
+        <h1 class="hero__title fam-title" data-reveal data-delay="1">La Famiglia<br><span class="fam-title__pinella">di Pinella</span></h1>
+        <blockquote class="fam-quote" data-reveal data-delay="2">
+          «Non sei un cliente, sei un ospite a casa nostra.»
+          <span class="lang-en">“You're not a customer — you're a guest in our home.”</span>
+        </blockquote>
+        <p class="hero__sub" data-reveal data-delay="3">
+          Dietro ogni piatto ci sono volti, mani e ricordi: una famiglia siciliana
+          che cucina come si faceva una volta, con il cuore.
+        </p>
+        <div class="hero__cta" data-reveal data-delay="4">
+          <a href="#momenti" class="btn magnetic" data-magnetic="0.25"><span class="magnetic__inner">Scopri i nostri momenti</span></a>
+          <a href="index.html#prenota" class="btn btn--ghost magnetic" data-magnetic="0.2"><span class="magnetic__inner">Prenota un tavolo</span></a>
+        </div>
+      </div>
+
+      <div class="fam-hero-photo" data-reveal data-delay="2">
+        <img src="assets/img/foto_bancone.jpg" alt="Pinella e i figli al bancone de Il Mare di Pinella" decoding="async" />
+      </div>
+    </div>
+  </header>
+
+  <!-- Onda minimal -->
+  <div class="wave" aria-hidden="true"><canvas data-wave data-stroke="#1B4096"></canvas></div>
+
+  <!-- ================= GALLERIA — MOMENTI DI FAMIGLIA ================= -->
+  <section class="section section--cream" id="momenti" style="overflow:hidden">
+    <div class="wrap">
+      <div class="center" style="max-width:660px;margin-inline:auto;margin-bottom:2.4rem">
+        <span class="eyebrow" data-reveal>Momenti di Famiglia · Family Moments</span>
+        <h2 class="section-title" data-reveal data-delay="1">La vita vera dell'osteria</h2>
+        <p class="section-lead" data-reveal data-delay="2" style="margin-inline:auto">
+          Istantanee di ogni giorno — <em>everyday snapshots of who we are.</em>
+        </p>
+      </div>
+
+      <div class="fam-gallery" data-reveal>
+        <figure class="fam-gallery__item">
+          <img src="assets/img/grigliata_di_mare.jpg" alt="Selezione del pesce fresco" loading="lazy" decoding="async" />
+          <figcaption><b>La selezione del pesce all'alba</b><span class="lang-en">The dawn fish selection</span></figcaption>
+        </figure>
+        <figure class="fam-gallery__item">
+          <img src="assets/img/casarecce_alla_norma.jpg" alt="Pasta fatta a mano" loading="lazy" decoding="async" />
+          <figcaption><b>Le busiate fatte a mano da Pinella</b><span class="lang-en">Pinella's hand-rolled busiate</span></figcaption>
+        </figure>
+        <figure class="fam-gallery__item">
+          <img src="assets/img/foto_interno1.jpg" alt="Sala interna accogliente" loading="lazy" decoding="async" />
+          <figcaption><b>Il sorriso che vi accoglie</b><span class="lang-en">The smile that welcomes you</span></figcaption>
+        </figure>
+        <figure class="fam-gallery__item">
+          <img src="assets/img/insegna_int.jpg" alt="Insegna del locale" loading="lazy" decoding="async" />
+          <figcaption><b>L'insegna che racconta chi siamo</b><span class="lang-en">The sign that tells our story</span></figcaption>
+        </figure>
+        <figure class="fam-gallery__item">
+          <img src="assets/img/foto_tavoli2.jpg" alt="Sala con tavoli apparecchiati per gli ospiti" loading="lazy" decoding="async" />
+          <figcaption><b>La tavola pronta per voi</b><span class="lang-en">The table set for you</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= STORYTELLING BILINGUE ================= -->
+  <section class="section section--deep" style="overflow:hidden">
+    <div class="wrap">
+      <div class="center" style="max-width:640px;margin-inline:auto;margin-bottom:2.6rem">
+        <span class="eyebrow" data-reveal>La nostra anima · Our soul</span>
+        <h2 class="section-title" data-reveal data-delay="1">Tre gesti, una famiglia</h2>
+      </div>
+
+      <div class="fam-story">
+        <article class="fam-block" data-reveal>
+          <div class="fam-block__icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none">
+              <path d="M40 12 C58 16 58 36 42 42 C28 38 26 20 40 12Z" fill="#7FB23A"/>
+              <path d="M42 16 C52 24 50 36 42 40" stroke="#3D6B18" stroke-width="2.4" opacity="0.5"/>
+              <ellipse cx="28" cy="44" rx="20" ry="17" fill="#F4D24A"/>
+              <ellipse cx="22" cy="38" rx="6" ry="4" fill="#fff" opacity="0.5"/>
+              <path d="M9 45 q-4 -1 -5 2" stroke="#E3A81B" stroke-width="3" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+          <div class="fam-block__body">
+            <h3>L'Alba al Mercato <span class="lang-en">Dawn at the Market</span></h3>
+            <p>Ogni giorno inizia prima del sole: scegliamo a mano il pesce più fresco e gli agrumi profumati del mercato di Siracusa. Solo il meglio arriva alla vostra tavola.</p>
+            <p class="lang-en">Every day begins before sunrise: we hand-pick the freshest fish and the fragrant citrus of Siracusa's market. Only the best reaches your table.</p>
+          </div>
+        </article>
+
+        <article class="fam-block fam-block--rev" data-reveal data-delay="1">
+          <div class="fam-block__icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none">
+              <circle cx="32" cy="32" r="28" fill="#1B4096"/>
+              <circle cx="32" cy="32" r="21" fill="#E2722B"/>
+              <circle cx="32" cy="32" r="14" fill="#F4D24A"/>
+              <path d="M32 18 L42 32 L32 46 L22 32 Z" fill="#1B4096"/>
+              <circle cx="32" cy="32" r="5" fill="#FFF6C9"/>
+              <circle cx="32" cy="8"  r="3.4" fill="#6E9A2E"/><circle cx="56" cy="32" r="3.4" fill="#6E9A2E"/>
+              <circle cx="32" cy="56" r="3.4" fill="#6E9A2E"/><circle cx="8"  cy="32" r="3.4" fill="#6E9A2E"/>
+            </svg>
+          </div>
+          <div class="fam-block__body">
+            <h3>I Segreti della Cucina <span class="lang-en">The Kitchen's Secrets</span></h3>
+            <p>Le nostre ricette nascono da tre generazioni di famiglia. Le busiate tirate a mano, la caponata, i dolci della tradizione: gesti antichi tramandati con amore.</p>
+            <p class="lang-en">Our recipes come from three family generations. Hand-rolled busiate, caponata, traditional sweets: time-honoured gestures handed down with love.</p>
+          </div>
+        </article>
+
+        <article class="fam-block" data-reveal>
+          <div class="fam-block__icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none">
+              <circle cx="32" cy="32" r="13" fill="#E3A81B"/>
+              <g stroke="#E2722B" stroke-width="3.2" stroke-linecap="round">
+                <path d="M32 6v8M32 50v8M6 32h8M50 32h8M14 14l5.5 5.5M44.5 44.5 50 50M50 14l-5.5 5.5M19.5 44.5 14 50"/>
+              </g>
+              <path d="M32 40c-6-5-11-8-11-14a5.5 5.5 0 0 1 11-1 5.5 5.5 0 0 1 11 1c0 6-5 9-11 14Z" fill="#C0492F"/>
+            </svg>
+          </div>
+          <div class="fam-block__body">
+            <h3>Il Calore dell'Accoglienza <span class="lang-en">The Warmth of Welcome</span></h3>
+            <p>Per noi ogni ospite è sacro. Vi accogliamo con un sorriso, come si fa in famiglia, perché qui non siete clienti: siete a casa.</p>
+            <p class="lang-en">For us, every guest is sacred. We welcome you with a smile, the way family does — because here you're not a customer: you're home.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="center" style="margin-top:2.8rem">
+        <a href="index.html" class="btn btn--cobalt magnetic" data-magnetic="0.25"><span class="magnetic__inner">← Torna alla Home</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__grid">
+        <div class="stack">
+          <h4>Il Mare di Pinella</h4>
+          <p style="opacity:.85;margin-top:-.3rem;font-style:italic;font-family:var(--font-display);font-size:1.05rem">Osteria di mare siracusana</p>
+          <p style="opacity:.85;max-width:34ch">Cucina di mare e tradizione siciliana. Il calore di una famiglia.</p>
+        </div>
+        <div class="stack">
+          <h4 style="font-size:1.15rem">Naviga</h4>
+          <a href="index.html">Home</a>
+          <a href="menu.html">Menù</a>
+          <a href="recensioni.html">Recensioni</a>
+          <a href="index.html#prenota">Prenota</a>
+          <a href="index.html#contatti">Contatti</a>
+        </div>
+        <div class="stack">
+          <h4 style="font-size:1.15rem">Seguici</h4>
+          <a href="https://www.instagram.com/ilmaredipinella" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.facebook.com/people/Il-Mare-di-Pinella/61590315401542/?locale=it_IT" target="_blank" rel="noopener">Facebook</a>
+          <a href="https://linktr.ee/ilmaredipinella" target="_blank" rel="noopener">Linktree</a>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© <span data-year>2026</span> Il Mare di Pinella — Tutti i diritti riservati.</span>
+        <span>Fatto con cura in Sicilia</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>
