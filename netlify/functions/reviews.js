@@ -11,8 +11,8 @@
          GOOGLE_PLACE_ID       = il Place ID del locale (inizia con "ChI…")
 
    Sulla chiave (Google Cloud Console):
-     • Abilita «Places API».
-     • Restrizione consigliata: "Limitazioni API" → solo «Places API».
+     • Abilita «Places API (New)».
+     • Restrizione consigliata: "Limitazioni API" → solo «Places API (New)».
        (Niente referrer: qui la chiave è server-side, non si vede dal browser.)
      • Imposta un tetto di spesa / avviso di budget per sicurezza.
 
@@ -20,7 +20,7 @@
    già pronto delle recensioni — senza vedere la chiave.
    ========================================================================== */
 
-const ENDPOINT = "https://maps.googleapis.com/maps/api/place/details/json";
+const ENDPOINT = "https://places.googleapis.com/v1/places/";
 
 exports.handler = async () => {
   const key = process.env.GOOGLE_PLACES_API_KEY;
@@ -38,34 +38,35 @@ exports.handler = async () => {
 
   if (!key || !placeId) return empty("config_mancante");
 
-  const url =
-    `${ENDPOINT}?place_id=${encodeURIComponent(placeId)}` +
-    "&language=it&reviews_no_translations=true" +
-    "&fields=rating,user_ratings_total,reviews,url" +
-    `&key=${encodeURIComponent(key)}`;
+  // Places API (New): GET /v1/places/{id} con chiave nell'header e field mask
+  const url = `${ENDPOINT}${encodeURIComponent(placeId)}?languageCode=it`;
 
   try {
-    const res = await fetch(url);
+    const res = await fetch(url, {
+      headers: {
+        "X-Goog-Api-Key": key,
+        "X-Goog-FieldMask": "rating,userRatingCount,googleMapsUri,reviews",
+      },
+    });
     const data = await res.json();
 
-    if (data.status !== "OK") return empty(data.status || "errore_google");
+    if (!res.ok) return empty((data.error && data.error.status) || ("HTTP_" + res.status));
 
-    const r = data.result || {};
-    const reviews = (r.reviews || []).map((g) => ({
-      name: g.author_name || "Ospite Google",
+    const reviews = (data.reviews || []).map((g) => ({
+      name: (g.authorAttribution && g.authorAttribution.displayName) || "Ospite Google",
       rating: g.rating || 0,
-      date: g.relative_time_description || "",
-      text: g.text || "",
-      photo: g.profile_photo_url || "",
+      date: g.relativePublishTimeDescription || "",
+      text: (g.text && g.text.text) || (g.originalText && g.originalText.text) || "",
+      photo: (g.authorAttribution && g.authorAttribution.photoUri) || "",
     }));
 
     return {
       statusCode: 200,
       headers,
       body: JSON.stringify({
-        rating: r.rating || 0,
-        total: r.user_ratings_total || 0,
-        url: r.url || "",
+        rating: data.rating || 0,
+        total: data.userRatingCount || 0,
+        url: data.googleMapsUri || "",
         writeReviewUrl: `https://search.google.com/local/writereview?placeid=${encodeURIComponent(placeId)}`,
         reviews,
       }),
