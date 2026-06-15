@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anteprima sfondo — Il Mare di Pinella</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ======================================================================
+       SFONDO ELEGANTE — Il Mare di Pinella
+       1) Mesh gradient caldo (panna + pesca/sabbia + azzurro polvere agli angoli)
+       2) Overlay filigrana line-art (limoni, fette d'agrume, ulivo, onde)
+       ====================================================================== */
+    :root {
+      --base:   #FDFBF7;  /* panna/crema (dominante)        */
+      --peach:  #F7E2CB;  /* pesca/sabbia (più definito)    */
+      --dust:   #DCE7F0;  /* azzurro polvere chiarissimo    */
+      --ink:    #122146;
+      --cobalt: #1B4096;
+      --line:   #D4C4A8;  /* tratto filigrana beige/dorato  */
+      --font-display: "Cormorant Garamond", Georgia, serif;
+      --font-body:    "Space Grotesk", system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-body);
+      color: var(--ink);
+      /* ---- 1) MESH GRADIENT: macchie radiali morbide, mai piatto ---- */
+      background-color: var(--base);
+      background-image:
+        radial-gradient(60% 55% at 8% 10%,   var(--peach) 0%, transparent 62%),
+        radial-gradient(55% 50% at 94% 14%,  var(--dust) 0%, transparent 60%),
+        radial-gradient(60% 60% at 86% 90%,  var(--peach) 0%, transparent 60%),
+        radial-gradient(52% 48% at 10% 94%,  var(--dust) 0%, transparent 60%),
+        radial-gradient(45% 42% at 50% 50%,  rgba(247,226,203,0.30) 0%, transparent 72%);
+      background-attachment: fixed;
+    }
+
+    /* ---- 2) OVERLAY FILIGRANA: SVG line-art ai bordi, centro sgombro ----
+       pseudo-elemento fisso a tutto schermo, NON cliccabile.
+       I gruppi SVG sono inline come background-image, posizionati agli angoli. */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;            /* non blocca i click sotto */
+      opacity: 0.15;                   /* filigrana ~15% (impressa nella carta) */
+      background-repeat: no-repeat;
+      /* ALTO-SX: limoni + onde   ·   BASSO-SX: ramo d'ulivo   ·   DESTRA: fetta d'agrume + foglia */
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400' fill='none' stroke='%23D4C4A8' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cellipse cx='120' cy='118' rx='70' ry='50' transform='rotate(-30 120 118)'/%3E%3Cpath d='M154 80l13-11'/%3E%3Cpath d='M86 156l-13 11'/%3E%3Cpath d='M152 92c4-32 30-49 62-47 0 32-26 53-62 47z'/%3E%3Cpath d='M160 84c15-9 32-19 45-32'/%3E%3Cpath d='M152 92c-17-23-15-47 0-64'/%3E%3Ccircle cx='262' cy='206' r='44'/%3E%3Ccircle cx='262' cy='206' r='33'/%3E%3Cpath d='M262 162v88M218 206h88M231 175l62 62M293 175l-62 62'/%3E%3Cpath d='M40 312q24-17 48 0t48 0 48 0'/%3E%3Cpath d='M28 336q26-17 52 0t52 0 52 0'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='340' height='340' viewBox='0 0 340 340' fill='none' stroke='%23D4C4A8' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M44 40C96 100 158 156 264 262'/%3E%3Cellipse cx='82' cy='90' rx='24' ry='9' transform='rotate(42 82 90)'/%3E%3Cellipse cx='118' cy='126' rx='24' ry='9' transform='rotate(42 118 126)'/%3E%3Cellipse cx='156' cy='164' rx='24' ry='9' transform='rotate(42 156 164)'/%3E%3Cellipse cx='196' cy='204' rx='24' ry='9' transform='rotate(42 196 204)'/%3E%3Cellipse cx='100' cy='72' rx='24' ry='9' transform='rotate(-18 100 72)'/%3E%3Cellipse cx='138' cy='108' rx='24' ry='9' transform='rotate(-18 138 108)'/%3E%3Ccircle cx='134' cy='158' r='10'/%3E%3Ccircle cx='178' cy='202' r='10'/%3E%3Ccircle cx='214' cy='158' r='10'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='400' viewBox='0 0 320 400' fill='none' stroke='%23D4C4A8' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='185' cy='200' r='70'/%3E%3Ccircle cx='185' cy='200' r='57'/%3E%3Cpath d='M185 130v140M115 200h140M135 150l100 100M235 150l-100 100M150 140l70 120M220 140l-70 120'/%3E%3Cpath d='M160 80c0-30 24-47 54-45 0 30-24 49-54 45z'/%3E%3Cpath d='M168 72c13-9 28-17 41-28'/%3E%3Cpath d='M160 80c-10 26-8 50 6 70'/%3E%3C/svg%3E");
+      background-position:
+        left -34px top -30px,      /* limoni + onde, alto-sinistra   */
+        left -24px bottom -36px,   /* ulivo, basso-sinistra          */
+        right -56px center;        /* agrume + foglia, destra        */
+      background-size:
+        400px 400px,
+        340px 340px,
+        320px 400px;
+    }
+
+    /* Contenuto sempre sopra la filigrana */
+    .page { position: relative; z-index: 1; }
+
+    /* --- contenuto demo solo per mostrare leggibilità / framing --- */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .hero__inner { max-width: 640px; }
+    .eyebrow {
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.26em;
+      font-size: 0.72rem; color: #E2722B; margin: 0 0 1rem;
+    }
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      line-height: 1.04; color: var(--cobalt); margin: 0 0 1rem;
+    }
+    p { font-size: clamp(1.05rem, 1.8vw, 1.2rem); line-height: 1.65; opacity: 0.85; margin: 0 auto; max-width: 52ch; }
+    .btn {
+      display: inline-block; margin-top: 2rem; padding: 0.9rem 1.8rem;
+      background: var(--cobalt); color: #fff; border-radius: 999px;
+      font-weight: 600; text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="hero">
+      <div class="hero__inner">
+        <p class="eyebrow">Osteria di mare siracusana</p>
+        <h1>Il Mare di Pinella</h1>
+        <p>Cucina di mare e tradizione siciliana, nel cuore di Siracusa.
+           Questo è solo testo di prova per mostrare che il centro resta
+           perfettamente leggibile: la filigrana incornicia, non disturba.</p>
+        <a class="btn" href="#">Prenota un tavolo</a>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
