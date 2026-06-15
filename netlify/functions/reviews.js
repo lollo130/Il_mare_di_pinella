@@ -50,7 +50,14 @@ exports.handler = async () => {
     });
     const data = await res.json();
 
-    if (!res.ok) return empty((data.error && data.error.status) || ("HTTP_" + res.status));
+    if (!res.ok) {
+      const g = data.error || {};
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({ error: g.status || ("HTTP_" + res.status), detail: g.message || "", reviews: [] }),
+      };
+    }
 
     const reviews = (data.reviews || []).map((g) => ({
       name: (g.authorAttribution && g.authorAttribution.displayName) || "Ospite Google",
