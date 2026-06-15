@@ -26,15 +26,17 @@ exports.handler = async () => {
   const key = process.env.GOOGLE_PLACES_API_KEY;
   const placeId = process.env.GOOGLE_PLACE_ID;
 
-  const headers = {
-    "Content-Type": "application/json; charset=utf-8",
-    // Cache 1h sulla CDN Netlify → meno chiamate a Google = meno costi
+  const baseHeaders = { "Content-Type": "application/json; charset=utf-8" };
+  // Cache 1h SOLO sulle risposte valide. Gli errori NON si cachano: così appena
+  // sistemi billing/API le recensioni compaiono subito (niente errore "congelato").
+  const okHeaders = {
+    ...baseHeaders,
     "Cache-Control": "public, max-age=3600",
     "Netlify-CDN-Cache-Control": "public, max-age=3600, durable",
   };
 
   // Risposte sempre 200: il sito gestisce da solo il caso "vuoto" (nessun dato finto)
-  const empty = (error) => ({ statusCode: 200, headers, body: JSON.stringify({ error, reviews: [] }) });
+  const empty = (error) => ({ statusCode: 200, headers: baseHeaders, body: JSON.stringify({ error, reviews: [] }) });
 
   if (!key || !placeId) return empty("config_mancante");
 
@@ -54,7 +56,7 @@ exports.handler = async () => {
       const g = data.error || {};
       return {
         statusCode: 200,
-        headers,
+        headers: baseHeaders,
         body: JSON.stringify({ error: g.status || ("HTTP_" + res.status), detail: g.message || "", reviews: [] }),
       };
     }
@@ -69,7 +71,7 @@ exports.handler = async () => {
 
     return {
       statusCode: 200,
-      headers,
+      headers: okHeaders,
       body: JSON.stringify({
         rating: data.rating || 0,
         total: data.userRatingCount || 0,
