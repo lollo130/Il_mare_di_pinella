@@ -319,3 +319,27 @@
   update();
   restart();
 })();
+
+/* ---- TOGGLE LINGUA IT / EN (home) ---- */
+(() => {
+  const btn = document.querySelector("[data-lang-switch]");
+  if (!btn) return;
+  const els = Array.from(document.querySelectorAll("[data-en]"));
+  els.forEach((el) => { el.dataset.it = el.innerHTML; });
+  const phs = Array.from(document.querySelectorAll("[data-en-ph]"));
+  phs.forEach((el) => { el.dataset.itPh = el.getAttribute("placeholder") || ""; });
+
+  function setLang(lang) {
+    const en = lang === "en";
+    els.forEach((el) => { el.innerHTML = en ? el.getAttribute("data-en") : el.dataset.it; });
+    phs.forEach((el) => { el.setAttribute("placeholder", en ? el.getAttribute("data-en-ph") : el.dataset.itPh); });
+    document.documentElement.lang = lang;
+    btn.textContent = en ? "IT" : "EN";
+    btn.setAttribute("aria-label", en ? "Passa all'italiano" : "Switch to English");
+    try { localStorage.setItem("lang", lang); } catch (e) {}
+  }
+  btn.addEventListener("click", () => setLang(document.documentElement.lang === "en" ? "it" : "en"));
+  let saved = "it";
+  try { saved = localStorage.getItem("lang") || "it"; } catch (e) {}
+  if (saved === "en") setLang("en");
+})();
