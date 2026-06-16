@@ -277,3 +277,45 @@
     });
   });
 })();
+
+/* ---- CAROSELLO HERO: una foto alla volta, scorrono (auto + frecce + pallini) ---- */
+(() => {
+  const root = document.querySelector("[data-carousel]");
+  if (!root) return;
+  const track = root.querySelector("[data-carousel-track]");
+  const slides = Array.from(track.children);
+  const dotsWrap = root.querySelector("[data-carousel-dots]");
+  if (!track || slides.length === 0) return;
+
+  let i = 0, timer = null;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  slides.forEach((_, idx) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.setAttribute("aria-label", "Vai alla foto " + (idx + 1));
+    b.addEventListener("click", () => go(idx));
+    dotsWrap.appendChild(b);
+  });
+  const dots = Array.from(dotsWrap.children);
+
+  function update() {
+    track.style.transform = "translateX(" + (-i * 100) + "%)";
+    dots.forEach((d, idx) => d.setAttribute("aria-current", idx === i ? "true" : "false"));
+  }
+  function go(n) { i = (n + slides.length) % slides.length; update(); restart(); }
+  const next = () => go(i + 1);
+  const prev = () => go(i - 1);
+
+  const nextBtn = root.querySelector("[data-carousel-next]");
+  const prevBtn = root.querySelector("[data-carousel-prev]");
+  if (nextBtn) nextBtn.addEventListener("click", next);
+  if (prevBtn) prevBtn.addEventListener("click", prev);
+
+  function restart() { clearInterval(timer); if (!reduce) timer = setInterval(next, 4500); }
+  root.addEventListener("mouseenter", () => clearInterval(timer));
+  root.addEventListener("mouseleave", restart);
+
+  update();
+  restart();
+})();
