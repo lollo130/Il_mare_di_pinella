@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eventi — Il Mare di Pinella</title>
+  <meta name="description" content="Gli eventi de Il Mare di Pinella: serate a tema, musica dal vivo, menù speciali e appuntamenti nei vicoli di Ortigia, a Siracusa." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: {
+      colors: { cream:"#FAF5EA", ink:"#122146", cobalt:"#1B4096", gold:"#E3A81B", citrus:"#E2722B", pistachio:"#6E9A2E", terracotta:"#C0492F" },
+      fontFamily: { display:['"Cormorant Garamond"',"serif"], body:['"Space Grotesk"',"sans-serif"] },
+    } } };
+  </script>
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="icon" type="image/png" href="assets/img/logo.png" />
+</head>
+
+<body>
+
+  <!-- Sfondo a gradiente fluido animato — riflesso del sole siciliano (main.js) -->
+  <canvas class="bg-mesh" data-mesh aria-hidden="true"></canvas>
+  <div class="bg-mesh-veil" aria-hidden="true"></div>
+
+  <!-- ================= NAVBAR ================= -->
+  <nav class="nav is-scrolled" data-nav>
+    <a class="nav__logo" href="index.html" aria-label="Il Mare di Pinella — Home">
+      <img src="assets/img/logo.png" alt="Il Mare di Pinella — Osteria di mare siracusana" />
+    </a>
+    <div class="nav__links">
+      <a href="index.html" data-en="Home" data-fr="Accueil">Home</a>
+      <a href="famiglia.html" data-en="Story" data-fr="Histoire">Storia</a>
+      <a href="menu.html" data-en="Menu" data-fr="Menu">Menù</a>
+      <a href="recensioni.html" data-en="Reviews" data-fr="Avis">Recensioni</a>
+      <a href="eventi.html" data-en="Events" data-fr="Événements">Eventi</a>
+      <a href="index.html#contatti" data-en="Contacts" data-fr="Contact">Contatti</a>
+      <a href="index.html#prenota" class="btn btn--sm" data-en="Book a table" data-fr="Réserver une table">Prenota un tavolo</a>
+    </div>
+    <div class="lang-switch" data-lang-switch role="group" aria-label="Lingua / Language / Langue">
+      <button type="button" data-lang="it" aria-pressed="true">IT</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      <button type="button" data-lang="fr" aria-pressed="false">FR</button>
+    </div>
+    <button class="nav__toggle" data-nav-toggle aria-label="Apri menu">☰</button>
+  </nav>
+
+  <!-- ================= INTESTAZIONE ================= -->
+  <header class="section section--cream" style="padding-top:8rem;position:relative;overflow:hidden">
+    <div class="wrap center" style="max-width:720px;margin-inline:auto;position:relative;z-index:1">
+      <span class="eyebrow" data-reveal data-en="What's cooking · Events" data-fr="Au programme · Événements">Cosa bolle in pentola</span>
+      <h1 class="section-title" data-reveal data-delay="1" style="font-size:clamp(2.8rem,7vw,5rem)" data-en="Events &amp; evenings" data-fr="Événements &amp; soirées">Eventi &amp; serate</h1>
+      <p class="section-lead" data-reveal data-delay="2" style="margin-inline:auto" data-en="Themed evenings, live music and special menus in the alleys of Ortigia. Here are the next appointments at Il Mare di Pinella." data-fr="Soirées à thème, musique live et menus spéciaux dans les ruelles d'Ortigia. Voici les prochains rendez-vous d'Il Mare di Pinella.">
+        Serate a tema, musica dal vivo e menù speciali nei vicoli di Ortigia.
+        Qui trovi i prossimi appuntamenti de Il Mare di Pinella.
+      </p>
+    </div>
+  </header>
+
+  <!-- Onda minimal -->
+  <div class="wave" aria-hidden="true"><canvas data-wave data-stroke="#1B4096"></canvas></div>
+
+  <!-- ================= EVENTI =================
+       ⚠️ PROPRIETARI: al momento NESSUN evento pubblicato (pagina vuota di proposito).
+       Per pubblicare un evento, copiate il blocco-modello qui sotto DENTRO un
+       <div class="event-list"> e compilatelo (data, titolo, orario, descrizione).
+
+       MODELLO evento (da copiare e compilare):
+       <div class="event-list">
+         <article class="event-card">
+           <div class="event-card__date">
+             <span class="event-card__day">12</span>
+             <span class="event-card__month">Luglio</span>
+           </div>
+           <div class="event-card__body">
+             <h2 class="event-card__title">Titolo dell'evento</h2>
+             <p class="event-card__meta">Ore 20:00 · su prenotazione</p>
+             <p class="event-card__desc">Breve descrizione dell'evento.</p>
+             <a class="btn btn--sm" href="index.html#prenota">Prenota un tavolo</a>
+           </div>
+         </article>
+       </div>
+  -->
+  <section class="section section--cream" style="padding-top:2rem">
+    <div class="wrap" style="max-width:900px">
+
+      <div class="center">
+        <p class="muted" style="max-width:46ch;margin-inline:auto" data-en="No events scheduled at the moment. Follow us on social media to stay updated." data-fr="Aucun événement prévu pour le moment. Suivez-nous sur les réseaux pour rester informé.">
+          Nessun evento in programma al momento. Seguici sui social per restare aggiornato.
+        </p>
+        <div style="margin-top:1.2rem;display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
+          <a class="btn btn--ghost" href="https://www.instagram.com/ilmaredipinella" target="_blank" rel="noopener">Instagram</a>
+          <a class="btn btn--ghost" href="https://www.facebook.com/people/Il-Mare-di-Pinella/61590315401542/?locale=it_IT" target="_blank" rel="noopener">Facebook</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__grid">
+        <div class="stack">
+          <h4>Il Mare di Pinella</h4>
+          <p style="opacity:.85;margin-top:-.3rem;font-style:italic;font-family:var(--font-display);font-size:1.05rem" data-en="Syracuse seafood osteria" data-fr="Osteria de la mer à Syracuse">Osteria di mare siracusana</p>
+          <p style="opacity:.85;max-width:34ch" data-en="Seafood cuisine and Sicilian tradition." data-fr="Cuisine de la mer et tradition sicilienne.">Cucina di mare e tradizione siciliana.</p>
+        </div>
+        <div class="stack">
+          <h4 style="font-size:1.15rem" data-en="Explore" data-fr="Explorer">Naviga</h4>
+          <a href="index.html" data-en="Home" data-fr="Accueil">Home</a>
+          <a href="famiglia.html" data-en="Story" data-fr="Histoire">Storia</a>
+          <a href="menu.html" data-en="Menu" data-fr="Menu">Menù</a>
+          <a href="recensioni.html" data-en="Reviews" data-fr="Avis">Recensioni</a>
+          <a href="eventi.html" data-en="Events" data-fr="Événements">Eventi</a>
+          <a href="index.html#prenota" data-en="Book" data-fr="Réserver">Prenota</a>
+          <a href="index.html#contatti" data-en="Contacts" data-fr="Contact">Contatti</a>
+        </div>
+        <div class="stack">
+          <h4 style="font-size:1.15rem" data-en="Follow us" data-fr="Suivez-nous">Seguici</h4>
+          <a href="https://www.instagram.com/ilmaredipinella" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.facebook.com/people/Il-Mare-di-Pinella/61590315401542/?locale=it_IT" target="_blank" rel="noopener">Facebook</a>
+          <a href="https://linktr.ee/ilmaredipinella" target="_blank" rel="noopener">Linktree</a>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© <span data-year>2026</span> Il Mare di Pinella — <span data-en="All rights reserved." data-fr="Tous droits réservés.">Tutti i diritti riservati.</span></span>
+        <span data-en="Made with care in Sicily" data-fr="Fait avec soin en Sicile">Fatto con cura in Sicilia</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>

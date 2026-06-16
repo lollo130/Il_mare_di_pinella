@@ -34,10 +34,16 @@
       <img src="assets/img/logo.png" alt="Il Mare di Pinella — Osteria di mare siracusana" />
     </a>
     <div class="nav__links">
-      <a href="menu.html">Menù</a>
-      <a href="recensioni.html">Recensioni</a>
-      <a href="index.html#contatti">Contatti</a>
-      <a href="index.html" class="btn btn--sm btn--cobalt">← Torna alla Home</a>
+      <a href="menu.html" data-en="Menu" data-fr="Menu">Menù</a>
+      <a href="recensioni.html" data-en="Reviews" data-fr="Avis">Recensioni</a>
+      <a href="eventi.html" data-en="Events" data-fr="Événements">Eventi</a>
+      <a href="index.html#contatti" data-en="Contacts" data-fr="Contact">Contatti</a>
+      <a href="index.html" class="btn btn--sm btn--cobalt" data-en="← Back home" data-fr="← Retour à l'accueil">← Torna alla Home</a>
+    </div>
+    <div class="lang-switch" data-lang-switch role="group" aria-label="Lingua / Language / Langue">
+      <button type="button" data-lang="it" aria-pressed="true">IT</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      <button type="button" data-lang="fr" aria-pressed="false">FR</button>
     </div>
     <button class="nav__toggle" data-nav-toggle aria-label="Apri menu">☰</button>
   </nav>
@@ -61,19 +67,16 @@
 
     <div class="wrap hero__grid">
       <div>
-        <span class="eyebrow eyebrow--pill" data-reveal><span class="dot" aria-hidden="true"></span>Il fattore accoglienza · The welcome factor</span>
-        <h1 class="hero__title fam-title" data-reveal data-delay="1">La Famiglia<br><span class="fam-title__pinella">di Pinella</span></h1>
-        <blockquote class="fam-quote" data-reveal data-delay="2">
-          «Non sei un cliente, sei un ospite a casa nostra.»
-          <span class="lang-en">“You're not a customer — you're a guest in our home.”</span>
-        </blockquote>
-        <p class="hero__sub" data-reveal data-delay="3">
+        <span class="eyebrow eyebrow--pill" data-reveal data-en='<span class="dot" aria-hidden="true"></span>The welcome factor' data-fr='<span class="dot" aria-hidden="true"></span>Le facteur accueil'><span class="dot" aria-hidden="true"></span>Il fattore accoglienza</span>
+        <h1 class="hero__title fam-title" data-reveal data-delay="1" data-en='The<br><span class="fam-title__pinella">Pinella Family</span>' data-fr='La Famille<br><span class="fam-title__pinella">de Pinella</span>'>La Famiglia<br><span class="fam-title__pinella">di Pinella</span></h1>
+        <blockquote class="fam-quote" data-reveal data-delay="2" data-en="“You're not a customer — you're a guest in our home.”" data-fr="« Vous n'êtes pas un client, vous êtes un invité chez nous. »">«Non sei un cliente, sei un ospite a casa nostra.»</blockquote>
+        <p class="hero__sub" data-reveal data-delay="3" data-en="Behind every dish there are faces, hands and memories: a Sicilian family that cooks the way it used to be done, with heart." data-fr="Derrière chaque plat, il y a des visages, des mains et des souvenirs : une famille sicilienne qui cuisine comme autrefois, avec le cœur.">
           Dietro ogni piatto ci sono volti, mani e ricordi: una famiglia siciliana
           che cucina come si faceva una volta, con il cuore.
         </p>
         <div class="hero__cta" data-reveal data-delay="4">
-          <a href="#momenti" class="btn magnetic" data-magnetic="0.25"><span class="magnetic__inner">Scopri i nostri momenti</span></a>
-          <a href="index.html#prenota" class="btn btn--ghost magnetic" data-magnetic="0.2"><span class="magnetic__inner">Prenota un tavolo</span></a>
+          <a href="#momenti" class="btn magnetic" data-magnetic="0.25"><span class="magnetic__inner" data-en="Discover our moments" data-fr="Découvrez nos instants">Scopri i nostri momenti</span></a>
+          <a href="index.html#prenota" class="btn btn--ghost magnetic" data-magnetic="0.2"><span class="magnetic__inner" data-en="Book a table" data-fr="Réserver une table">Prenota un tavolo</span></a>
         </div>
       </div>
 
@@ -90,33 +93,33 @@
   <section class="section section--cream" id="momenti" style="overflow:hidden">
     <div class="wrap">
       <div class="center" style="max-width:660px;margin-inline:auto;margin-bottom:2.4rem">
-        <span class="eyebrow" data-reveal>Momenti di Famiglia · Family Moments</span>
-        <h2 class="section-title" data-reveal data-delay="1">La vita vera dell'osteria</h2>
-        <p class="section-lead" data-reveal data-delay="2" style="margin-inline:auto">
-          Istantanee di ogni giorno — <em>everyday snapshots of who we are.</em>
+        <span class="eyebrow" data-reveal data-en="Family Moments" data-fr="Instants de famille">Momenti di Famiglia</span>
+        <h2 class="section-title" data-reveal data-delay="1" data-en="The real life of the osteria" data-fr="La vraie vie de l'osteria">La vita vera dell'osteria</h2>
+        <p class="section-lead" data-reveal data-delay="2" style="margin-inline:auto" data-en="Everyday snapshots of who we are." data-fr="Des instantanés du quotidien, de qui nous sommes.">
+          Istantanee di ogni giorno
         </p>
       </div>
 
       <div class="fam-gallery" data-reveal>
         <figure class="fam-gallery__item">
           <img src="assets/img/grigliata_di_mare.webp" alt="Selezione del pesce fresco" loading="lazy" decoding="async" />
-          <figcaption><b>La selezione del pesce all'alba</b><span class="lang-en">The dawn fish selection</span></figcaption>
+          <figcaption data-en="<b>The dawn fish selection</b>" data-fr="<b>La sélection du poisson à l'aube</b>"><b>La selezione del pesce all'alba</b></figcaption>
         </figure>
         <figure class="fam-gallery__item">
           <img src="assets/img/casarecce_alla_norma.webp" alt="Pasta fatta a mano" loading="lazy" decoding="async" />
-          <figcaption><b>Le busiate fatte a mano</b><span class="lang-en">Hand-rolled busiate</span></figcaption>
+          <figcaption data-en="<b>Hand-rolled busiate</b>" data-fr="<b>Les busiate faites à la main</b>"><b>Le busiate fatte a mano</b></figcaption>
         </figure>
         <figure class="fam-gallery__item">
           <img src="assets/img/foto_interno1.webp" alt="Sala interna accogliente" loading="lazy" decoding="async" />
-          <figcaption><b>Il sorriso che vi accoglie</b><span class="lang-en">The smile that welcomes you</span></figcaption>
+          <figcaption data-en="<b>The smile that welcomes you</b>" data-fr="<b>Le sourire qui vous accueille</b>"><b>Il sorriso che vi accoglie</b></figcaption>
         </figure>
         <figure class="fam-gallery__item">
           <img src="assets/img/insegna_int.webp" alt="Insegna del locale" loading="lazy" decoding="async" />
-          <figcaption><b>L'insegna che racconta chi siamo</b><span class="lang-en">The sign that tells our story</span></figcaption>
+          <figcaption data-en="<b>The sign that tells our story</b>" data-fr="<b>L'enseigne qui raconte qui nous sommes</b>"><b>L'insegna che racconta chi siamo</b></figcaption>
         </figure>
         <figure class="fam-gallery__item">
           <img src="assets/img/foto_tavoli2.webp" alt="Sala con tavoli apparecchiati per gli ospiti" loading="lazy" decoding="async" />
-          <figcaption><b>La tavola pronta per voi</b><span class="lang-en">The table set for you</span></figcaption>
+          <figcaption data-en="<b>The table set for you</b>" data-fr="<b>La table dressée pour vous</b>"><b>La tavola pronta per voi</b></figcaption>
         </figure>
       </div>
     </div>
@@ -126,8 +129,8 @@
   <section class="section section--deep" style="overflow:hidden">
     <div class="wrap">
       <div class="center" style="max-width:640px;margin-inline:auto;margin-bottom:2.6rem">
-        <span class="eyebrow" data-reveal>La nostra anima · Our soul</span>
-        <h2 class="section-title" data-reveal data-delay="1">Tre gesti, una famiglia</h2>
+        <span class="eyebrow" data-reveal data-en="Our soul" data-fr="Notre âme">La nostra anima</span>
+        <h2 class="section-title" data-reveal data-delay="1" data-en="Three gestures, one family" data-fr="Trois gestes, une famille">Tre gesti, una famiglia</h2>
       </div>
 
       <div class="fam-story">
@@ -142,9 +145,8 @@
             </svg>
           </div>
           <div class="fam-block__body">
-            <h3>L'Alba al Mercato <span class="lang-en">Dawn at the Market</span></h3>
-            <p>Ogni giorno inizia prima del sole: scegliamo a mano il pesce più fresco e gli agrumi profumati del mercato di Siracusa. Solo il meglio arriva alla vostra tavola.</p>
-            <p class="lang-en">Every day begins before sunrise: we hand-pick the freshest fish and the fragrant citrus of Siracusa's market. Only the best reaches your table.</p>
+            <h3 data-en="Dawn at the Market" data-fr="L'aube au marché">L'Alba al Mercato</h3>
+            <p data-en="Every day begins before sunrise: we hand-pick the freshest fish and the fragrant citrus of Siracusa's market. Only the best reaches your table." data-fr="Chaque jour commence avant le soleil : nous choisissons à la main le poisson le plus frais et les agrumes parfumés du marché de Syracuse. Seul le meilleur arrive à votre table.">Ogni giorno inizia prima del sole: scegliamo a mano il pesce più fresco e gli agrumi profumati del mercato di Siracusa. Solo il meglio arriva alla vostra tavola.</p>
           </div>
         </article>
 
@@ -161,9 +163,8 @@
             </svg>
           </div>
           <div class="fam-block__body">
-            <h3>I Segreti della Cucina <span class="lang-en">The Kitchen's Secrets</span></h3>
-            <p>Le nostre ricette nascono da tre generazioni di famiglia. Le busiate tirate a mano, la caponata, i dolci della tradizione: gesti antichi tramandati con amore.</p>
-            <p class="lang-en">Our recipes come from three family generations. Hand-rolled busiate, caponata, traditional sweets: time-honoured gestures handed down with love.</p>
+            <h3 data-en="The Kitchen's Secrets" data-fr="Les secrets de la cuisine">I Segreti della Cucina</h3>
+            <p data-en="Our recipes come from three family generations. Hand-rolled busiate, caponata, traditional sweets: time-honoured gestures handed down with love." data-fr="Nos recettes naissent de trois générations de famille. Les busiate tirées à la main, la caponata, les desserts de la tradition : des gestes anciens transmis avec amour.">Le nostre ricette nascono da tre generazioni di famiglia. Le busiate tirate a mano, la caponata, i dolci della tradizione: gesti antichi tramandati con amore.</p>
           </div>
         </article>
 
@@ -178,15 +179,14 @@
             </svg>
           </div>
           <div class="fam-block__body">
-            <h3>Il Calore dell'Accoglienza <span class="lang-en">The Warmth of Welcome</span></h3>
-            <p>Per noi ogni ospite è sacro. Vi accogliamo con un sorriso, come si fa in famiglia, perché qui non siete clienti: siete a casa.</p>
-            <p class="lang-en">For us, every guest is sacred. We welcome you with a smile, the way family does — because here you're not a customer: you're home.</p>
+            <h3 data-en="The Warmth of Welcome" data-fr="La chaleur de l'accueil">Il Calore dell'Accoglienza</h3>
+            <p data-en="For us, every guest is sacred. We welcome you with a smile, the way family does — because here you're not a customer: you're home." data-fr="Pour nous, chaque hôte est sacré. Nous vous accueillons avec un sourire, comme en famille, car ici vous n'êtes pas des clients : vous êtes chez vous.">Per noi ogni ospite è sacro. Vi accogliamo con un sorriso, come si fa in famiglia, perché qui non siete clienti: siete a casa.</p>
           </div>
         </article>
       </div>
 
       <div class="center" style="margin-top:2.8rem">
-        <a href="index.html" class="btn btn--cobalt magnetic" data-magnetic="0.25"><span class="magnetic__inner">← Torna alla Home</span></a>
+        <a href="index.html" class="btn btn--cobalt magnetic" data-magnetic="0.25"><span class="magnetic__inner" data-en="← Back home" data-fr="← Retour à l'accueil">← Torna alla Home</span></a>
       </div>
     </div>
   </section>
@@ -197,27 +197,28 @@
       <div class="footer__grid">
         <div class="stack">
           <h4>Il Mare di Pinella</h4>
-          <p style="opacity:.85;margin-top:-.3rem;font-style:italic;font-family:var(--font-display);font-size:1.05rem">Osteria di mare siracusana</p>
-          <p style="opacity:.85;max-width:34ch">Cucina di mare e tradizione siciliana. Il calore di una famiglia.</p>
+          <p style="opacity:.85;margin-top:-.3rem;font-style:italic;font-family:var(--font-display);font-size:1.05rem" data-en="Syracuse seafood osteria" data-fr="Osteria de la mer à Syracuse">Osteria di mare siracusana</p>
+          <p style="opacity:.85;max-width:34ch" data-en="Seafood cuisine and Sicilian tradition. The warmth of a family." data-fr="Cuisine de la mer et tradition sicilienne. La chaleur d'une famille.">Cucina di mare e tradizione siciliana. Il calore di una famiglia.</p>
         </div>
         <div class="stack">
-          <h4 style="font-size:1.15rem">Naviga</h4>
-          <a href="index.html">Home</a>
-          <a href="menu.html">Menù</a>
-          <a href="recensioni.html">Recensioni</a>
-          <a href="index.html#prenota">Prenota</a>
-          <a href="index.html#contatti">Contatti</a>
+          <h4 style="font-size:1.15rem" data-en="Explore" data-fr="Explorer">Naviga</h4>
+          <a href="index.html" data-en="Home" data-fr="Accueil">Home</a>
+          <a href="menu.html" data-en="Menu" data-fr="Menu">Menù</a>
+          <a href="recensioni.html" data-en="Reviews" data-fr="Avis">Recensioni</a>
+          <a href="eventi.html" data-en="Events" data-fr="Événements">Eventi</a>
+          <a href="index.html#prenota" data-en="Book" data-fr="Réserver">Prenota</a>
+          <a href="index.html#contatti" data-en="Contacts" data-fr="Contact">Contatti</a>
         </div>
         <div class="stack">
-          <h4 style="font-size:1.15rem">Seguici</h4>
+          <h4 style="font-size:1.15rem" data-en="Follow us" data-fr="Suivez-nous">Seguici</h4>
           <a href="https://www.instagram.com/ilmaredipinella" target="_blank" rel="noopener">Instagram</a>
           <a href="https://www.facebook.com/people/Il-Mare-di-Pinella/61590315401542/?locale=it_IT" target="_blank" rel="noopener">Facebook</a>
           <a href="https://linktr.ee/ilmaredipinella" target="_blank" rel="noopener">Linktree</a>
         </div>
       </div>
       <div class="footer__bottom">
-        <span>© <span data-year>2026</span> Il Mare di Pinella — Tutti i diritti riservati.</span>
-        <span>Fatto con cura in Sicilia</span>
+        <span>© <span data-year>2026</span> Il Mare di Pinella — <span data-en="All rights reserved." data-fr="Tous droits réservés.">Tutti i diritti riservati.</span></span>
+        <span data-en="Made with care in Sicily" data-fr="Fait avec soin en Sicile">Fatto con cura in Sicilia</span>
       </div>
     </div>
   </footer>

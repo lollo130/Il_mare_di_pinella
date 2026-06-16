@@ -34,11 +34,17 @@
       <img src="assets/img/logo.png" alt="Il Mare di Pinella — Osteria di mare siracusana" />
     </a>
     <div class="nav__links">
-      <a href="index.html">Home</a>
-      <a href="menu.html">Menù</a>
-      <a href="recensioni.html">Recensioni</a>
-      <a href="index.html#contatti">Contatti</a>
-      <a href="index.html#prenota" class="btn btn--sm">Prenota un tavolo</a>
+      <a href="index.html" data-en="Home" data-fr="Accueil">Home</a>
+      <a href="menu.html" data-en="Menu" data-fr="Menu">Menù</a>
+      <a href="recensioni.html" data-en="Reviews" data-fr="Avis">Recensioni</a>
+      <a href="eventi.html" data-en="Events" data-fr="Événements">Eventi</a>
+      <a href="index.html#contatti" data-en="Contacts" data-fr="Contact">Contatti</a>
+      <a href="index.html#prenota" class="btn btn--sm" data-en="Book a table" data-fr="Réserver une table">Prenota un tavolo</a>
+    </div>
+    <div class="lang-switch" data-lang-switch role="group" aria-label="Lingua / Language / Langue">
+      <button type="button" data-lang="it" aria-pressed="true">IT</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      <button type="button" data-lang="fr" aria-pressed="false">FR</button>
     </div>
     <button class="nav__toggle" data-nav-toggle aria-label="Apri menu">☰</button>
   </nav>
@@ -56,9 +62,9 @@
       </svg>
     </div>
     <div class="wrap center" style="max-width:720px;margin-inline:auto;position:relative;z-index:1">
-      <span class="eyebrow" data-reveal>Dicono di noi · Reviews</span>
-      <h1 class="section-title" data-reveal data-delay="1" style="font-size:clamp(2.8rem,7vw,5rem)">Le recensioni dei nostri ospiti</h1>
-      <p class="section-lead" data-reveal data-delay="2" style="margin-inline:auto">
+      <span class="eyebrow" data-reveal data-en="What they say about us" data-fr="Ils parlent de nous">Dicono di noi</span>
+      <h1 class="section-title" data-reveal data-delay="1" style="font-size:clamp(2.8rem,7vw,5rem)" data-en="What our guests say" data-fr="Les avis de nos hôtes">Le recensioni dei nostri ospiti</h1>
+      <p class="section-lead" data-reveal data-delay="2" style="margin-inline:auto" data-en="Thanks to everyone who sits at our table and then leaves us a few words. Here's what the guests of Il Mare di Pinella have to say." data-fr="Merci à tous ceux qui s'assoient à notre table et nous laissent ensuite quelques mots. Voici ce que racontent les clients d'Il Mare di Pinella.">
         Grazie a chi si siede alla nostra tavola e poi ci regala due parole.
         Ecco cosa raccontano i clienti de Il Mare di Pinella.
       </p>
@@ -77,9 +83,9 @@
         <!-- ⚠️ PROPRIETARI: mettete qui il link alla VOSTRA scheda Google -->
         <a class="btn magnetic" data-magnetic="0.25" data-google-link
            href="https://www.google.com/maps/search/Il+Mare+di+Pinella+Siracusa" target="_blank" rel="noopener">
-          <span class="magnetic__inner">Lascia una recensione su Google →</span>
+          <span class="magnetic__inner" data-en="Leave a review on Google →" data-fr="Laissez un avis sur Google →">Lascia una recensione su Google →</span>
         </a>
-        <p class="muted" style="font-size:.82rem;margin-top:.9rem">La tua opinione ci aiuta a migliorare ogni giorno.</p>
+        <p class="muted" style="font-size:.82rem;margin-top:.9rem" data-en="Your opinion helps us improve every day." data-fr="Votre avis nous aide à nous améliorer chaque jour.">La tua opinione ci aiuta a migliorare ogni giorno.</p>
       </div>
     </div>
   </section>
@@ -90,27 +96,28 @@
       <div class="footer__grid">
         <div class="stack">
           <h4>Il Mare di Pinella</h4>
-          <p style="opacity:.85;margin-top:-.3rem;font-style:italic;font-family:var(--font-display);font-size:1.05rem">Osteria di mare siracusana</p>
-          <p style="opacity:.85;max-width:34ch">Cucina di mare e tradizione siciliana.</p>
+          <p style="opacity:.85;margin-top:-.3rem;font-style:italic;font-family:var(--font-display);font-size:1.05rem" data-en="Syracuse seafood osteria" data-fr="Osteria de la mer à Syracuse">Osteria di mare siracusana</p>
+          <p style="opacity:.85;max-width:34ch" data-en="Seafood cuisine and Sicilian tradition." data-fr="Cuisine de la mer et tradition sicilienne.">Cucina di mare e tradizione siciliana.</p>
         </div>
         <div class="stack">
-          <h4 style="font-size:1.15rem">Naviga</h4>
-          <a href="index.html">Home</a>
-          <a href="menu.html">Menù</a>
-          <a href="recensioni.html">Recensioni</a>
-          <a href="index.html#prenota">Prenota</a>
-          <a href="index.html#contatti">Contatti</a>
+          <h4 style="font-size:1.15rem" data-en="Explore" data-fr="Explorer">Naviga</h4>
+          <a href="index.html" data-en="Home" data-fr="Accueil">Home</a>
+          <a href="menu.html" data-en="Menu" data-fr="Menu">Menù</a>
+          <a href="recensioni.html" data-en="Reviews" data-fr="Avis">Recensioni</a>
+          <a href="eventi.html" data-en="Events" data-fr="Événements">Eventi</a>
+          <a href="index.html#prenota" data-en="Book" data-fr="Réserver">Prenota</a>
+          <a href="index.html#contatti" data-en="Contacts" data-fr="Contact">Contatti</a>
         </div>
         <div class="stack">
-          <h4 style="font-size:1.15rem">Seguici</h4>
+          <h4 style="font-size:1.15rem" data-en="Follow us" data-fr="Suivez-nous">Seguici</h4>
           <a href="https://www.instagram.com/ilmaredipinella" target="_blank" rel="noopener">Instagram</a>
           <a href="https://www.facebook.com/people/Il-Mare-di-Pinella/61590315401542/?locale=it_IT" target="_blank" rel="noopener">Facebook</a>
           <a href="https://linktr.ee/ilmaredipinella" target="_blank" rel="noopener">Linktree</a>
         </div>
       </div>
       <div class="footer__bottom">
-        <span>© <span data-year>2026</span> Il Mare di Pinella — Tutti i diritti riservati.</span>
-        <span>Fatto con cura in Sicilia</span>
+        <span>© <span data-year>2026</span> Il Mare di Pinella — <span data-en="All rights reserved." data-fr="Tous droits réservés.">Tutti i diritti riservati.</span></span>
+        <span data-en="Made with care in Sicily" data-fr="Fait avec soin en Sicile">Fatto con cura in Sicilia</span>
       </div>
     </div>
   </footer>

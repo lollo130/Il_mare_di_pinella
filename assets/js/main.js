@@ -320,26 +320,55 @@
   restart();
 })();
 
-/* ---- TOGGLE LINGUA IT / EN (home) ---- */
+/* ---- SELETTORE LINGUA IT / EN / FR (tutto il sito) ----
+   IT = testo originale nel DOM, EN = data-en, FR = data-fr (fallback a EN se manca).
+   Espone window.MarePinella.getLang() e lancia l'evento "mare:langchange":
+   i moduli che generano HTML (es. menu.js) lo ascoltano per ri-renderizzare. */
 (() => {
-  const btn = document.querySelector("[data-lang-switch]");
-  if (!btn) return;
+  const group = document.querySelector("[data-lang-switch]");
+  const LANGS = ["it", "en", "fr"];
+  let current = "it";
+
   const els = Array.from(document.querySelectorAll("[data-en]"));
   els.forEach((el) => { el.dataset.it = el.innerHTML; });
   const phs = Array.from(document.querySelectorAll("[data-en-ph]"));
   phs.forEach((el) => { el.dataset.itPh = el.getAttribute("placeholder") || ""; });
 
-  function setLang(lang) {
-    const en = lang === "en";
-    els.forEach((el) => { el.innerHTML = en ? el.getAttribute("data-en") : el.dataset.it; });
-    phs.forEach((el) => { el.setAttribute("placeholder", en ? el.getAttribute("data-en-ph") : el.dataset.itPh); });
-    document.documentElement.lang = lang;
-    btn.textContent = en ? "IT" : "EN";
-    btn.setAttribute("aria-label", en ? "Passa all'italiano" : "Switch to English");
-    try { localStorage.setItem("lang", lang); } catch (e) {}
+  function pick(el, lang) {
+    if (lang === "en") return el.getAttribute("data-en");
+    if (lang === "fr") return el.getAttribute("data-fr") || el.getAttribute("data-en");
+    return el.dataset.it;
   }
-  btn.addEventListener("click", () => setLang(document.documentElement.lang === "en" ? "it" : "en"));
+  function pickPh(el, lang) {
+    if (lang === "en") return el.getAttribute("data-en-ph");
+    if (lang === "fr") return el.getAttribute("data-fr-ph") || el.getAttribute("data-en-ph");
+    return el.dataset.itPh;
+  }
+
+  function setLang(lang) {
+    if (!LANGS.includes(lang)) lang = "it";
+    current = lang;
+    els.forEach((el) => { el.innerHTML = pick(el, lang); });
+    phs.forEach((el) => { el.setAttribute("placeholder", pickPh(el, lang)); });
+    document.documentElement.lang = lang;
+    if (group) group.querySelectorAll("[data-lang]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+    try { localStorage.setItem("lang", lang); } catch (e) {}
+    document.dispatchEvent(new CustomEvent("mare:langchange", { detail: { lang } }));
+  }
+
+  // API per altri moduli (menu.js legge la lingua al primo render)
+  window.MarePinella = window.MarePinella || {};
+  window.MarePinella.getLang = () => current;
+  window.MarePinella.setLang = setLang;
+
+  if (group) {
+    group.addEventListener("click", (e) => {
+      const b = e.target.closest("[data-lang]");
+      if (b) setLang(b.dataset.lang);
+    });
+  }
+
   let saved = "it";
   try { saved = localStorage.getItem("lang") || "it"; } catch (e) {}
-  if (saved === "en") setLang("en");
+  setLang(LANGS.includes(saved) ? saved : "it");
 })();

@@ -34,11 +34,17 @@
       <img src="assets/img/logo.png" alt="Il Mare di Pinella — Osteria di mare siracusana" />
     </a>
     <div class="nav__links">
-      <a href="index.html">Home</a>
-      <a href="famiglia.html">Storia</a>
-      <a href="recensioni.html">Recensioni</a>
-      <a href="index.html#contatti">Contatti</a>
-      <a href="index.html#prenota" class="btn btn--sm">Prenota un tavolo</a>
+      <a href="index.html" data-en="Home" data-fr="Accueil">Home</a>
+      <a href="famiglia.html" data-en="Story" data-fr="Histoire">Storia</a>
+      <a href="recensioni.html" data-en="Reviews" data-fr="Avis">Recensioni</a>
+      <a href="eventi.html" data-en="Events" data-fr="Événements">Eventi</a>
+      <a href="index.html#contatti" data-en="Contacts" data-fr="Contact">Contatti</a>
+      <a href="index.html#prenota" class="btn btn--sm" data-en="Book a table" data-fr="Réserver une table">Prenota un tavolo</a>
+    </div>
+    <div class="lang-switch" data-lang-switch role="group" aria-label="Lingua / Language / Langue">
+      <button type="button" data-lang="it" aria-pressed="true">IT</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      <button type="button" data-lang="fr" aria-pressed="false">FR</button>
     </div>
     <button class="nav__toggle" data-nav-toggle aria-label="Apri menu">☰</button>
   </nav>
@@ -56,29 +62,28 @@
       </svg>
     </div>
     <div class="wrap center" style="max-width:720px;margin-inline:auto;position:relative;z-index:1">
-      <span class="eyebrow" data-reveal>Cucina di mare · Sicilia</span>
-      <h1 class="section-title" data-reveal data-delay="1" style="font-size:clamp(2.8rem,7vw,5rem)">Il nostro Menù</h1>
-      <p class="section-lead" data-reveal data-delay="2" style="margin-inline:auto">
+      <span class="eyebrow" data-reveal data-en="Seafood cuisine · Sicily" data-fr="Cuisine de la mer · Sicile">Cucina di mare · Sicilia</span>
+      <h1 class="section-title" data-reveal data-delay="1" style="font-size:clamp(2.8rem,7vw,5rem)" data-en="Our Menu" data-fr="Notre Menu">Il nostro Menù</h1>
+      <p class="section-lead" data-reveal data-delay="2" style="margin-inline:auto" data-en="From the catch of the day to traditional desserts — or our €30 set menu." data-fr="Du poisson du jour aux desserts de la tradition — ou notre menu fixe à 30 €.">
         Dal pescato del giorno ai dolci della tradizione — oppure il nostro menù fisso.
-        <em>Explore the à la carte menu or our €30 set menu.</em>
       </p>
 
       <!-- ===== Selettore: Alla carta / Fisso ===== -->
       <div class="menu-mode" data-menu-mode role="tablist" aria-label="Tipo di menù" data-reveal data-delay="3">
-        <button class="menu-mode__btn is-active" data-mode-btn="carta" role="tab" aria-selected="true"><span>Menù alla carta</span><small>À la carte</small></button>
-        <button class="menu-mode__btn" data-mode-btn="fisso" role="tab" aria-selected="false"><span>Menù Fisso · €30</span><small>Set menu</small></button>
+        <button class="menu-mode__btn is-active" data-mode-btn="carta" role="tab" aria-selected="true"><span data-en="À la carte menu" data-fr="Menu à la carte">Menù alla carta</span><small>À la carte</small></button>
+        <button class="menu-mode__btn" data-mode-btn="fisso" role="tab" aria-selected="false"><span data-en="Set menu · €30" data-fr="Menu fixe · 30 €">Menù Fisso · €30</span><small>Set menu</small></button>
       </div>
     </div>
 
     <!-- ===== Filtri dinamici (solo "alla carta") ===== -->
     <div class="wrap" data-reveal data-delay="2" data-carta-only>
       <div class="menu-filters" data-menu-filters>
-        <button class="filter-btn is-active" data-filter="all">Tutto · All</button>
-        <button class="filter-btn" data-filter="mare">Mare · Sea</button>
-        <button class="filter-btn" data-filter="terra">Terra · Land</button>
-        <button class="filter-btn" data-filter="veg">Vegetariano · Veg</button>
-        <button class="filter-btn" data-filter="gf">Senza glutine · GF</button>
-        <button class="filter-btn" data-filter="vini">Vini · Wines</button>
+        <button class="filter-btn is-active" data-filter="all" data-en="All" data-fr="Tout">Tutto</button>
+        <button class="filter-btn" data-filter="mare" data-en="Sea" data-fr="Mer">Mare</button>
+        <button class="filter-btn" data-filter="terra" data-en="Land" data-fr="Terre">Terra</button>
+        <button class="filter-btn" data-filter="veg" data-en="Vegetarian" data-fr="Végétarien">Vegetariano</button>
+        <button class="filter-btn" data-filter="gf" data-en="Gluten-free" data-fr="Sans gluten">Senza glutine</button>
+        <button class="filter-btn" data-filter="vini" data-en="Wines" data-fr="Vins">Vini</button>
       </div>
     </div>
   </header>
@@ -99,57 +104,57 @@
       <div class="menu-panel" data-mode="fisso" hidden>
         <div class="fixed-menu">
           <div class="fixed-menu__head">
-            <span class="eyebrow">Menù degustazione · Set menu</span>
+            <span class="eyebrow" data-en="Tasting menu · Set menu" data-fr="Menu dégustation">Menù degustazione · Set menu</span>
             <h2 class="fixed-menu__title">Menù «Il Mare di Pinella»</h2>
             <div class="fixed-menu__price">€30</div>
             <ul class="fixed-menu__include">
-              <li>1 Antipasto</li>
-              <li>1 Primo</li>
-              <li>1 Secondo + contorno</li>
-              <li>Pane e coperto</li>
+              <li data-en="1 Starter" data-fr="1 entrée">1 Antipasto</li>
+              <li data-en="1 First course" data-fr="1 premier plat">1 Primo</li>
+              <li data-en="1 Main + side" data-fr="1 plat + accompagnement">1 Secondo + contorno</li>
+              <li data-en="Bread & cover charge" data-fr="Pain et couvert">Pane e coperto</li>
             </ul>
-            <p class="fixed-menu__note">Bevande escluse · Drinks not included</p>
-            <p class="muted" style="font-size:.9rem;margin:.6rem 0 0">Scegli un piatto per ogni portata. · <em>Choose one dish per course.</em></p>
+            <p class="fixed-menu__note" data-en="Drinks not included" data-fr="Boissons non comprises">Bevande escluse · Drinks not included</p>
+            <p class="muted" style="font-size:.9rem;margin:.6rem 0 0" data-en="Choose one dish per course." data-fr="Choisissez un plat par service.">Scegli un piatto per ogni portata.</p>
           </div>
 
           <div class="fixed-menu__grid">
             <section class="fixed-cat">
-              <h3 class="fixed-cat__title">Antipasti <small>Starters</small></h3>
+              <h3 class="fixed-cat__title" data-en="Starters" data-fr="Entrées">Antipasti</h3>
               <ul>
-                <li>Fritto misto</li>
-                <li>Zuppa di cozze</li>
-                <li>Caponata di spada</li>
-                <li>Bruschette all'italiana</li>
+                <li data-en="Mixed fried fish" data-fr="Friture mixte">Fritto misto</li>
+                <li data-en="Mussel soup" data-fr="Soupe de moules">Zuppa di cozze</li>
+                <li data-en="Swordfish caponata" data-fr="Caponata d'espadon">Caponata di spada</li>
+                <li data-en="Italian bruschetta" data-fr="Bruschettas à l'italienne">Bruschette all'italiana</li>
               </ul>
             </section>
             <section class="fixed-cat">
-              <h3 class="fixed-cat__title">Primi <small>First courses</small></h3>
+              <h3 class="fixed-cat__title" data-en="First courses" data-fr="Premiers plats">Primi</h3>
               <ul>
-                <li>Risotto alla marinara</li>
-                <li>Spaghetti alla siracusana</li>
-                <li>Casarecce alla Norma</li>
+                <li data-en="Seafood risotto" data-fr="Risotto aux fruits de mer">Risotto alla marinara</li>
+                <li data-en="Spaghetti Siracusa-style" data-fr="Spaghetti à la syracusaine">Spaghetti alla siracusana</li>
+                <li data-en="Pasta alla Norma" data-fr="Casarecce alla Norma">Casarecce alla Norma</li>
               </ul>
             </section>
             <section class="fixed-cat">
-              <h3 class="fixed-cat__title">Secondi <small>Main courses</small></h3>
+              <h3 class="fixed-cat__title" data-en="Main courses" data-fr="Plats principaux">Secondi</h3>
               <ul>
-                <li>Polpo arrosto su purè di patate</li>
-                <li>Calamaro alla griglia</li>
-                <li>Scaloppina ai funghi</li>
+                <li data-en="Roasted octopus on potato purée" data-fr="Poulpe rôti sur purée">Polpo arrosto su purè di patate</li>
+                <li data-en="Grilled squid" data-fr="Calmar grillé">Calamaro alla griglia</li>
+                <li data-en="Veal escalope with mushrooms" data-fr="Escalope aux champignons">Scaloppina ai funghi</li>
               </ul>
             </section>
             <section class="fixed-cat">
-              <h3 class="fixed-cat__title">Contorni <small>Sides</small></h3>
+              <h3 class="fixed-cat__title" data-en="Sides" data-fr="Accompagnements">Contorni</h3>
               <ul>
-                <li>Patate al forno</li>
-                <li>Patatine fritte</li>
-                <li>Insalata mista</li>
+                <li data-en="Roasted potatoes" data-fr="Pommes de terre au four">Patate al forno</li>
+                <li data-en="French fries" data-fr="Frites">Patatine fritte</li>
+                <li data-en="Mixed salad" data-fr="Salade mixte">Insalata mista</li>
               </ul>
             </section>
           </div>
 
           <div class="center" style="margin-top:2rem">
-            <a href="index.html#prenota" class="btn magnetic" data-magnetic="0.25"><span class="magnetic__inner">Prenota per il menù fisso</span></a>
+            <a href="index.html#prenota" class="btn magnetic" data-magnetic="0.25"><span class="magnetic__inner" data-en="Book for the set menu" data-fr="Réserver pour le menu fixe">Prenota per il menù fisso</span></a>
           </div>
         </div>
       </div>
@@ -161,27 +166,26 @@
   <section class="section section--deep">
     <div class="wrap">
       <div class="center" style="max-width:640px;margin-inline:auto">
-        <span class="eyebrow">Informazioni utili</span>
-        <h2 class="section-title" style="font-size:clamp(1.9rem,4vw,3rem)">Allergeni / Allergens</h2>
-        <p class="muted">
+        <span class="eyebrow" data-en="Useful info" data-fr="Infos utiles">Informazioni utili</span>
+        <h2 class="section-title" style="font-size:clamp(1.9rem,4vw,3rem)" data-en="Allergens" data-fr="Allergènes">Allergeni</h2>
+        <p class="muted" data-en="Numbers next to each dish indicate the allergens present — please ask our staff." data-fr="Les numéros à côté de chaque plat indiquent les allergènes présents — demandez au personnel.">
           I numeri accanto a ogni piatto indicano gli allergeni presenti.
-          <em>Numbers next to each dish indicate allergens — please ask our staff.</em>
         </p>
       </div>
       <div class="allergens" data-reveal>
-        <div class="allergen"><b>1</b><span>Glutine / <em>Gluten</em></span></div>
-        <div class="allergen"><b>2</b><span>Crostacei / <em>Crustaceans</em></span></div>
-        <div class="allergen"><b>3</b><span>Uova / <em>Eggs</em></span></div>
-        <div class="allergen"><b>4</b><span>Pesce / <em>Fish</em></span></div>
-        <div class="allergen"><b>5</b><span>Frutta a guscio / <em>Tree nuts</em></span></div>
-        <div class="allergen"><b>6</b><span>Latte / <em>Milk</em></span></div>
-        <div class="allergen"><b>7</b><span>Sedano / <em>Celery</em></span></div>
-        <div class="allergen"><b>8</b><span>Solfiti / <em>Sulphites</em></span></div>
-        <div class="allergen"><b>9</b><span>Molluschi / <em>Molluscs</em></span></div>
+        <div class="allergen"><b>1</b><span data-en="Gluten" data-fr="Gluten">Glutine</span></div>
+        <div class="allergen"><b>2</b><span data-en="Crustaceans" data-fr="Crustacés">Crostacei</span></div>
+        <div class="allergen"><b>3</b><span data-en="Eggs" data-fr="Œufs">Uova</span></div>
+        <div class="allergen"><b>4</b><span data-en="Fish" data-fr="Poisson">Pesce</span></div>
+        <div class="allergen"><b>5</b><span data-en="Tree nuts" data-fr="Fruits à coque">Frutta a guscio</span></div>
+        <div class="allergen"><b>6</b><span data-en="Milk" data-fr="Lait">Latte</span></div>
+        <div class="allergen"><b>7</b><span data-en="Celery" data-fr="Céleri">Sedano</span></div>
+        <div class="allergen"><b>8</b><span data-en="Sulphites" data-fr="Sulfites">Solfiti</span></div>
+        <div class="allergen"><b>9</b><span data-en="Molluscs" data-fr="Mollusques">Molluschi</span></div>
       </div>
       <div class="center" style="margin-top:2.4rem">
         <a class="btn magnetic" data-magnetic="0.25" href="index.html#prenota">
-          <span class="magnetic__inner">Prenota un tavolo</span>
+          <span class="magnetic__inner" data-en="Book a table" data-fr="Réserver une table">Prenota un tavolo</span>
         </a>
       </div>
     </div>
@@ -193,27 +197,28 @@
       <div class="footer__grid">
         <div class="stack">
           <h4>Il Mare di Pinella</h4>
-          <p style="opacity:.85;margin-top:-.3rem;font-style:italic;font-family:var(--font-display);font-size:1.05rem">Osteria di mare siracusana</p>
-          <p style="opacity:.85;max-width:34ch">Cucina di mare e tradizione siciliana.</p>
+          <p style="opacity:.85;margin-top:-.3rem;font-style:italic;font-family:var(--font-display);font-size:1.05rem" data-en="Syracuse seafood osteria" data-fr="Osteria de la mer à Syracuse">Osteria di mare siracusana</p>
+          <p style="opacity:.85;max-width:34ch" data-en="Seafood cuisine and Sicilian tradition." data-fr="Cuisine de la mer et tradition sicilienne.">Cucina di mare e tradizione siciliana.</p>
         </div>
         <div class="stack">
-          <h4 style="font-size:1.15rem">Naviga</h4>
-          <a href="index.html">Home</a>
-          <a href="famiglia.html">Storia</a>
-          <a href="recensioni.html">Recensioni</a>
-          <a href="index.html#prenota">Prenota</a>
-          <a href="index.html#contatti">Contatti</a>
+          <h4 style="font-size:1.15rem" data-en="Explore" data-fr="Explorer">Naviga</h4>
+          <a href="index.html" data-en="Home" data-fr="Accueil">Home</a>
+          <a href="famiglia.html" data-en="Story" data-fr="Histoire">Storia</a>
+          <a href="recensioni.html" data-en="Reviews" data-fr="Avis">Recensioni</a>
+          <a href="eventi.html" data-en="Events" data-fr="Événements">Eventi</a>
+          <a href="index.html#prenota" data-en="Book" data-fr="Réserver">Prenota</a>
+          <a href="index.html#contatti" data-en="Contacts" data-fr="Contact">Contatti</a>
         </div>
         <div class="stack">
-          <h4 style="font-size:1.15rem">Seguici</h4>
+          <h4 style="font-size:1.15rem" data-en="Follow us" data-fr="Suivez-nous">Seguici</h4>
           <a href="https://www.instagram.com/ilmaredipinella" target="_blank" rel="noopener">Instagram</a>
           <a href="https://www.facebook.com/people/Il-Mare-di-Pinella/61590315401542/?locale=it_IT" target="_blank" rel="noopener">Facebook</a>
           <a href="https://linktr.ee/ilmaredipinella" target="_blank" rel="noopener">Linktree</a>
         </div>
       </div>
       <div class="footer__bottom">
-        <span>© <span data-year>2026</span> Il Mare di Pinella — Tutti i diritti riservati.</span>
-        <span>Fatto con cura in Sicilia</span>
+        <span>© <span data-year>2026</span> Il Mare di Pinella — <span data-en="All rights reserved." data-fr="Tous droits réservés.">Tutti i diritti riservati.</span></span>
+        <span data-en="Made with care in Sicily" data-fr="Fait avec soin en Sicile">Fatto con cura in Sicilia</span>
       </div>
     </div>
   </footer>
