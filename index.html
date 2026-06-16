@@ -20,7 +20,7 @@
     } } };
   </script>
 
-  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="stylesheet" href="assets/css/styles.css?v=2" />
   <link rel="icon" type="image/png" href="assets/img/logo.png" />
 </head>
 
@@ -3704,19 +3704,59 @@
 
       <div class="dish-grid" style="margin-top:1.5rem">
         <article class="dish-card" data-reveal data-delay="1">
-          <div class="dish-card__media"><img src="assets/img/grigliata_di_mare.jpg" alt="Grigliata di mare" loading="lazy" decoding="async" /></div>
+          <button type="button" class="dish-card__flip" aria-expanded="false" aria-label="Grigliata di Mare — mostra descrizione">
+            <span class="dish-card__inner">
+              <span class="dish-card__media dish-card__face dish-card__face--front"><img src="assets/img/grigliata_di_mare.jpg" alt="Grigliata di mare" loading="lazy" decoding="async" /></span>
+              <span class="dish-card__face dish-card__face--back">
+                <span class="dish-card__back-en">Mixed grilled seafood</span>
+                <span class="dish-card__back-desc">Pesce, crostacei e molluschi alla griglia</span>
+                <span class="dish-card__back-price">€22</span>
+                <span class="dish-card__back-hint">tocca per girare ↺</span>
+              </span>
+            </span>
+          </button>
           <div class="dish-card__body"><h3 class="dish-card__name">Grigliata di Mare</h3><p class="dish-card__desc">Pesce, crostacei e molluschi alla griglia.</p></div>
         </article>
         <article class="dish-card" data-reveal data-delay="2">
-          <div class="dish-card__media"><img src="assets/img/risotto_alla_marinara.jpg" alt="Risotto alla marinara" loading="lazy" decoding="async" /></div>
+          <button type="button" class="dish-card__flip" aria-expanded="false" aria-label="Risotto alla Marinara — mostra descrizione">
+            <span class="dish-card__inner">
+              <span class="dish-card__media dish-card__face dish-card__face--front"><img src="assets/img/risotto_alla_marinara.jpg" alt="Risotto alla marinara" loading="lazy" decoding="async" /></span>
+              <span class="dish-card__face dish-card__face--back">
+                <span class="dish-card__back-en">Seafood risotto</span>
+                <span class="dish-card__back-desc">Riso mantecato con frutti di mare freschi</span>
+                <span class="dish-card__back-price">€16</span>
+                <span class="dish-card__back-hint">tocca per girare ↺</span>
+              </span>
+            </span>
+          </button>
           <div class="dish-card__body"><h3 class="dish-card__name">Risotto alla Marinara</h3><p class="dish-card__desc">Riso mantecato con frutti di mare freschi.</p></div>
         </article>
         <article class="dish-card" data-reveal data-delay="3">
-          <div class="dish-card__media"><img src="assets/img/polpo_arrosto_su_pure_di_patate.jpg" alt="Polpo arrosto su purè" loading="lazy" decoding="async" /></div>
+          <button type="button" class="dish-card__flip" aria-expanded="false" aria-label="Polpo Arrosto — mostra descrizione">
+            <span class="dish-card__inner">
+              <span class="dish-card__media dish-card__face dish-card__face--front"><img src="assets/img/polpo_arrosto_su_pure_di_patate.jpg" alt="Polpo arrosto su purè" loading="lazy" decoding="async" /></span>
+              <span class="dish-card__face dish-card__face--back">
+                <span class="dish-card__back-en">Roasted octopus on potato purée</span>
+                <span class="dish-card__back-desc">Polpo arrostito su vellutato purè di patate</span>
+                <span class="dish-card__back-price">€14</span>
+                <span class="dish-card__back-hint">tocca per girare ↺</span>
+              </span>
+            </span>
+          </button>
           <div class="dish-card__body"><h3 class="dish-card__name">Polpo Arrosto</h3><p class="dish-card__desc">Su vellutato purè di patate.</p></div>
         </article>
         <article class="dish-card" data-reveal data-delay="4">
-          <div class="dish-card__media"><img src="assets/img/caponata_di_spada.jpg" alt="Caponata di pesce spada" loading="lazy" decoding="async" /></div>
+          <button type="button" class="dish-card__flip" aria-expanded="false" aria-label="Caponata di Spada — mostra descrizione">
+            <span class="dish-card__inner">
+              <span class="dish-card__media dish-card__face dish-card__face--front"><img src="assets/img/caponata_di_spada.jpg" alt="Caponata di pesce spada" loading="lazy" decoding="async" /></span>
+              <span class="dish-card__face dish-card__face--back">
+                <span class="dish-card__back-en">Swordfish caponata</span>
+                <span class="dish-card__back-desc">Spada in agrodolce con verdure di stagione</span>
+                <span class="dish-card__back-price">€12</span>
+                <span class="dish-card__back-hint">tocca per girare ↺</span>
+              </span>
+            </span>
+          </button>
           <div class="dish-card__body"><h3 class="dish-card__name">Caponata di Spada</h3><p class="dish-card__desc">Spada in agrodolce con verdure.</p></div>
         </article>
       </div>
@@ -3849,7 +3889,7 @@
     </div>
   </footer>
 
-  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/main.js?v=2" defer></script>
   <script src="assets/js/booking.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script>

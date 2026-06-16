@@ -265,3 +265,15 @@
   const y = document.querySelector("[data-year]");
   if (y) y.textContent = new Date().getFullYear();
 })();
+
+/* ---- FLIP CARD PIATTI: click sulla foto -> descrizione presa dal menù ---- */
+(() => {
+  document.querySelectorAll(".dish-card").forEach((card) => {
+    const btn = card.querySelector(".dish-card__flip");
+    if (!btn) return;
+    btn.addEventListener("click", () => {
+      const flipped = card.classList.toggle("is-flipped");
+      btn.setAttribute("aria-expanded", flipped ? "true" : "false");
+    });
+  });
+})();

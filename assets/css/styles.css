@@ -829,3 +829,40 @@ img { max-width: 100%; display: block; }
   [data-reveal] { opacity: 1 !important; transform: none !important; }
   html { scroll-behavior: auto; }
 }
+
+/* --------------------------------------------------------------------------
+   20. FLIP CARD PIATTI — click sulla foto: gira e mostra la descrizione menù
+   -------------------------------------------------------------------------- */
+.dish-card__flip {
+  display: block; width: 100%; margin: 0; padding: 0; border: 0;
+  background: none; font: inherit; color: inherit; cursor: pointer;
+  perspective: 1200px; -webkit-tap-highlight-color: transparent;
+}
+.dish-card__inner {
+  position: relative; display: block;
+  transform-style: preserve-3d;
+  transition: transform 0.7s var(--ease);
+}
+.dish-card.is-flipped .dish-card__inner { transform: rotateY(180deg); }
+.dish-card__face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.dish-card__face--front { display: block; }   /* in-flow: definisce l'altezza */
+.dish-card__face--back {
+  position: absolute; inset: 0; transform: rotateY(180deg);
+  background: linear-gradient(160deg, var(--cobalt), #14306f);
+  color: var(--cream);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 0.5rem; padding: 1.5rem; text-align: center;
+}
+.dish-card__back-en   { font-style: italic; opacity: 0.8; font-size: 0.92rem; letter-spacing: 0.02em; }
+.dish-card__back-desc { font-family: var(--font-display); font-size: clamp(1.3rem, 2vw, 1.7rem); line-height: 1.2; }
+.dish-card__back-price{ font-weight: 700; color: var(--gold); font-size: 1.35rem; margin-top: 0.2rem; }
+.dish-card__back-hint { position: absolute; bottom: 0.85rem; font-size: 0.66rem; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.15em; }
+/* indizio di interattività sul fronte */
+.dish-card__flip::after {
+  content: "↺"; position: absolute; top: 0.7rem; right: 0.7rem; z-index: 2;
+  width: 34px; height: 34px; display: grid; place-items: center;
+  background: rgba(255,255,255,0.82); color: var(--cobalt); border-radius: 50%;
+  font-size: 1.05rem; box-shadow: var(--shadow-sm); opacity: 0; transition: opacity 0.3s var(--ease);
+}
+.dish-card:hover .dish-card__flip::after { opacity: 1; }
+.dish-card.is-flipped .dish-card__flip::after { opacity: 0; }
