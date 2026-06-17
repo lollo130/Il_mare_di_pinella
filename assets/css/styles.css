@@ -435,6 +435,9 @@ img { max-width: 100%; display: block; }
 .dish-card:hover .dish-card__media::after { opacity: 1; }
 .dish-card img { aspect-ratio: 1/1; object-fit: cover; object-position: center; width: 100%; display: block; transition: transform 0.6s var(--ease); }
 .dish-card:hover img { transform: scale(1.05); }
+/* zoom mirato per singole foto larghe (piatto piccolo nel frame) */
+.dish-card img.is-zoom { transform: scale(1.25); transform-origin: center; }
+.dish-card:hover img.is-zoom { transform: scale(1.31); }
 .dish-card__body { padding: 1.3rem 1.4rem 1.5rem; }
 .dish-card__name { font-family: var(--font-display); font-size: clamp(1.55rem, 2vw, 1.9rem); color: var(--cobalt); margin: 0 0 0.35rem; }
 .dish-card__desc { font-size: 1rem; opacity: 0.8; margin: 0; }
