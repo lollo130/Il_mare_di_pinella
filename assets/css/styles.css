@@ -404,7 +404,30 @@ img { max-width: 100%; display: block; }
 .menu-empty { text-align: center; padding: 2rem; color: var(--cobalt); font-style: italic; display: none; }
 
 /* Galleria piatti in evidenza (foto reali) */
-.dish-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: clamp(1.5rem, 2.6vw, 2.4rem); }
+/* Carosello orizzontale dei piatti: 3 card desktop · 2 tablet · 1 mobile */
+.dish-carousel { position: relative; }
+.dish-grid {
+  --gap: clamp(1.2rem, 2.4vw, 2rem);
+  display: flex; flex-wrap: nowrap; gap: var(--gap);
+  overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+  -ms-overflow-style: none; scrollbar-width: none;   /* nasconde scrollbar (Firefox/IE) */
+  padding-bottom: 0.5rem;
+}
+.dish-grid::-webkit-scrollbar { display: none; }      /* nasconde scrollbar (WebKit) */
+.dish-card { scroll-snap-align: start; flex: 0 0 calc((100% - 2 * var(--gap)) / 3); }
+@media (max-width: 1024px) { .dish-card { flex-basis: calc((100% - var(--gap)) / 2); } }
+@media (max-width: 640px)  { .dish-card { flex-basis: 100%; } }
+/* frecce di navigazione, centrate sotto il carosello */
+.dish-carousel__nav { display: flex; gap: 0.8rem; justify-content: center; margin-top: 1.5rem; }
+.dish-carousel__btn {
+  width: 48px; height: 48px; border-radius: 50%;
+  border: 1px solid rgba(27,64,150,0.15); background: var(--ceramic); color: var(--cobalt);
+  box-shadow: var(--shadow-md); font-size: 1.6rem; line-height: 1; cursor: pointer;
+  display: grid; place-items: center;
+  transition: background 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.dish-carousel__btn:hover { background: #fff; transform: translateY(-2px); }
+.dish-carousel__btn:active { transform: translateY(0); }
 .dish-card { background: var(--ceramic); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-md); border: 1px solid rgba(27,64,150,0.1); transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease); }
 .dish-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); }
 .dish-card__media { position: relative; overflow: hidden; }

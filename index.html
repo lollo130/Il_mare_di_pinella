@@ -20,7 +20,7 @@
     } } };
   </script>
 
-  <link rel="stylesheet" href="assets/css/styles.css?v=4" />
+  <link rel="stylesheet" href="assets/css/styles.css?v=5" />
   <link rel="icon" type="image/png" href="assets/img/logo.png" />
 </head>
 
@@ -3717,7 +3717,8 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12c3-4 6-4 9 0s6 4 9 0"/></svg>
       </div>
 
-      <div class="dish-grid" style="margin-top:1.5rem">
+      <div class="dish-carousel">
+      <div class="dish-grid" data-dish-track style="margin-top:1.5rem">
         <article class="dish-card" data-reveal data-delay="1">
           <button type="button" class="dish-card__flip" aria-expanded="false" aria-label="Grigliata di Mare — mostra descrizione">
             <span class="dish-card__inner">
@@ -3774,6 +3775,123 @@
           </button>
           <div class="dish-card__body"><h3 class="dish-card__name">Caponata di Spada</h3><p class="dish-card__desc" data-en="Sweet-and-sour swordfish with vegetables." data-fr="Espadon à l'aigre-doux et ses légumes.">Spada in agrodolce con verdure.</p></div>
         </article>
+        <article class="dish-card" data-reveal data-delay="1">
+          <button type="button" class="dish-card__flip" aria-expanded="false" aria-label="Spaghetto alle Vongole Veraci — mostra descrizione">
+            <span class="dish-card__inner">
+              <span class="dish-card__media dish-card__face dish-card__face--front"><img src="assets/img/spaghetto_alle_vongole.webp" alt="Spaghetto alle vongole veraci" loading="lazy" decoding="async" /></span>
+              <span class="dish-card__face dish-card__face--back">
+                <span class="dish-card__back-en">Spaghetti with clams</span>
+                <span class="dish-card__back-desc">Vongole veraci, aglio, prezzemolo e olio EVO</span>
+                <span class="dish-card__back-price">€14</span>
+                <span class="dish-card__back-hint">tocca per girare ↺</span>
+              </span>
+            </span>
+          </button>
+          <div class="dish-card__body"><h3 class="dish-card__name">Spaghetto alle Vongole</h3><p class="dish-card__desc" data-en="Clams, garlic and parsley." data-fr="Palourdes, ail et persil.">Vongole veraci, aglio e prezzemolo.</p></div>
+        </article>
+        <article class="dish-card" data-reveal data-delay="2">
+          <button type="button" class="dish-card__flip" aria-expanded="false" aria-label="Ravioli di Scampi — mostra descrizione">
+            <span class="dish-card__inner">
+              <span class="dish-card__media dish-card__face dish-card__face--front"><img src="assets/img/ravioli_di_scampi.webp" alt="Ravioli di scampi in salsa di scampi" loading="lazy" decoding="async" /></span>
+              <span class="dish-card__face dish-card__face--back">
+                <span class="dish-card__back-en">Langoustine ravioli in langoustine sauce</span>
+                <span class="dish-card__back-desc">Ravioli ripieni di scampi in salsa di scampi</span>
+                <span class="dish-card__back-price">€17</span>
+                <span class="dish-card__back-hint">tocca per girare ↺</span>
+              </span>
+            </span>
+          </button>
+          <div class="dish-card__body"><h3 class="dish-card__name">Ravioli di Scampi</h3><p class="dish-card__desc" data-en="Langoustine ravioli in langoustine sauce." data-fr="Raviolis de langoustines, sauce aux langoustines.">Ravioli di scampi in salsa di scampi.</p></div>
+        </article>
+        <article class="dish-card" data-reveal data-delay="3">
+          <button type="button" class="dish-card__flip" aria-expanded="false" aria-label="Linguine al Pistacchio — mostra descrizione">
+            <span class="dish-card__inner">
+              <span class="dish-card__media dish-card__face dish-card__face--front"><img src="assets/img/linguine_al_pistacchio.webp" alt="Linguine al pistacchio di Sicilia" loading="lazy" decoding="async" /></span>
+              <span class="dish-card__face dish-card__face--back">
+                <span class="dish-card__back-en">Pistachio linguine with prawns</span>
+                <span class="dish-card__back-desc">Crema di pistacchio di Bronte e gamberi</span>
+                <span class="dish-card__back-price">€15</span>
+                <span class="dish-card__back-hint">tocca per girare ↺</span>
+              </span>
+            </span>
+          </button>
+          <div class="dish-card__body"><h3 class="dish-card__name">Linguine al Pistacchio</h3><p class="dish-card__desc" data-en="Bronte pistachio cream with prawns." data-fr="Crème de pistache de Bronte et crevettes.">Crema di pistacchio di Bronte e gamberi.</p></div>
+        </article>
+        <article class="dish-card" data-reveal data-delay="4">
+          <button type="button" class="dish-card__flip" aria-expanded="false" aria-label="Gamberone Glassato — mostra descrizione">
+            <span class="dish-card__inner">
+              <span class="dish-card__media dish-card__face dish-card__face--front"><img src="assets/img/gamberone_glassato.webp" alt="Gamberone glassato" loading="lazy" decoding="async" /></span>
+              <span class="dish-card__face dish-card__face--back">
+                <span class="dish-card__back-en">Glazed king prawn</span>
+                <span class="dish-card__back-desc">Gamberone glassato, dolce e succoso</span>
+                <span class="dish-card__back-price">€7</span>
+                <span class="dish-card__back-hint">tocca per girare ↺</span>
+              </span>
+            </span>
+          </button>
+          <div class="dish-card__body"><h3 class="dish-card__name">Gamberone Glassato</h3><p class="dish-card__desc" data-en="Glazed king prawn, sweet and juicy." data-fr="Gambas glacée, douce et juteuse.">Gamberone glassato, dolce e succoso.</p></div>
+        </article>
+        <article class="dish-card" data-reveal data-delay="1">
+          <button type="button" class="dish-card__flip" aria-expanded="false" aria-label="Crudité di Mare — mostra descrizione">
+            <span class="dish-card__inner">
+              <span class="dish-card__media dish-card__face dish-card__face--front"><img src="assets/img/crudite_di_mare.webp" alt="Crudité di mare" loading="lazy" decoding="async" /></span>
+              <span class="dish-card__face dish-card__face--back">
+                <span class="dish-card__back-en">Raw seafood selection</span>
+                <span class="dish-card__back-desc">Selezione di crudi di mare del giorno</span>
+                <span class="dish-card__back-price">€18</span>
+                <span class="dish-card__back-hint">tocca per girare ↺</span>
+              </span>
+            </span>
+          </button>
+          <div class="dish-card__body"><h3 class="dish-card__name">Crudité di Mare</h3><p class="dish-card__desc" data-en="Selection of raw seafood of the day." data-fr="Sélection de crus de la mer du jour.">Selezione di crudi di mare del giorno.</p></div>
+        </article>
+        <article class="dish-card" data-reveal data-delay="2">
+          <button type="button" class="dish-card__flip" aria-expanded="false" aria-label="Pescato del Giorno — mostra descrizione">
+            <span class="dish-card__inner">
+              <span class="dish-card__media dish-card__face dish-card__face--front"><img src="assets/img/pescato_del_giorno.webp" alt="Pescato del giorno" loading="lazy" decoding="async" /></span>
+              <span class="dish-card__face dish-card__face--back">
+                <span class="dish-card__back-en">Catch of the day</span>
+                <span class="dish-card__back-desc">Secondo disponibilità — chiedi al personale</span>
+                <span class="dish-card__back-price">s.q.</span>
+                <span class="dish-card__back-hint">tocca per girare ↺</span>
+              </span>
+            </span>
+          </button>
+          <div class="dish-card__body"><h3 class="dish-card__name">Pescato del Giorno</h3><p class="dish-card__desc" data-en="Subject to availability — ask our staff." data-fr="Selon disponibilité — demandez au personnel.">Secondo disponibilità — chiedi al personale.</p></div>
+        </article>
+        <article class="dish-card" data-reveal data-delay="3">
+          <button type="button" class="dish-card__flip" aria-expanded="false" aria-label="Caponata di Melanzane — mostra descrizione">
+            <span class="dish-card__inner">
+              <span class="dish-card__media dish-card__face dish-card__face--front"><img src="assets/img/caponata_di_melanzane.webp" alt="Caponata di melanzane" loading="lazy" decoding="async" /></span>
+              <span class="dish-card__face dish-card__face--back">
+                <span class="dish-card__back-en">Aubergine caponata</span>
+                <span class="dish-card__back-desc">Classico agrodolce siciliano di melanzane</span>
+                <span class="dish-card__back-price">€8</span>
+                <span class="dish-card__back-hint">tocca per girare ↺</span>
+              </span>
+            </span>
+          </button>
+          <div class="dish-card__body"><h3 class="dish-card__name">Caponata di Melanzane</h3><p class="dish-card__desc" data-en="The classic Sicilian sweet-and-sour aubergine." data-fr="Le classique sicilien d'aubergines à l'aigre-doux.">Classico agrodolce siciliano di melanzane.</p></div>
+        </article>
+        <article class="dish-card" data-reveal data-delay="4">
+          <button type="button" class="dish-card__flip" aria-expanded="false" aria-label="Verdure Grigliate — mostra descrizione">
+            <span class="dish-card__inner">
+              <span class="dish-card__media dish-card__face dish-card__face--front"><img src="assets/img/verdure_grigliate.webp" alt="Verdure grigliate" loading="lazy" decoding="async" /></span>
+              <span class="dish-card__face dish-card__face--back">
+                <span class="dish-card__back-en">Grilled vegetables</span>
+                <span class="dish-card__back-desc">Verdure di stagione alla griglia</span>
+                <span class="dish-card__back-price">€6</span>
+                <span class="dish-card__back-hint">tocca per girare ↺</span>
+              </span>
+            </span>
+          </button>
+          <div class="dish-card__body"><h3 class="dish-card__name">Verdure Grigliate</h3><p class="dish-card__desc" data-en="Seasonal grilled vegetables." data-fr="Légumes de saison grillés.">Verdure di stagione alla griglia.</p></div>
+        </article>
+      </div>
+      <div class="dish-carousel__nav">
+        <button type="button" class="dish-carousel__btn" data-dish-prev aria-label="Piatti precedenti">‹</button>
+        <button type="button" class="dish-carousel__btn" data-dish-next aria-label="Piatti successivi">›</button>
+      </div>
       </div>
 
       <div class="center" style="margin-top:2.4rem">
@@ -3787,7 +3905,7 @@
   <!-- ================= SEPARATORE CALDO (singolo blocco) ================= -->
   <section class="section section--warm" style="padding-block:clamp(2.5rem,5vw,4rem)">
     <div class="wrap center" style="position:relative;z-index:1">
-      <h2 style="color:var(--ink);font-size:clamp(1.8rem,4vw,3rem);margin:0" data-en="Lunch or dinner, in the heart of Ortigia's alleys." data-fr="Déjeuner ou dîner, au cœur des ruelles d'Ortigia.">Pranzo o cena, nel caos dei vicoli di Ortigia.</h2>
+      <h2 style="color:var(--ink);font-size:clamp(1.8rem,4vw,3rem);margin:0" data-en="Lunch and dinner, away from the bustle of Ortigia's busiest streets." data-fr="Déjeuner et dîner, loin de l'agitation des rues les plus fréquentées d'Ortigia.">Pranzo e cena, lontano dal trambusto delle strade più affollate di Ortigia.</h2>
       <p style="color:var(--ink);opacity:.85;margin:.6rem 0 0" data-en="Open every day · Booking recommended on weekends" data-fr="Ouvert tous les jours · Réservation conseillée le week-end">Aperti tutti i giorni · Prenotazione consigliata nel weekend</p>
     </div>
   </section>
@@ -3911,7 +4029,7 @@
     </div>
   </footer>
 
-  <script src="assets/js/main.js?v=4" defer></script>
+  <script src="assets/js/main.js?v=5" defer></script>
   <script src="assets/js/booking.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script>

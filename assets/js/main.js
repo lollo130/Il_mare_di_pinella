@@ -372,3 +372,23 @@
   try { saved = localStorage.getItem("lang") || "it"; } catch (e) {}
   setLang(LANGS.includes(saved) ? saved : "it");
 })();
+
+/* ---- CAROSELLO PIATTI: frecce scorrono di una card ---- */
+(() => {
+  const track = document.querySelector("[data-dish-track]");
+  if (!track) return;
+  const wrap = track.closest(".dish-carousel");
+  if (!wrap) return;
+
+  function step() {
+    const card = track.querySelector(".dish-card");
+    if (!card) return track.clientWidth;
+    const cs = getComputedStyle(track);
+    const gap = parseFloat(cs.columnGap || cs.gap) || 0;
+    return card.getBoundingClientRect().width + gap;
+  }
+  const prev = wrap.querySelector("[data-dish-prev]");
+  const next = wrap.querySelector("[data-dish-next]");
+  if (prev) prev.addEventListener("click", () => track.scrollBy({ left: -step(), behavior: "smooth" }));
+  if (next) next.addEventListener("click", () => track.scrollBy({ left: step(), behavior: "smooth" }));
+})();
