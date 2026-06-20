@@ -1,0 +1,27 @@
+name: Supabase keep-alive
+
+# Tiene "sveglio" il progetto Supabase: nel piano gratuito va in pausa dopo
+# ~7 giorni senza traffico. Questo workflow fa un GET leggero all'API due volte
+# a settimana (lun e gio), così il progetto resta sempre attivo anche in
+# bassa stagione. Usa solo la chiave PUBBLICA (la stessa già nel sito).
+
+on:
+  schedule:
+    - cron: "0 6 * * 1,4"   # lunedì e giovedì alle 06:00 UTC
+  workflow_dispatch: {}       # consente l'avvio manuale dal tab "Actions"
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST API
+        run: |
+          code=$(curl -s -o /dev/null -w "%{http_code}" \
+            "https://mivcaiicpjjnrhhwhlto.supabase.co/rest/v1/eventi?select=id&limit=1" \
+            -H "apikey: sb_publishable_p0IWs-q5817cAFrMry1z-g_y3QoYUc9")
+          echo "Risposta HTTP: $code"
+          if [ "$code" != "200" ]; then
+            echo "Ping fallito (atteso 200)."
+            exit 1
+          fi
+          echo "Progetto Supabase attivo."
