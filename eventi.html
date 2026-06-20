@@ -65,31 +65,21 @@
   <!-- Onda minimal -->
   <div class="wave" aria-hidden="true"><canvas data-wave data-stroke="#1B4096"></canvas></div>
 
-  <!-- ================= EVENTI =================
-       ⚠️ PROPRIETARI: al momento NESSUN evento pubblicato (pagina vuota di proposito).
-       Per pubblicare un evento, copiate il blocco-modello qui sotto DENTRO un
-       <div class="event-list"> e compilatelo (data, titolo, orario, descrizione).
-
-       MODELLO evento (da copiare e compilare):
-       <div class="event-list">
-         <article class="event-card">
-           <div class="event-card__date">
-             <span class="event-card__day">12</span>
-             <span class="event-card__month">Luglio</span>
-           </div>
-           <div class="event-card__body">
-             <h2 class="event-card__title">Titolo dell'evento</h2>
-             <p class="event-card__meta">Ore 20:00 · su prenotazione</p>
-             <p class="event-card__desc">Breve descrizione dell'evento.</p>
-             <a class="btn btn--sm" href="index.html#prenota">Prenota un tavolo</a>
-           </div>
-         </article>
-       </div>
+  <!-- ================= EVENTI (caricati da Supabase) =================
+       I proprietari pubblicano gli eventi dalla pagina riservata
+       "gestione-eventi.html" (non collegata dal sito). Qui sotto è tutto
+       automatico: niente da modificare a mano.
   -->
   <section class="section section--cream" style="padding-top:2rem">
     <div class="wrap" style="max-width:900px">
 
-      <div class="center">
+      <p class="eventi-state" data-eventi-state data-en="Loading events…" data-fr="Chargement des événements…">Caricamento eventi…</p>
+
+      <!-- Prossimi eventi (riempiti via JS) -->
+      <div class="event-list" data-eventi-futuri></div>
+
+      <!-- Mostrato solo se non ci sono eventi futuri -->
+      <div class="center" data-eventi-empty hidden>
         <p class="muted" style="max-width:46ch;margin-inline:auto" data-en="No events scheduled at the moment. Follow us on social media to stay updated." data-fr="Aucun événement prévu pour le moment. Suivez-nous sur les réseaux pour rester informé.">
           Nessun evento in programma al momento. Seguici sui social per restare aggiornato.
         </p>
@@ -99,6 +89,14 @@
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- ================= ARCHIVIO EVENTI PASSATI ================= -->
+  <section class="section section--cream" id="eventi-passati" style="padding-top:0" hidden>
+    <div class="wrap" style="max-width:900px">
+      <h2 class="section-title" style="font-size:clamp(1.6rem,4vw,2.4rem);margin-bottom:1.2rem" data-en="Past events" data-fr="Événements passés">Eventi passati</h2>
+      <div class="event-list" data-eventi-passati></div>
     </div>
   </section>
 
@@ -135,6 +133,10 @@
     </div>
   </footer>
 
+  <!-- Supabase (libreria) + configurazione + render eventi -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase-config.js"></script>
   <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/eventi.js" defer></script>
 </body>
 </html>

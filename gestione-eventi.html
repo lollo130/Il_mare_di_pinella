@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Pagina riservata: non indicizzata e non collegata dal sito pubblico -->
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Gestione eventi — Il Mare di Pinella</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="icon" type="image/png" href="assets/img/logo.png" />
+
+  <style>
+    :root { color-scheme: light; }
+    body { background: var(--cream, #FAF5EA); min-height: 100vh; }
+    .adm { width: min(880px, 92vw); margin: 0 auto; padding: 2.2rem 0 4rem; }
+    .adm__head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.6rem; }
+    .adm__head img { height: 46px; width: auto; }
+    .adm__title { font-family: var(--font-display, serif); font-size: 1.7rem; color: var(--ink, #122146); margin: 0; }
+    .card {
+      background: rgba(255,255,255,0.86); border: 1px solid rgba(27,64,150,0.14);
+      border-radius: 18px; padding: 1.5rem; box-shadow: 0 20px 50px -30px rgba(18,33,70,0.4);
+      margin-bottom: 1.6rem;
+    }
+    .card h2 { font-family: var(--font-display, serif); color: var(--ink, #122146); font-size: 1.35rem; margin: 0 0 1rem; }
+    label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--ink, #122146); margin: 0 0 0.3rem; }
+    .hint { font-weight: 400; opacity: 0.7; }
+    input[type="text"], input[type="email"], input[type="password"], input[type="date"], textarea, input[type="file"] {
+      width: 100%; padding: 0.7rem 0.85rem; border: 1.5px solid rgba(27,64,150,0.25);
+      border-radius: 12px; background: #fff; font-family: inherit; font-size: 1rem; color: var(--ink, #122146);
+    }
+    input:focus, textarea:focus { outline: none; border-color: var(--cobalt, #1B4096); box-shadow: 0 0 0 3px rgba(27,64,150,0.12); }
+    textarea { resize: vertical; min-height: 90px; }
+    .field { margin-bottom: 1rem; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 560px) { .row { grid-template-columns: 1fr; } }
+    .check { display: flex; align-items: center; gap: 0.5rem; }
+    .check input { width: auto; }
+    .actions { display: flex; gap: 0.7rem; flex-wrap: wrap; align-items: center; margin-top: 0.4rem; }
+    .btn[disabled] { opacity: 0.55; cursor: not-allowed; }
+    .msg { font-size: 0.9rem; font-weight: 600; margin: 0.6rem 0 0; min-height: 1.2em; }
+    .msg--ok { color: var(--pistachio, #4d7a16); }
+    .msg--err { color: var(--terracotta, #C0492F); }
+    .preview { margin-top: 0.6rem; }
+    .preview img { max-height: 160px; border-radius: 12px; border: 1px solid rgba(27,64,150,0.15); display: none; }
+    .list { display: grid; gap: 0.9rem; }
+    .ev { display: flex; gap: 1rem; align-items: flex-start; padding: 0.9rem; border: 1px solid rgba(27,64,150,0.12); border-radius: 14px; background: #fff; }
+    .ev__thumb { flex: 0 0 auto; width: 70px; height: 90px; object-fit: cover; border-radius: 9px; background: rgba(27,64,150,0.06); }
+    .ev__body { flex: 1; min-width: 0; }
+    .ev__title { font-weight: 700; color: var(--ink, #122146); margin: 0; }
+    .ev__meta { font-size: 0.82rem; color: var(--citrus, #E2722B); font-weight: 600; margin: 0.1rem 0 0.3rem; }
+    .ev__desc { font-size: 0.88rem; opacity: 0.8; margin: 0; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+    .ev__tags { margin-top: 0.35rem; }
+    .tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.12rem 0.5rem; border-radius: 999px; }
+    .tag--draft { background: rgba(18,33,70,0.1); color: var(--ink, #122146); }
+    .tag--past { background: rgba(192,73,47,0.12); color: var(--terracotta, #C0492F); }
+    .ev__actions { display: flex; flex-direction: column; gap: 0.4rem; }
+    .linkbtn { background: none; border: none; color: var(--cobalt, #1B4096); font-weight: 700; cursor: pointer; font-family: inherit; font-size: 0.85rem; padding: 0.2rem 0; }
+    .linkbtn--danger { color: var(--terracotta, #C0492F); }
+    .empty { opacity: 0.7; text-align: center; padding: 1rem; }
+    .login-wrap { max-width: 380px; margin: 6vh auto 0; }
+  </style>
+</head>
+
+<body>
+  <div class="adm">
+
+    <div class="adm__head">
+      <div style="display:flex;align-items:center;gap:0.8rem">
+        <img src="assets/img/logo.png" alt="Il Mare di Pinella" />
+        <h1 class="adm__title">Gestione eventi</h1>
+      </div>
+      <button id="logout" class="btn btn--ghost btn--sm" hidden>Esci</button>
+    </div>
+
+    <!-- ====== LOGIN ====== -->
+    <section id="login" class="login-wrap" hidden>
+      <div class="card">
+        <h2>Accesso riservato</h2>
+        <form id="login-form">
+          <div class="field">
+            <label for="l-email">Email</label>
+            <input type="email" id="l-email" autocomplete="username" required />
+          </div>
+          <div class="field">
+            <label for="l-pw">Password</label>
+            <input type="password" id="l-pw" autocomplete="current-password" required />
+          </div>
+          <div class="actions">
+            <button type="submit" class="btn btn--cobalt" id="l-btn">Entra</button>
+          </div>
+          <p class="msg msg--err" id="l-msg"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ====== APP (visibile solo dopo login) ====== -->
+    <section id="app" hidden>
+
+      <p style="opacity:0.75;font-size:0.9rem;margin:0 0 1.2rem">Accesso effettuato come <strong id="who"></strong>.</p>
+
+      <!-- Form crea/modifica -->
+      <div class="card">
+        <h2 id="form-title">Nuovo evento</h2>
+        <form id="ev-form">
+          <input type="hidden" id="f-id" />
+          <div class="row">
+            <div class="field">
+              <label for="f-data">Data dell'evento</label>
+              <input type="date" id="f-data" required />
+            </div>
+            <div class="field">
+              <label for="f-ora">Ora <span class="hint">(es. 20:00)</span></label>
+              <input type="text" id="f-ora" placeholder="20:00" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="f-titolo">Titolo</label>
+            <input type="text" id="f-titolo" placeholder="Es. Serata Jazz & Mare" required />
+          </div>
+          <div class="field">
+            <label for="f-desc">Descrizione</label>
+            <textarea id="f-desc" placeholder="Breve descrizione dell'evento…"></textarea>
+          </div>
+          <div class="field">
+            <label for="f-file">Locandina <span class="hint" id="file-hint">(carica un'immagine: JPG o PNG)</span></label>
+            <input type="file" id="f-file" accept="image/*" />
+            <div class="preview"><img id="f-preview" alt="Anteprima locandina" /></div>
+          </div>
+          <div class="field check">
+            <input type="checkbox" id="f-pub" checked />
+            <label for="f-pub" style="margin:0">Pubblicato (visibile sul sito)</label>
+          </div>
+          <div class="actions">
+            <button type="submit" class="btn btn--cobalt" id="save-btn">Pubblica evento</button>
+            <button type="button" class="btn btn--ghost btn--sm" id="cancel-btn" hidden>Annulla modifica</button>
+          </div>
+          <p class="msg" id="f-msg"></p>
+        </form>
+      </div>
+
+      <!-- Elenco eventi -->
+      <div class="card">
+        <h2>Eventi inseriti</h2>
+        <div class="list" id="list"><p class="empty">Caricamento…</p></div>
+      </div>
+
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase-config.js"></script>
+  <script>
+  (() => {
+    "use strict";
+    const sb = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+    const $ = (s) => document.querySelector(s);
+
+    const loginView = $("#login"), appView = $("#app"), logoutBtn = $("#logout");
+    const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
+
+    const MESI = ["Gen","Feb","Mar","Apr","Mag","Giu","Lug","Ago","Set","Ott","Nov","Dic"];
+    function fmtData(iso) {
+      const d = new Date(iso + "T00:00:00");
+      return d.getDate() + " " + MESI[d.getMonth()] + " " + d.getFullYear();
+    }
+    function todayISO() {
+      const t = new Date();
+      return t.getFullYear() + "-" + String(t.getMonth()+1).padStart(2,"0") + "-" + String(t.getDate()).padStart(2,"0");
+    }
+    function errText(err) {
+      const m = (err && (err.message || err.error_description || "")) + "";
+      if (/row-level security|violates row-level|permission denied|42501/i.test(m))
+        return "Questo account non è autorizzato a gestire gli eventi.";
+      return "Errore: " + (m || "operazione non riuscita.");
+    }
+
+    /* ---------- SESSIONE ---------- */
+    async function init() {
+      const { data: { session } } = await sb.auth.getSession();
+      show(session);
+      sb.auth.onAuthStateChange((_e, s) => show(s));
+    }
+    function show(session) {
+      const on = !!session;
+      loginView.hidden = on;
+      appView.hidden = !on;
+      logoutBtn.hidden = !on;
+      if (on) { $("#who").textContent = session.user.email; loadList(); }
+    }
+
+    /* ---------- LOGIN / LOGOUT ---------- */
+    $("#login-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = $("#l-btn"); btn.disabled = true; $("#l-msg").textContent = "";
+      const email = $("#l-email").value.trim(), password = $("#l-pw").value;
+      const { error } = await sb.auth.signInWithPassword({ email, password });
+      if (error) $("#l-msg").textContent = "Accesso non riuscito. Controlla email e password.";
+      btn.disabled = false;
+    });
+    logoutBtn.addEventListener("click", () => sb.auth.signOut());
+
+    /* ---------- ANTEPRIMA IMMAGINE ---------- */
+    const fileInput = $("#f-file"), previewImg = $("#f-preview");
+    fileInput.addEventListener("change", () => {
+      const f = fileInput.files[0];
+      if (f) { previewImg.src = URL.createObjectURL(f); previewImg.style.display = "block"; }
+      else { previewImg.style.display = "none"; }
+    });
+
+    /* ---------- COMPRESSIONE + UPLOAD LOCANDINA ---------- */
+    function compress(file) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        const url = URL.createObjectURL(file);
+        img.onload = () => {
+          URL.revokeObjectURL(url);
+          const MAX = 1280;
+          let w = img.width, h = img.height;
+          if (Math.max(w, h) > MAX) { const r = MAX / Math.max(w, h); w = Math.round(w*r); h = Math.round(h*r); }
+          const c = document.createElement("canvas"); c.width = w; c.height = h;
+          c.getContext("2d").drawImage(img, 0, 0, w, h);
+          c.toBlob((b) => b ? resolve(b) : reject(new Error("compress")), "image/jpeg", 0.85);
+        };
+        img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("Immagine non valida")); };
+        img.src = url;
+      });
+    }
+    async function uploadPoster(file) {
+      const blob = await compress(file);
+      const path = (crypto.randomUUID ? crypto.randomUUID() : Date.now() + "-" + Math.random().toString(36).slice(2)) + ".jpg";
+      const { error } = await sb.storage.from("locandine").upload(path, blob, { contentType: "image/jpeg", upsert: false });
+      if (error) throw error;
+      return sb.storage.from("locandine").getPublicUrl(path).data.publicUrl;
+    }
+
+    /* ---------- FORM CREA / MODIFICA ---------- */
+    const form = $("#ev-form");
+    function resetForm() {
+      form.reset(); $("#f-id").value = ""; $("#f-pub").checked = true;
+      previewImg.style.display = "none";
+      $("#form-title").textContent = "Nuovo evento";
+      $("#save-btn").textContent = "Pubblica evento";
+      $("#cancel-btn").hidden = true;
+      $("#file-hint").textContent = "(carica un'immagine: JPG o PNG)";
+    }
+    $("#cancel-btn").addEventListener("click", resetForm);
+
+    function fmsg(text, isErr) {
+      const el = $("#f-msg");
+      el.textContent = text;
+      el.className = "msg " + (isErr ? "msg--err" : "msg--ok");
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = $("#save-btn"); btn.disabled = true; fmsg("", false);
+      try {
+        const id = $("#f-id").value;
+        const row = {
+          data: $("#f-data").value,
+          titolo: $("#f-titolo").value.trim(),
+          ora: $("#f-ora").value.trim(),
+          descrizione: $("#f-desc").value.trim(),
+          pubblicato: $("#f-pub").checked,
+        };
+        if (!row.data || !row.titolo) { fmsg("Data e titolo sono obbligatori.", true); btn.disabled = false; return; }
+        const file = fileInput.files[0];
+        if (file) row.locandina_url = await uploadPoster(file);
+
+        if (id) {
+          const { error } = await sb.from("eventi").update(row).eq("id", id);
+          if (error) throw error;
+          fmsg("Evento aggiornato. ✓", false);
+        } else {
+          if (!file) { fmsg("Carica la locandina dell'evento.", true); btn.disabled = false; return; }
+          const { error } = await sb.from("eventi").insert(row);
+          if (error) throw error;
+          fmsg("Evento pubblicato. ✓", false);
+        }
+        resetForm(); loadList();
+      } catch (err) { fmsg(errText(err), true); }
+      btn.disabled = false;
+    });
+
+    /* ---------- ELENCO + AZIONI ---------- */
+    let CACHE = [];
+    async function loadList() {
+      const box = $("#list");
+      const { data, error } = await sb.from("eventi").select("*").order("data", { ascending: false });
+      if (error) { box.innerHTML = '<p class="empty">' + esc(errText(error)) + "</p>"; return; }
+      CACHE = data || [];
+      if (!CACHE.length) { box.innerHTML = '<p class="empty">Nessun evento. Aggiungine uno qui sopra.</p>'; return; }
+      const iso = todayISO();
+      box.innerHTML = CACHE.map((ev) => {
+        const past = ev.data < iso;
+        const tags =
+          (ev.pubblicato ? "" : '<span class="tag tag--draft">Non pubblicato</span> ') +
+          (past ? '<span class="tag tag--past">Passato</span>' : "");
+        const thumb = ev.locandina_url
+          ? '<img class="ev__thumb" src="' + esc(ev.locandina_url) + '" alt="">'
+          : '<div class="ev__thumb"></div>';
+        return '<div class="ev">' + thumb +
+          '<div class="ev__body">' +
+            '<p class="ev__title">' + esc(ev.titolo) + "</p>" +
+            '<p class="ev__meta">' + esc(fmtData(ev.data)) + (ev.ora ? " · ore " + esc(ev.ora) : "") + "</p>" +
+            (ev.descrizione ? '<p class="ev__desc">' + esc(ev.descrizione) + "</p>" : "") +
+            (tags ? '<div class="ev__tags">' + tags + "</div>" : "") +
+          "</div>" +
+          '<div class="ev__actions">' +
+            '<button class="linkbtn" data-edit="' + ev.id + '">Modifica</button>' +
+            '<button class="linkbtn linkbtn--danger" data-del="' + ev.id + '">Elimina</button>' +
+          "</div>" +
+        "</div>";
+      }).join("");
+    }
+
+    $("#list").addEventListener("click", async (e) => {
+      const editId = e.target.getAttribute("data-edit");
+      const delId = e.target.getAttribute("data-del");
+      if (editId) {
+        const ev = CACHE.find((x) => String(x.id) === String(editId));
+        if (!ev) return;
+        $("#f-id").value = ev.id;
+        $("#f-data").value = ev.data;
+        $("#f-ora").value = ev.ora || "";
+        $("#f-titolo").value = ev.titolo || "";
+        $("#f-desc").value = ev.descrizione || "";
+        $("#f-pub").checked = !!ev.pubblicato;
+        if (ev.locandina_url) { previewImg.src = ev.locandina_url; previewImg.style.display = "block"; }
+        else previewImg.style.display = "none";
+        $("#form-title").textContent = "Modifica evento";
+        $("#save-btn").textContent = "Salva modifiche";
+        $("#cancel-btn").hidden = false;
+        $("#file-hint").textContent = "(lascia vuoto per non cambiare la locandina)";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+      if (delId) {
+        const ev = CACHE.find((x) => String(x.id) === String(delId));
+        if (!ev) return;
+        if (!confirm('Eliminare l\'evento "' + (ev.titolo || "") + '"? L\'operazione non è reversibile.')) return;
+        const { error } = await sb.from("eventi").delete().eq("id", delId);
+        if (error) { fmsg(errText(error), true); return; }
+        if (ev.locandina_url) {
+          const p = ev.locandina_url.split("/locandine/")[1];
+          if (p) sb.storage.from("locandine").remove([p]);
+        }
+        loadList();
+      }
+    });
+
+    init();
+  })();
+  </script>
+</body>
+</html>

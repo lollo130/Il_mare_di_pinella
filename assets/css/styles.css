@@ -5,6 +5,11 @@
    Font: Cormorant Garamond (titoli) · Space Grotesk (corpo).
    ========================================================================== */
 
+/* L'attributo [hidden] deve sempre prevalere, anche sugli elementi con classi
+   che impostano "display" (es. .btn, .section). Senza questo, un bottone .btn
+   con attributo hidden resterebbe visibile. */
+[hidden] { display: none !important; }
+
 /* --------------------------------------------------------------------------
    1. TOKEN / VARIABILI
    -------------------------------------------------------------------------- */
@@ -973,4 +978,27 @@ img { max-width: 100%; display: block; }
   .event-card__date { flex-direction: row; gap: 0.5rem; width: auto; align-self: flex-start; padding: 0.5rem 0.9rem; }
   .event-card__day { font-size: 1.3rem; }
   .event-card__month { margin-top: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   23b. EVENTI con locandina + archivio passati (caricati da Supabase)
+   -------------------------------------------------------------------------- */
+.eventi-state { text-align: center; opacity: 0.8; padding: 1rem 0; }
+.event-card__poster {
+  flex: 0 0 auto; width: 150px; align-self: flex-start; display: block;
+  border-radius: 14px; overflow: hidden; background: rgba(27,64,150,0.06);
+  box-shadow: 0 12px 30px -18px rgba(18,33,70,0.55);
+}
+.event-card__poster img { width: 100%; height: auto; display: block; }
+.event-card__when {
+  display: inline-flex; align-items: baseline; gap: 0.45rem;
+  background: var(--cobalt); color: var(--cream);
+  border-radius: 999px; padding: 0.26rem 0.8rem; margin: 0 0 0.55rem;
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.02em;
+}
+.event-card__when .d { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; }
+.event-card--past { opacity: 0.8; }
+.event-card--past .event-card__when { background: rgba(18,33,70,0.5); }
+@media (max-width: 600px) {
+  .event-card__poster { width: 40%; min-width: 110px; }
 }
