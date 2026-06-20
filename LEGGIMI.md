@@ -62,6 +62,34 @@ risoluzione restano in `Foto_locale/` e `Foto_piatti/`. Per rigenerare le versio
 ottimizzate dopo aver aggiunto nuove foto, usare uno script di ridimensionamento
 (max ~1100px lato lungo, JPEG qualità ~82).
 
+## Eventi — pannello per i proprietari (locandine + info)
+
+Gli eventi NON si scrivono più a mano nell'HTML. Si gestiscono da una pagina
+riservata, **non collegata** dal sito (nessun pulsante login sul sito pubblico):
+
+    https://<indirizzo-del-sito>/gestione-eventi.html
+
+### Come pubblicare un evento
+1. Aprire `gestione-eventi.html` ed entrare con **email + password**.
+2. Compilare data, ora, titolo, descrizione e **caricare la locandina** (immagine).
+3. «Pubblica evento» → compare **subito** su `eventi.html` (in diretta, senza nuovo
+   deploy). Gli eventi con data passata vanno in automatico nella sezione
+   «Eventi passati». Dalla lista in fondo al pannello si possono modificare o
+   eliminare.
+
+### Per chi gestisce il sito (tecnico)
+- Backend: **Supabase**, progetto `il-mare-di-pinella`. Tabella `eventi`, bucket
+  Storage `locandine` (immagini pubbliche). URL + chiave **pubblica** in
+  `assets/js/supabase-config.js` (sicure da esporre: la protezione è nelle policy
+  RLS, non nel nascondere la chiave; la chiave `service_role` NON è nel sito).
+- Chi può pubblicare: solo le email nella tabella `app_owners` (allowlist) **e**
+  con un account creato in Supabase → Authentication → Users. Aggiungere un
+  proprietario = inserire la sua email in `app_owners` + creargli l'utente.
+- I visitatori possono **solo leggere** gli eventi pubblicati (imposto da RLS).
+- Free tier: il progetto va in pausa dopo ~7 giorni senza traffico. Se gli eventi
+  spariscono, riattivarlo dal dashboard Supabase (o impostare un ping settimanale,
+  es. cron-job.org, per tenerlo sveglio).
+
 ## Anteprima locale
 Doppio click su `index.html`, oppure server locale:
 ```
