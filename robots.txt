@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+# Area riservata proprietari: fuori dai motori di ricerca
+Disallow: /gestione-eventi.html
+
+Sitemap: https://ilmaredipinella.it/sitemap.xml
