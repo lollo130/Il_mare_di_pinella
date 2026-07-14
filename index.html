@@ -3909,7 +3909,7 @@
   <section class="section section--warm" style="padding-block:clamp(2.5rem,5vw,4rem)">
     <div class="wrap center" style="position:relative;z-index:1">
       <h2 style="color:var(--ink);font-size:clamp(1.8rem,4vw,3rem);margin:0" data-en="Lunch and dinner, away from the bustle of Ortigia's busiest streets." data-fr="Déjeuner et dîner, loin de l'agitation des rues les plus fréquentées d'Ortigia.">Pranzo e cena, lontano dal trambusto delle strade più affollate di Ortigia.</h2>
-      <p style="color:var(--ink);opacity:.85;margin:.6rem 0 0" data-en="Open every day · Booking recommended on weekends" data-fr="Ouvert tous les jours · Réservation conseillée le week-end">Aperti tutti i giorni · Prenotazione consigliata nel weekend</p>
+      <p style="color:var(--ink);opacity:.85;margin:.6rem 0 0" data-en="Open for lunch and dinner · Tuesday and Thursday dinner only · Booking recommended on weekends" data-fr="Ouvert midi et soir · Mardi et jeudi uniquement le soir · Réservation conseillée le week-end">Aperti a pranzo e cena · Martedì e giovedì solo la sera · Prenotazione consigliata nel weekend</p>
     </div>
   </section>
 
@@ -3928,6 +3928,12 @@
           <li data-en="· Quick reply" data-fr="· Réponse rapide">· Risposta rapida</li>
           <li data-en="· Open for lunch and dinner" data-fr="· Ouvert le midi et le soir">· Aperti per pranzo e cena</li>
         </ul>
+        <div style="margin-top:1.5rem;padding-top:1.2rem;border-top:1px solid rgba(27,64,150,0.14)">
+          <p class="muted" style="margin:0 0 .6rem" data-en="Prefer to book online right away?" data-fr="Vous préférez réserver en ligne tout de suite ?">Preferisci prenotare subito online?</p>
+          <a class="btn btn--ghost" href="https://widget.thefork.com/d8387b18-094c-4d0a-8f40-aadc9f3c0a43" target="_blank" rel="noopener">
+            <span data-en="Book on TheFork" data-fr="Réserver sur TheFork">Prenota su TheFork</span>
+          </a>
+        </div>
       </div>
 
       <form class="form-card" data-booking novalidate data-reveal data-delay="1">
@@ -3951,6 +3957,11 @@
         <div class="field">
           <label for="data" data-en="Date" data-fr="Date">Data</label>
           <input id="data" name="data" type="date" required />
+          <div class="field__error" aria-live="polite"></div>
+        </div>
+        <div class="field">
+          <label for="telefono" data-en="Phone" data-fr="Téléphone">Telefono</label>
+          <input id="telefono" name="telefono" type="tel" placeholder="Es. 333 1234567" data-en-ph="e.g. 333 1234567" data-fr-ph="ex. 333 1234567" autocomplete="tel" required />
           <div class="field__error" aria-live="polite"></div>
         </div>
         <div class="field">

@@ -1,9 +1,9 @@
 /* ==========================================================================
    IL MARE DI PINELLA — Form Prenotazioni (frontend)
    - Validazione campi in JavaScript (animata: scuotimento + stati colore)
-   - Al "Conferma": mostra un elegante messaggio animato di avvenuta ricezione.
-   - NOTA: l'invio reale (WhatsApp / email / backend) sarà implementato dopo.
-     In fondo trovi un esempio già pronto per generare il link WhatsApp.
+   - Al "Conferma": invia la prenotazione a /api/prenota (funzione Netlify ->
+     WhatsApp dello staff), poi mostra il modale di avvenuta ricezione.
+   - Se l'invio fallisce, mostra un avviso e NON il modale di conferma.
    ========================================================================== */
 (() => {
   "use strict";
@@ -15,11 +15,12 @@
 
   /* --- Riferimenti ai campi (ri-letti dopo un eventuale reset) --- */
   const get = () => ({
-    nome:    form.querySelector("#nome"),
-    persone: form.querySelector("#persone"),
-    data:    form.querySelector("#data"),
-    ora:     form.querySelector("#ora"),
-    note:    form.querySelector("#note"),
+    nome:     form.querySelector("#nome"),
+    persone:  form.querySelector("#persone"),
+    data:     form.querySelector("#data"),
+    ora:      form.querySelector("#ora"),
+    telefono: form.querySelector("#telefono"),
+    note:     form.querySelector("#note"),
   });
 
   /* --- Stato visivo di un campo --- */
@@ -36,10 +37,11 @@
   /* --- Regole di validazione --- */
   function validate(f) {
     return {
-      nome:    setState(f.nome, f.nome.value.trim().length >= 2, "Inserisci un nome valido."),
-      persone: setState(f.persone, Number(f.persone.value) >= 1, "Indica quante persone."),
-      data:    setState(f.data, !!f.data.value, "Scegli una data."),
-      ora:     setState(f.ora, !!f.ora.value, "Scegli un orario."),
+      nome:     setState(f.nome, f.nome.value.trim().length >= 2, "Inserisci un nome valido."),
+      persone:  setState(f.persone, Number(f.persone.value) >= 1, "Indica quante persone."),
+      data:     setState(f.data, !!f.data.value, "Scegli una data."),
+      ora:      setState(f.ora, !!f.ora.value, "Scegli un orario."),
+      telefono: setState(f.telefono, f.telefono.value.replace(/\D/g, "").length >= 6, "Inserisci un telefono valido."),
     };
   }
 
@@ -47,7 +49,7 @@
   function setupRealtime() {
     const f = get();
     if (f.data) f.data.min = new Date().toISOString().split("T")[0];
-    ["nome", "persone", "data", "ora"].forEach((key) => {
+    ["nome", "persone", "data", "ora", "telefono"].forEach((key) => {
       const input = f[key];
       if (!input) return;
       const run = () => validate(get())[key];
@@ -59,14 +61,14 @@
   }
   setupRealtime();
 
-  /* --- Toast (solo per errori) --- */
+  /* --- Toast (per errori/avvisi) --- */
   function showToast(text) {
     let toast = document.querySelector(".toast");
     if (!toast) { toast = document.createElement("div"); toast.className = "toast"; document.body.appendChild(toast); }
     toast.textContent = text;
     requestAnimationFrame(() => toast.classList.add("is-on"));
     clearTimeout(toast._t);
-    toast._t = setTimeout(() => toast.classList.remove("is-on"), 4000);
+    toast._t = setTimeout(() => toast.classList.remove("is-on"), 4500);
   }
 
   /* --- Decoro di maiolica per gli angoli del modale (ornamento, non griglia) --- */
@@ -131,9 +133,6 @@
     document.body.style.overflow = "hidden";
 
     const dialog = overlay.querySelector(".modal__dialog");
-    // Transizione di entrata via doppio rAF, con fallback a timer: così la
-    // classe is-open viene comunque applicata anche se i rAF non scattano
-    // (es. scheda in background), evitando un modale bloccato invisibile.
     const reveal = () => overlay.classList.add("is-open");
     requestAnimationFrame(() => requestAnimationFrame(reveal));
     setTimeout(reveal, 60);
@@ -149,7 +148,6 @@
     function onKey(e) {
       if (e.key === "Escape") { close(); return; }
       if (e.key !== "Tab") return;
-      // Focus trap dentro al modale
       const f = overlay.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])');
       if (!f.length) return;
       const first = f[0], last = f[f.length - 1];
@@ -161,8 +159,8 @@
     document.addEventListener("keydown", onKey);
   }
 
-  /* --- Submit --- */
-  form.addEventListener("submit", (e) => {
+  /* --- Submit: valida -> invia a /api/prenota -> modale (o avviso) --- */
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const f = get();
     const results = validate(f);
@@ -174,26 +172,46 @@
     }
 
     // Data leggibile in italiano
-    const d = new Date(f.data.value + "T00:00:00");
-    const dataFmt = isNaN(d) ? f.data.value
-      : d.toLocaleDateString("it-IT", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+    const dt = new Date(f.data.value + "T00:00:00");
+    const dataFmt = isNaN(dt) ? f.data.value
+      : dt.toLocaleDateString("it-IT", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
 
-    openModal({
+    const payload = {
       nome: f.nome.value.trim(),
       persone: f.persone.value,
-      dataFmt,
+      data: dataFmt,
       ora: f.ora.value,
+      telefono: f.telefono.value.trim(),
       note: f.note ? f.note.value.trim() : "",
-    });
+    };
 
-    /* === INVIO REALE (da attivare in futuro) ============================
-       Esempio per aprire WhatsApp con il messaggio già pronto:
+    const btn = form.querySelector('button[type="submit"]');
+    const inner = btn ? (btn.querySelector(".magnetic__inner") || btn) : null;
+    const label = inner ? inner.textContent : "";
+    if (btn) btn.disabled = true;
+    if (inner) inner.textContent = "Invio…";
 
-       const NUMERO = "39XXXXXXXXXX"; // numero del ristorante, senza "+"
-       const testo = `Nuova Prenotazione - Il Mare di Pinella:\n${f.nome.value} `
-                   + `per ${f.persone.value} persone il ${dataFmt} alle ${f.ora.value}.`;
-       window.open(`https://wa.me/${NUMERO}?text=${encodeURIComponent(testo)}`, "_blank");
-       ==================================================================== */
+    let ok = false;
+    try {
+      const res = await fetch("/api/prenota", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const out = await res.json().catch(() => ({}));
+      ok = res.ok && out && out.ok === true;
+    } catch (err) {
+      ok = false;
+    }
+
+    if (btn) btn.disabled = false;
+    if (inner) inner.textContent = label;
+
+    if (ok) {
+      openModal({ nome: payload.nome, persone: payload.persone, dataFmt, ora: payload.ora, note: payload.note });
+    } else {
+      showToast("Invio non riuscito. Riprova tra poco o chiamaci al 329 677 3519.");
+    }
   });
 
   /* --- Piccola utility anti-injection per i dati mostrati --- */

@@ -16,3 +16,9 @@
   from = "/api/reviews"
   to = "/.netlify/functions/reviews"
   status = 200
+
+# URL pulito: /api/prenota  ->  la function prenota (prenotazioni -> WhatsApp)
+[[redirects]]
+  from = "/api/prenota"
+  to = "/.netlify/functions/prenota"
+  status = 200
