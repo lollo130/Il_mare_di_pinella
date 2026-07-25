@@ -9,7 +9,19 @@
       "Bash(sed -n '408p' index.html)",
       "Bash(sed -n '409p' index.html)",
       "Bash(sed -i '313,408d' index.html)",
-      "Bash(sed -n '308,312p' index.html)"
+      "Bash(sed -n '308,312p' index.html)",
+      "PowerShell(\\(Get-Content \"C:\\\\Users\\\\loren\\\\Downloads\\\\Il_mare_di_pinella\\\\index.html\" | Measure-Object -Line\\).Lines; \\(Get-Content \"C:\\\\Users\\\\loren\\\\Downloads\\\\Il_mare_di_pinella\\\\famiglia.html\" | Measure-Object -Line\\).Lines)",
+      "PowerShell(Get-Command netlify -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command python -ErrorAction SilentlyContinue)",
+      "PowerShell(node -v)",
+      "PowerShell(npm -v)",
+      "PowerShell(python --version)",
+      "PowerShell(py --version 2>&1)",
+      "PowerShell(node \"C:\\\\Users\\\\loren\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-loren-Downloads-Il-mare-di-pinella\\\\27ec57bb-55c5-4957-b15b-21a733285ee8\\\\scratchpad\\\\check-links.js\")",
+      "mcp__visualize__read_me",
+      "mcp__visualize__show_widget",
+      "PowerShell(git checkout -- .claude/launch.json)",
+      "PowerShell(git add assets/css/styles.css famiglia.html assets/img/premio-sapori-italia.jpg assets/img/premio-eccellenze-italiane.jpg)"
     ]
   }
 }
