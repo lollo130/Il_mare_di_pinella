@@ -700,6 +700,19 @@ img { max-width: 100%; display: block; }
   .fam-block__body p.lang-en { opacity: 0.8; }
 }
 
+/* Riconoscimenti — locandine premi (immagini intere, non ritagliate) */
+.awards-grid { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; max-width: 820px; margin-inline: auto; }
+.award-card {
+  width: 340px; max-width: 100%; background: var(--ceramic); border: 1px solid rgba(27,64,150,0.1);
+  border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); text-align: center;
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease); margin: 0;
+}
+.award-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); }
+.award-card img { width: 100%; height: auto; display: block; }
+.award-card figcaption { padding: 1.1rem 1.2rem 1.35rem; }
+.award-card figcaption b { display: block; font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; color: var(--cobalt); margin-bottom: 0.25rem; }
+.award-card figcaption span { display: block; font-size: 0.85rem; opacity: 0.7; }
+
 /* --------------------------------------------------------------------------
    13b. PARALLASSE SOFT — dettagli decorativi laterali (mossi da main.js)
    -------------------------------------------------------------------------- */
