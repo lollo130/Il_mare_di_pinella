@@ -392,3 +392,32 @@
   if (prev) prev.addEventListener("click", () => track.scrollBy({ left: -step(), behavior: "smooth" }));
   if (next) next.addEventListener("click", () => track.scrollBy({ left: step(), behavior: "smooth" }));
 })();
+
+/* ==========================================================================
+   MAPPA A CARICAMENTO CONSENSUALE (GDPR)
+   ==========================================================================
+   L'iframe di Google Maps installa cookie di terze parti: per questo non è
+   nell'HTML, ma viene creato qui solo dopo il click esplicito dell'utente.
+   Nessuna richiesta parte verso Google finché il visitatore non acconsente.
+   ========================================================================== */
+(() => {
+  "use strict";
+  const box = document.querySelector("[data-map]");
+  if (!box) return;
+  const btn = box.querySelector("[data-map-load]");
+  if (!btn) return;
+
+  btn.addEventListener("click", () => {
+    const src = box.getAttribute("data-map-src");
+    if (!src) return;
+    const frame = document.createElement("iframe");
+    frame.title = box.getAttribute("data-map-title") || "Mappa";
+    frame.src = src;
+    frame.width = "100%";
+    frame.height = "380";
+    frame.style.cssText = "border:0;display:block";
+    frame.setAttribute("referrerpolicy", "no-referrer-when-downgrade");
+    frame.setAttribute("allowfullscreen", "");
+    box.replaceWith(frame);
+  });
+})();

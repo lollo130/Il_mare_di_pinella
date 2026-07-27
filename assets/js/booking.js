@@ -21,6 +21,7 @@
     ora:      form.querySelector("#ora"),
     telefono: form.querySelector("#telefono"),
     note:     form.querySelector("#note"),
+    privacy:  form.querySelector("#privacy"),
   });
 
   /* --- Stato visivo di un campo --- */
@@ -34,7 +35,9 @@
     return ok;
   }
 
-  /* --- Regole di validazione --- */
+  /* --- Regole di validazione ---
+     Il consenso privacy è obbligatorio: senza spunta la richiesta non parte
+     (art. 6 GDPR — non possiamo trattare i dati senza base giuridica). */
   function validate(f) {
     return {
       nome:     setState(f.nome, f.nome.value.trim().length >= 2, "Inserisci un nome valido."),
@@ -42,6 +45,7 @@
       data:     setState(f.data, !!f.data.value, "Scegli una data."),
       ora:      setState(f.ora, !!f.ora.value, "Scegli un orario."),
       telefono: setState(f.telefono, f.telefono.value.replace(/\D/g, "").length >= 6, "Inserisci un telefono valido."),
+      privacy:  setState(f.privacy, f.privacy.checked, "Per procedere devi accettare l'informativa privacy."),
     };
   }
 
@@ -58,6 +62,8 @@
         if (input.closest(".field").classList.contains("is-invalid")) run();
       });
     });
+    // La checkbox si rivaluta al cambio, non al blur (non si "digita" dentro)
+    if (f.privacy) f.privacy.addEventListener("change", () => validate(get()).privacy);
   }
   setupRealtime();
 

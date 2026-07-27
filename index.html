@@ -6,19 +6,9 @@
   <title>Il Mare di Pinella — Cucina di mare siciliana</title>
   <meta name="description" content="Il Mare di Pinella: cucina di mare e tradizione siciliana. Scopri il menù, la nostra storia e prenota il tuo tavolo." />
 
-  <!-- Font: Cormorant Garamond (titoli) + Space Grotesk (corpo) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
-  <!-- Tailwind CDN (palette siciliana sobria) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = { theme: { extend: {
-      colors: { cream:"#FAF5EA", ink:"#122146", cobalt:"#1B4096", gold:"#E3A81B", citrus:"#E2722B", pistachio:"#6E9A2E", terracotta:"#C0492F" },
-      fontFamily: { display:['"Cormorant Garamond"',"serif"], body:['"Space Grotesk"',"sans-serif"] },
-    } } };
-  </script>
+  <!-- Font self-hosted (Cormorant Garamond + Space Grotesk):
+       nessuna chiamata a Google, nessun IP utente inviato a terzi (GDPR) -->
+  <link rel="stylesheet" href="assets/css/fonts.css" />
 
   <link rel="stylesheet" href="assets/css/styles.css?v=7" />
   <link rel="icon" type="image/png" href="assets/img/logo.png" />
@@ -3966,7 +3956,19 @@
         </div>
         <div class="field">
           <label for="note" data-en="Notes (optional)" data-fr="Notes (facultatif)">Note (facoltative)</label>
-          <textarea id="note" name="note" rows="2" placeholder="Allergie, seggiolone, tavolo all'aperto…" data-en-ph="Allergies, high chair, outdoor table…" data-fr-ph="Allergies, chaise haute, table en terrasse…"></textarea>
+          <!-- Il campo NON sollecita allergie/intolleranze: sono dati sanitari
+               (art. 9 GDPR) e vanno raccolti a voce, non inviati via WhatsApp. -->
+          <textarea id="note" name="note" rows="2" placeholder="Seggiolone, tavolo all'aperto, occasione speciale…" data-en-ph="High chair, outdoor table, special occasion…" data-fr-ph="Chaise haute, table en terrasse, occasion spéciale…"></textarea>
+          <p class="field__hint" data-en="For allergies and intolerances we'll ask you when we confirm by phone." data-fr="Pour les allergies et intolérances, nous vous le demanderons lors de la confirmation téléphonique.">
+            Per allergie e intolleranze ti chiederemo al momento della conferma telefonica.
+          </p>
+        </div>
+        <div class="field field--consent">
+          <label class="consent">
+            <input type="checkbox" id="privacy" name="privacy" required />
+            <span data-en='I have read the <a href="privacy.html" target="_blank" rel="noopener">privacy policy</a> and consent to the processing of my data to manage this booking request.' data-fr='J&apos;ai lu la <a href="privacy.html" target="_blank" rel="noopener">politique de confidentialité</a> et je consens au traitement de mes données pour gérer cette demande de réservation.'>Ho letto l'<a href="privacy.html" target="_blank" rel="noopener">informativa privacy</a> e acconsento al trattamento dei miei dati per gestire questa richiesta di prenotazione.</span>
+          </label>
+          <div class="field__error" aria-live="polite"></div>
         </div>
         <button type="submit" class="btn magnetic" data-magnetic="0.2" style="width:100%;justify-content:center">
           <span class="magnetic__inner" data-en="Confirm booking" data-fr="Confirmer la réservation">Conferma prenotazione</span>
@@ -4020,11 +4022,22 @@
         <span class="eyebrow" data-en="Where to find us" data-fr="Où nous trouver">Dove siamo</span>
         <h3 class="section-title" style="font-size:clamp(1.4rem,3.2vw,2rem);margin:.2rem 0 0">Via dei Candelai 12 · Siracusa</h3>
       </div>
+      <!-- Mappa a caricamento consensuale: l'iframe di Google (e i suoi cookie)
+           viene creato solo dopo il click esplicito dell'utente. -->
       <div style="border-radius:20px;overflow:hidden;box-shadow:0 18px 50px -28px rgba(18,33,70,.5);border:1px solid rgba(27,64,150,.14)">
-        <iframe title="Mappa — Il Mare di Pinella, Via dei Candelai 12, Siracusa"
-          src="https://www.google.com/maps?q=Il%20Mare%20di%20Pinella%2C%20Via%20dei%20Candelai%2012%2C%2096100%20Siracusa&output=embed"
-          width="100%" height="380" style="border:0;display:block" loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        <div class="map-consent" data-map
+             data-map-src="https://www.google.com/maps?q=Il%20Mare%20di%20Pinella%2C%20Via%20dei%20Candelai%2012%2C%2096100%20Siracusa&amp;output=embed"
+             data-map-title="Mappa — Il Mare di Pinella, Via dei Candelai 12, Siracusa">
+          <svg class="map-consent__pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/>
+          </svg>
+          <p class="map-consent__title" data-en="Google Map" data-fr="Carte Google">Mappa Google</p>
+          <p class="map-consent__note" data-en="Loading the map lets Google set cookies on your device." data-fr="Le chargement de la carte permet à Google de déposer des cookies sur votre appareil.">
+            Caricando la mappa consenti a Google di installare cookie sul tuo dispositivo.
+          </p>
+          <button type="button" class="btn" data-map-load><span data-en="Load the map" data-fr="Charger la carte">Carica la mappa</span></button>
+          <a class="map-consent__alt" href="https://www.google.com/maps/search/?api=1&amp;query=Il%20Mare%20di%20Pinella%2C%20Via%20dei%20Candelai%2012%2C%2096100%20Siracusa" target="_blank" rel="noopener" data-en="Or open it on Google Maps →" data-fr="Ou l'ouvrir sur Google Maps →">Oppure aprila su Google Maps →</a>
+        </div>
       </div>
     </div>
   </section>
@@ -4060,6 +4073,14 @@
           <a href="https://linktr.ee/ilmaredipinella" target="_blank" rel="noopener">Linktree</a>
         </div>
       </div>
+      <!-- Dati identificativi obbligatori (art. 35 DPR 633/72) + link legali -->
+      <div class="footer__legal">
+        <span><b>Il Mare di Pinella</b> · Via dei Candelai 12, 96100 Siracusa (SR) · P.IVA <span class="legal__todo">[DA INSERIRE]</span></span>
+        <span class="footer__links">
+          <a href="privacy.html" data-en="Privacy Policy" data-fr="Confidentialité">Informativa Privacy</a>
+          <a href="cookie-policy.html" data-en="Cookie Policy" data-fr="Cookies">Cookie Policy</a>
+        </span>
+      </div>
       <div class="footer__bottom">
         <span>© <span data-year>2026</span> Il Mare di Pinella — <span data-en="All rights reserved." data-fr="Tous droits réservés.">Tutti i diritti riservati.</span></span>
         <span data-en="Made with care in Sicily" data-fr="Fait avec soin en Sicile">Fatto con cura in Sicilia</span>
@@ -4069,7 +4090,7 @@
 
   <script src="assets/js/main.js?v=5" defer></script>
   <script src="assets/js/booking.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="assets/js/gsap.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       if (typeof gsap === 'undefined') return;
