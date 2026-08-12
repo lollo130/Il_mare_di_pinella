@@ -3926,7 +3926,21 @@
         </div>
       </div>
 
-      <form class="form-card" data-booking novalidate data-reveal data-delay="1">
+      <!-- Netlify rileva il form leggendo QUESTO HTML al momento del deploy: i campi
+           registrati sono quelli con l'attributo name qui sotto. L'invio vero avviene
+           via JavaScript (booking.js), per non perdere il modale di conferma. -->
+      <form class="form-card" data-booking novalidate data-reveal data-delay="1"
+            name="prenotazione" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="prenotazione" />
+        <!-- Riepilogo su una riga: lo compila booking.js. Serve a leggere la
+             prenotazione a colpo d'occhio nell'oggetto/corpo della mail. -->
+        <input type="hidden" name="subject" value="Nuova prenotazione dal sito" />
+        <!-- Trappola anti-bot. Il nome "bot-field" non è un campo che il
+             completamento automatico del browser conosce, quindi non verrà mai
+             riempito per errore: se arriva pieno, è un bot. -->
+        <p style="display:none" aria-hidden="true">
+          <label>Lascia vuoto questo campo <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+        </p>
         <div class="field">
           <label for="nome" data-en="Full name" data-fr="Nom et prénom">Nome e cognome</label>
           <input id="nome" name="nome" type="text" placeholder="Es. Maria Rossi" data-en-ph="e.g. Maria Rossi" data-fr-ph="ex. Maria Rossi" autocomplete="name" required />

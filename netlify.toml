@@ -17,8 +17,13 @@
   to = "/.netlify/functions/reviews"
   status = 200
 
-# URL pulito: /api/prenota  ->  la function prenota (prenotazioni -> WhatsApp)
-[[redirects]]
-  from = "/api/prenota"
-  to = "/.netlify/functions/prenota"
-  status = 200
+# Prenotazioni: ora passano da Netlify Forms (vedi il form in index.html), non
+# più da WhatsApp. Il vecchio percorso è DISATTIVATO di proposito: era un
+# endpoint pubblico e senza autenticazione che, appena il WhatsApp Business
+# Account avrà un metodo di pagamento, inizierebbe a spedire messaggi a
+# pagamento a chiunque lo chiami. La function netlify/functions/prenota.js
+# resta nel repository: per riattivare WhatsApp basta togliere il commento qui.
+# [[redirects]]
+#   from = "/api/prenota"
+#   to = "/.netlify/functions/prenota"
+#   status = 200

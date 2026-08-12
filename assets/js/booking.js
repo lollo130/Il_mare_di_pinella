@@ -1,9 +1,13 @@
 /* ==========================================================================
    IL MARE DI PINELLA — Form Prenotazioni (frontend)
    - Validazione campi in JavaScript (animata: scuotimento + stati colore)
-   - Al "Conferma": invia la prenotazione a /api/prenota (funzione Netlify ->
-     WhatsApp dello staff), poi mostra il modale di avvenuta ricezione.
+   - Al "Conferma": invia la prenotazione a Netlify Forms, che la archivia nel
+     pannello e manda la mail di notifica al ristorante. Poi mostra il modale.
    - Se l'invio fallisce, mostra un avviso e NON il modale di conferma.
+
+   L'invio è via JavaScript (non il POST nativo del browser) per non perdere il
+   modale di conferma: Netlify accetta submission in AJAX purché il corpo sia
+   urlencoded e contenga "form-name" con il nome del form dichiarato nell'HTML.
    ========================================================================== */
 (() => {
   "use strict";
@@ -191,21 +195,39 @@
       note: f.note ? f.note.value.trim() : "",
     };
 
+    // Riepilogo di una riga, primo colpo d'occhio nella mail di notifica.
+    const riepilogo =
+      `Prenotazione — ${payload.nome}, ${payload.persone} pers., ${dataFmt} alle ${payload.ora}`;
+
     const btn = form.querySelector('button[type="submit"]');
     const inner = btn ? (btn.querySelector(".magnetic__inner") || btn) : null;
     const label = inner ? inner.textContent : "";
     if (btn) btn.disabled = true;
     if (inner) inner.textContent = "Invio…";
 
+    // Netlify Forms vuole un corpo urlencoded. I nomi dei campi devono coincidere
+    // con quelli dichiarati nell'HTML, altrimenti la submission viene scartata.
+    const body = new URLSearchParams({
+      "form-name": "prenotazione",
+      "bot-field": "",              // vuoto: lo riempiono solo i bot
+      subject: riepilogo,
+      nome: payload.nome,
+      persone: payload.persone,
+      data: payload.data,
+      ora: payload.ora,
+      telefono: payload.telefono,
+      note: payload.note || "—",
+      privacy: "consenso prestato il " + new Date().toLocaleString("it-IT"),
+    });
+
     let ok = false;
     try {
-      const res = await fetch("/api/prenota", {
+      const res = await fetch("/", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body.toString(),
       });
-      const out = await res.json().catch(() => ({}));
-      ok = res.ok && out && out.ok === true;
+      ok = res.ok;
     } catch (err) {
       ok = false;
     }
