@@ -169,7 +169,7 @@
     document.addEventListener("keydown", onKey);
   }
 
-  /* --- Submit: valida -> invia a /api/prenota -> modale (o avviso) --- */
+  /* --- Submit: valida -> invia a Netlify Forms -> modale (o avviso) --- */
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const f = get();

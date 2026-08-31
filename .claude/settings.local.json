@@ -33,7 +33,12 @@
       "Bash(curl -s -X POST https://ilmaredipinella.it/api/prenota -H \"Content-Type: application/json\" -d '{\"nome\":\"TEST IGNORARE - diagnostica sito\",\"persone\":\"2\",\"data\":\"test\",\"ora\":\"20:00\",\"telefono\":\"0000000000\",\"note\":\"Messaggio di prova automatico, nessuna prenotazione reale\"}' -w \"\\\\n[HTTP %{http_code}]\\\\n\")",
       "Bash(node --check assets/js/booking.js)",
       "Bash(node --check netlify/functions/prenota.js)",
-      "Bash(git checkout *)"
+      "Bash(git checkout *)",
+      "Bash(curl -s https://ilmaredipinella.it/)",
+      "Bash(curl -s https://ilmaredipinella.it/assets/js/booking.js)",
+      "Bash(curl -s -o /dev/null -w '[HTTP %{http_code}]\\\\n' -X POST https://ilmaredipinella.it/ -H 'Content-Type: application/x-www-form-urlencoded' --data-urlencode form-name=prenotazione --data-urlencode bot-field= --data-urlencode 'subject=TEST — ignorare — verifica sistema prenotazioni' --data-urlencode 'nome=TEST IGNORARE \\(prova tecnica\\)' --data-urlencode persone=2 --data-urlencode 'data=giovedì 20 agosto 2026' --data-urlencode ora=20:30 --data-urlencode 'telefono=000 0000000' --data-urlencode 'note=Questa non e'\\\\'' una prenotazione reale: e'\\\\'' la prova che il sistema di invio funziona. Nessuna azione richiesta.' --data-urlencode 'privacy=prova tecnica')",
+      "PowerShell(git add index.html assets/css/styles.css assets/js/main.js)",
+      "PowerShell(git commit -F \"C:\\\\Users\\\\loren\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-loren-Downloads-Il-mare-di-pinella\\\\3c0cb165-16c3-4d5c-b55a-889ae8721f11\\\\scratchpad\\\\commitmsg.txt\")"
     ]
   }
 }
