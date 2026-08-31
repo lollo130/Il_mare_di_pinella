@@ -77,9 +77,21 @@ riservata, **non collegata** dal sito (nessun pulsante login sul sito pubblico):
    «Eventi passati». Dalla lista in fondo al pannello si possono modificare o
    eliminare.
 
+### Come cambiare gli orari di apertura
+Nella stessa pagina `gestione-eventi.html`, in fondo, c'è il riquadro **«Orari di
+apertura»**: una riga per giorno, con la casella «Chiuso» e i due turni (pranzo e
+cena). «Salva orari» → gli orari cambiano **subito** sulla home, senza nuovo deploy.
+
+Un giorno aperto deve avere almeno un turno completo (inizio *e* fine), altrimenti
+il salvataggio avvisa. Se un turno non serve (es. solo cena) basta lasciarlo vuoto.
+
+Gli orari scritti a mano in `index.html` restano come **rete di sicurezza**: si
+vedono solo se Supabase non risponde. Se cambi gli orari dal pannello e vuoi
+allineare anche il fallback, aggiorna la sezione `data-hours` in `index.html`.
+
 ### Per chi gestisce il sito (tecnico)
-- Backend: **Supabase**, progetto `il-mare-di-pinella`. Tabella `eventi`, bucket
-  Storage `locandine` (immagini pubbliche). URL + chiave **pubblica** in
+- Backend: **Supabase**, progetto `il-mare-di-pinella`. Tabelle `eventi` e `orari`,
+  bucket Storage `locandine` (immagini pubbliche). URL + chiave **pubblica** in
   `assets/js/supabase-config.js` (sicure da esporre: la protezione è nelle policy
   RLS, non nel nascondere la chiave; la chiave `service_role` NON è nel sito).
 - Chi può pubblicare: solo le email nella tabella `app_owners` (allowlist) **e**

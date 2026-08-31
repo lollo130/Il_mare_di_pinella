@@ -61,6 +61,26 @@
     .linkbtn--danger { color: var(--terracotta, #C0492F); }
     .empty { opacity: 0.7; text-align: center; padding: 1rem; }
     .login-wrap { max-width: 380px; margin: 6vh auto 0; }
+    /* Orari: una riga per giorno */
+    .or-row {
+      display: grid; grid-template-columns: 108px auto 1fr; gap: 0.7rem; align-items: center;
+      padding: 0.5rem 0; border-bottom: 1px solid rgba(27,64,150,0.08);
+    }
+    .or-row:last-child { border-bottom: none; }
+    .or-row__day { font-weight: 700; color: var(--ink, #122146); font-size: 0.92rem; }
+    .or-row__closed { display: flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; white-space: nowrap; }
+    .or-row__closed input { width: auto; }
+    .or-times { display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap; }
+    .or-times input[type="time"] {
+      width: 104px; padding: 0.4rem 0.5rem; border: 1.5px solid rgba(27,64,150,0.25);
+      border-radius: 9px; background: #fff; font-family: inherit; font-size: 0.9rem; color: var(--ink, #122146);
+    }
+    .or-times .sep { opacity: 0.5; font-size: 0.85rem; }
+    .or-row.is-closed .or-times { opacity: 0.35; pointer-events: none; }
+    @media (max-width: 620px) {
+      .or-row { grid-template-columns: 1fr auto; }
+      .or-times { grid-column: 1 / -1; }
+    }
   </style>
 </head>
 
@@ -147,6 +167,22 @@
         <div class="list" id="list"><p class="empty">Caricamento…</p></div>
       </div>
 
+      <!-- Orari di apertura -->
+      <div class="card">
+        <h2>Orari di apertura</h2>
+        <p style="opacity:.75;font-size:.88rem;margin:-.5rem 0 1.1rem">
+          Le modifiche compaiono <strong>subito</strong> sul sito, senza ripubblicarlo.
+          Spunta «Chiuso» per i giorni di riposo.
+        </p>
+        <form id="or-form">
+          <div id="or-rows"><p class="empty">Caricamento…</p></div>
+          <div class="actions">
+            <button type="submit" class="btn btn--cobalt" id="or-btn">Salva orari</button>
+          </div>
+          <p class="msg" id="or-msg"></p>
+        </form>
+      </div>
+
     </section>
   </div>
 
@@ -188,7 +224,7 @@
       loginView.hidden = on;
       appView.hidden = !on;
       logoutBtn.hidden = !on;
-      if (on) { $("#who").textContent = session.user.email; loadList(); }
+      if (on) { $("#who").textContent = session.user.email; loadList(); loadOrari(); }
     }
 
     /* ---------- LOGIN / LOGOUT ---------- */
@@ -349,6 +385,92 @@
         }
         loadList();
       }
+    });
+
+    /* ---------- ORARI DI APERTURA ---------- */
+    // L'ordine di visualizzazione parte da lunedì; i valori restano quelli di
+    // JS getDay() (0 = domenica), così il sito pubblico li usa senza conversioni.
+    const GIORNI = [
+      { n: 1, nome: "Lunedì" }, { n: 2, nome: "Martedì" }, { n: 3, nome: "Mercoledì" },
+      { n: 4, nome: "Giovedì" }, { n: 5, nome: "Venerdì" }, { n: 6, nome: "Sabato" },
+      { n: 0, nome: "Domenica" },
+    ];
+
+    function ormsg(text, isErr) {
+      const el = $("#or-msg");
+      el.textContent = text;
+      el.className = "msg " + (isErr ? "msg--err" : "msg--ok");
+    }
+
+    async function loadOrari() {
+      const box = $("#or-rows");
+      const { data, error } = await sb.from("orari").select("*");
+      if (error) { box.innerHTML = '<p class="empty">' + esc(errText(error)) + "</p>"; return; }
+      const byDay = {};
+      (data || []).forEach((r) => { byDay[r.giorno] = r; });
+
+      box.innerHTML = GIORNI.map(({ n, nome }) => {
+        const r = byDay[n] || {};
+        const t = (v) => esc(v || "");
+        return '<div class="or-row' + (r.chiuso ? " is-closed" : "") + '" data-giorno="' + n + '">' +
+          '<span class="or-row__day">' + nome + "</span>" +
+          '<label class="or-row__closed"><input type="checkbox" data-chiuso' + (r.chiuso ? " checked" : "") + " /> Chiuso</label>" +
+          '<div class="or-times">' +
+            '<input type="time" data-campo="pranzo_da" value="' + t(r.pranzo_da) + '" aria-label="' + nome + ' pranzo dalle">' +
+            '<span class="sep">–</span>' +
+            '<input type="time" data-campo="pranzo_a" value="' + t(r.pranzo_a) + '" aria-label="' + nome + ' pranzo alle">' +
+            '<span class="sep">·</span>' +
+            '<input type="time" data-campo="cena_da" value="' + t(r.cena_da) + '" aria-label="' + nome + ' cena dalle">' +
+            '<span class="sep">–</span>' +
+            '<input type="time" data-campo="cena_a" value="' + t(r.cena_a) + '" aria-label="' + nome + ' cena alle">' +
+          "</div>" +
+        "</div>";
+      }).join("");
+    }
+
+    // Spuntando "Chiuso" i campi orario si disattivano (solo effetto visivo:
+    // al salvataggio vengono comunque azzerati).
+    $("#or-rows").addEventListener("change", (e) => {
+      if (!e.target.hasAttribute("data-chiuso")) return;
+      e.target.closest(".or-row").classList.toggle("is-closed", e.target.checked);
+    });
+
+    $("#or-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = $("#or-btn"); btn.disabled = true; ormsg("", false);
+      try {
+        const righe = Array.from(document.querySelectorAll(".or-row")).map((row) => {
+          const chiuso = row.querySelector("[data-chiuso]").checked;
+          const val = (campo) => {
+            const v = row.querySelector('[data-campo="' + campo + '"]').value.trim();
+            return v || null;
+          };
+          return {
+            giorno: Number(row.getAttribute("data-giorno")),
+            chiuso,
+            pranzo_da: chiuso ? null : val("pranzo_da"),
+            pranzo_a:  chiuso ? null : val("pranzo_a"),
+            cena_da:   chiuso ? null : val("cena_da"),
+            cena_a:    chiuso ? null : val("cena_a"),
+            aggiornato_il: new Date().toISOString(),
+          };
+        });
+
+        // Un giorno aperto deve avere almeno una fascia oraria completa.
+        const incompleto = righe.find((r) =>
+          !r.chiuso && !(r.pranzo_da && r.pranzo_a) && !(r.cena_da && r.cena_a));
+        if (incompleto) {
+          const nome = (GIORNI.find((g) => g.n === incompleto.giorno) || {}).nome || "";
+          ormsg("Indica almeno una fascia oraria completa per " + nome + ", oppure segnalo come chiuso.", true);
+          btn.disabled = false;
+          return;
+        }
+
+        const { error } = await sb.from("orari").upsert(righe, { onConflict: "giorno" });
+        if (error) throw error;
+        ormsg("Orari aggiornati: sono già online sul sito. ✓", false);
+      } catch (err) { ormsg(errText(err), true); }
+      btn.disabled = false;
     });
 
     init();

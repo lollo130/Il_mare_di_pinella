@@ -394,16 +394,98 @@
 })();
 
 /* ==========================================================================
-   ORARI — evidenzia il giorno corrente
+   ORARI DI APERTURA
    ==========================================================================
-   getDay(): 0 = domenica … 6 = sabato, gli stessi valori di data-day.
+   Gli orari scritti nell'HTML sono il fallback: restano visibili se Supabase
+   non risponde. Se invece la lettura riesce, vengono sostituiti con quelli
+   salvati dal pannello riservato (gestione-eventi.html), così i proprietari
+   possono cambiarli senza ripubblicare il sito.
+   data-day usa i valori di getDay(): 0 = domenica … 6 = sabato.
    ========================================================================== */
 (() => {
   "use strict";
   const list = document.querySelector("[data-hours]");
   if (!list) return;
-  const today = list.querySelector(`li[data-day="${new Date().getDay()}"]`);
-  if (today) today.classList.add("is-today");
+
+  const CHIUSO = { it: "Chiuso", en: "Closed", fr: "Fermé" };
+
+  function markToday() {
+    list.querySelectorAll("li.is-today").forEach((li) => li.classList.remove("is-today"));
+    const today = list.querySelector(`li[data-day="${new Date().getDay()}"]`);
+    if (today) today.classList.add("is-today");
+  }
+  markToday();
+
+  // Compone "11:30–15:00 · 18:30–23:30", saltando le fasce non valorizzate.
+  function formatta(r) {
+    const fasce = [];
+    if (r.pranzo_da && r.pranzo_a) fasce.push(r.pranzo_da + "–" + r.pranzo_a);
+    if (r.cena_da && r.cena_a) fasce.push(r.cena_da + "–" + r.cena_a);
+    return fasce.join(" · ");
+  }
+
+  function applica(righe) {
+    righe.forEach((r) => {
+      const li = list.querySelector(`li[data-day="${r.giorno}"]`);
+      if (!li) return;
+      const cella = li.querySelector(".hours-list__time");
+      if (!cella) return;
+
+      if (r.chiuso) {
+        li.classList.add("is-closed");
+        cella.textContent = CHIUSO.it;
+        cella.setAttribute("data-en", CHIUSO.en);
+        cella.setAttribute("data-fr", CHIUSO.fr);
+        cella.dataset.it = CHIUSO.it;
+        return;
+      }
+      const testo = formatta(r);
+      if (!testo) return;                 // riga incompleta: si tiene il fallback
+      li.classList.remove("is-closed");
+      cella.textContent = testo;
+      // Gli orari sono numeri: identici nelle tre lingue.
+      cella.setAttribute("data-en", testo);
+      cella.setAttribute("data-fr", testo);
+      cella.dataset.it = testo;
+    });
+    markToday();
+    aggiornaDatiStrutturati(righe);
+  }
+
+  // Tiene allineato lo schema.org in <head> con gli orari mostrati, così Google
+  // non continua a pubblicare quelli vecchi nei risultati di ricerca.
+  function aggiornaDatiStrutturati(righe) {
+    const tag = document.querySelector('script[type="application/ld+json"]');
+    if (!tag) return;
+    const GIORNI_LD = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    try {
+      const dati = JSON.parse(tag.textContent);
+      const spec = [];
+      [["pranzo_da", "pranzo_a"], ["cena_da", "cena_a"]].forEach(([da, a]) => {
+        const gruppi = {};
+        righe.forEach((r) => {
+          if (r.chiuso || !r[da] || !r[a]) return;
+          const chiave = r[da] + "-" + r[a];
+          (gruppi[chiave] = gruppi[chiave] || []).push(GIORNI_LD[r.giorno]);
+        });
+        Object.keys(gruppi).forEach((chiave) => {
+          const [opens, closes] = chiave.split("-");
+          spec.push({ "@type": "OpeningHoursSpecification", dayOfWeek: gruppi[chiave], opens, closes });
+        });
+      });
+      if (!spec.length) return;
+      dati.openingHoursSpecification = spec;
+      tag.textContent = JSON.stringify(dati, null, 2);
+    } catch (e) { /* schema non aggiornabile: resta quello statico */ }
+  }
+
+  if (!window.SUPABASE_URL || !window.SUPABASE_ANON_KEY) return;
+  fetch(window.SUPABASE_URL + "/rest/v1/orari?select=*", {
+    headers: { apikey: window.SUPABASE_ANON_KEY },
+  })
+    .then((r) => (r.ok ? r.json() : Promise.reject(new Error("HTTP " + r.status))))
+    .then((righe) => { if (Array.isArray(righe) && righe.length) applica(righe); })
+    .catch(() => { /* offline o progetto in pausa: restano gli orari nell'HTML */ });
 })();
 
 /* ==========================================================================
