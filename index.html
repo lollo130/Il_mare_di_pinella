@@ -29,6 +29,49 @@
   <meta name="twitter:title" content="Il Mare di Pinella — Osteria di mare a Siracusa" />
   <meta name="twitter:description" content="Cucina di mare e tradizione siciliana nei vicoli di Ortigia, a Siracusa." />
   <meta name="twitter:image" content="https://ilmaredipinella.it/assets/img/og-cover.jpg" />
+
+  <!-- Dati strutturati: permettono a Google di mostrare indirizzo, telefono e
+       orari direttamente nei risultati di ricerca e nella scheda del locale.
+       Se cambiano gli orari, aggiornare ANCHE la sezione "Orari" nel body. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "@id": "https://ilmaredipinella.it/#restaurant",
+    "name": "Il Mare di Pinella",
+    "description": "Osteria di mare siracusana: cucina di mare e tradizione siciliana a Ortigia.",
+    "url": "https://ilmaredipinella.it/",
+    "telephone": "+393296773519",
+    "image": "https://ilmaredipinella.it/assets/img/og-cover.jpg",
+    "servesCuisine": ["Cucina di mare", "Cucina siciliana"],
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Via dei Candelai 12",
+      "addressLocality": "Siracusa",
+      "addressRegion": "SR",
+      "postalCode": "96100",
+      "addressCountry": "IT"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "opens": "11:30",
+        "closes": "15:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "opens": "18:30",
+        "closes": "23:30"
+      }
+    ],
+    "sameAs": [
+      "https://www.instagram.com/ilmaredipinella",
+      "https://www.facebook.com/people/Il-Mare-di-Pinella/61590315401542/"
+    ]
+  }
+  </script>
 </head>
 
 <body>
@@ -3899,7 +3942,7 @@
   <section class="section section--warm" style="padding-block:clamp(2.5rem,5vw,4rem)">
     <div class="wrap center" style="position:relative;z-index:1">
       <h2 style="color:var(--ink);font-size:clamp(1.8rem,4vw,3rem);margin:0" data-en="Lunch and dinner, away from the bustle of Ortigia's busiest streets." data-fr="Déjeuner et dîner, loin de l'agitation des rues les plus fréquentées d'Ortigia.">Pranzo e cena, lontano dal trambusto delle strade più affollate di Ortigia.</h2>
-      <p style="color:var(--ink);opacity:.85;margin:.6rem 0 0" data-en="Open for lunch and dinner · Tuesday and Thursday dinner only · Booking recommended on weekends" data-fr="Ouvert midi et soir · Mardi et jeudi uniquement le soir · Réservation conseillée le week-end">Aperti a pranzo e cena · Martedì e giovedì solo la sera · Prenotazione consigliata nel weekend</p>
+      <p style="color:var(--ink);opacity:.85;margin:.6rem 0 0" data-en="Open for lunch and dinner · Closed on Wednesdays · Booking recommended on weekends" data-fr="Ouvert midi et soir · Fermé le mercredi · Réservation conseillée le week-end">Aperti a pranzo e cena · Mercoledì chiuso · Prenotazione consigliata nel weekend</p>
     </div>
   </section>
 
@@ -4011,6 +4054,42 @@
             <span>Via dei Candelai 12 · Siracusa (Ortigia)</span>
           </a>
         </p>
+      </div>
+
+      <!-- ================= ORARI DI APERTURA =================
+           Il giorno corrente viene evidenziato da main.js. -->
+      <div class="hours-card" data-reveal data-hours>
+        <h3 class="hours-card__title" data-en="Opening hours" data-fr="Horaires d'ouverture">Orari di apertura</h3>
+        <ul class="hours-list">
+          <li data-day="1">
+            <span class="hours-list__day" data-en="Monday" data-fr="Lundi">Lunedì</span>
+            <span class="hours-list__time">11:30–15:00 · 18:30–23:30</span>
+          </li>
+          <li data-day="2">
+            <span class="hours-list__day" data-en="Tuesday" data-fr="Mardi">Martedì</span>
+            <span class="hours-list__time">11:30–15:00 · 18:30–23:30</span>
+          </li>
+          <li data-day="3" class="is-closed">
+            <span class="hours-list__day" data-en="Wednesday" data-fr="Mercredi">Mercoledì</span>
+            <span class="hours-list__time" data-en="Closed" data-fr="Fermé">Chiuso</span>
+          </li>
+          <li data-day="4">
+            <span class="hours-list__day" data-en="Thursday" data-fr="Jeudi">Giovedì</span>
+            <span class="hours-list__time">11:30–15:00 · 18:30–23:30</span>
+          </li>
+          <li data-day="5">
+            <span class="hours-list__day" data-en="Friday" data-fr="Vendredi">Venerdì</span>
+            <span class="hours-list__time">11:30–15:00 · 18:30–23:30</span>
+          </li>
+          <li data-day="6">
+            <span class="hours-list__day" data-en="Saturday" data-fr="Samedi">Sabato</span>
+            <span class="hours-list__time">11:30–15:00 · 18:30–23:30</span>
+          </li>
+          <li data-day="0">
+            <span class="hours-list__day" data-en="Sunday" data-fr="Dimanche">Domenica</span>
+            <span class="hours-list__time">11:30–15:00 · 18:30–23:30</span>
+          </li>
+        </ul>
       </div>
 
       <div class="social-grid">

@@ -394,6 +394,19 @@
 })();
 
 /* ==========================================================================
+   ORARI — evidenzia il giorno corrente
+   ==========================================================================
+   getDay(): 0 = domenica … 6 = sabato, gli stessi valori di data-day.
+   ========================================================================== */
+(() => {
+  "use strict";
+  const list = document.querySelector("[data-hours]");
+  if (!list) return;
+  const today = list.querySelector(`li[data-day="${new Date().getDay()}"]`);
+  if (today) today.classList.add("is-today");
+})();
+
+/* ==========================================================================
    MAPPA A CARICAMENTO CONSENSUALE (GDPR)
    ==========================================================================
    L'iframe di Google Maps installa cookie di terze parti: per questo non è

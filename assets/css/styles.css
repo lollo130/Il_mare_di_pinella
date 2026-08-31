@@ -713,6 +713,36 @@ img { max-width: 100%; display: block; }
   .fam-block__body p.lang-en { opacity: 0.8; }
 }
 
+/* Orari di apertura — scheda con giorno corrente evidenziato */
+.hours-card {
+  max-width: 480px; margin: 0 auto 3rem; padding: 1.6rem 1.8rem 1.2rem;
+  background: var(--ceramic); border: 1px solid rgba(27,64,150,0.1);
+  border-radius: var(--radius); box-shadow: var(--shadow-sm);
+}
+.hours-card__title {
+  font-size: 1.35rem; text-align: center; margin: 0 0 1rem;
+  padding-bottom: 0.8rem; border-bottom: 1px solid rgba(27,64,150,0.1);
+}
+.hours-list { list-style: none; margin: 0; padding: 0; }
+.hours-list li {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
+  padding: 0.5rem 0.6rem; border-radius: 10px; font-size: 0.95rem;
+}
+.hours-list__day { font-weight: 500; }
+.hours-list__time { font-variant-numeric: tabular-nums; opacity: 0.85; text-align: right; }
+.hours-list li.is-closed .hours-list__time { color: var(--terracotta); font-weight: 500; opacity: 1; }
+/* Giorno corrente: fondo dorato tenue + pallino */
+.hours-list li.is-today { background: rgba(242,210,122,0.28); font-weight: 600; }
+.hours-list li.is-today .hours-list__time { opacity: 1; }
+.hours-list li.is-today .hours-list__day::before {
+  content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--gold); margin-right: 0.5rem; vertical-align: middle;
+}
+@media (max-width: 420px) {
+  .hours-list li { flex-direction: column; gap: 0.1rem; align-items: flex-start; }
+  .hours-list__time { text-align: left; }
+}
+
 /* Riconoscimenti — locandine premi (immagini intere, non ritagliate) */
 .awards-grid { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; max-width: 820px; margin-inline: auto; }
 .award-card {
