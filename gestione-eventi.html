@@ -81,6 +81,31 @@
       .or-row { grid-template-columns: 1fr auto; }
       .or-times { grid-column: 1 / -1; }
     }
+    /* ===== Menù CMS ===== */
+    .mn-catbar { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-bottom: 1.1rem; }
+    .mn-catbar select { width: auto; min-width: 190px; flex: 1 1 190px; }
+    .mn-catbar .linkbtn { padding: 0.4rem 0.3rem; }
+    .mn-dishes { display: grid; gap: 0.55rem; margin-bottom: 1rem; }
+    .mn-dish { display: flex; gap: 0.7rem; align-items: center; padding: 0.6rem 0.8rem; border: 1px solid rgba(27,64,150,0.12); border-radius: 12px; background: #fff; }
+    .mn-dish.is-hidden-dish { background: rgba(18,33,70,0.03); }
+    .mn-dish__body { flex: 1; min-width: 0; }
+    .mn-dish__name { font-weight: 700; color: var(--ink, #122146); margin: 0; }
+    .mn-dish__sub { font-size: 0.8rem; opacity: 0.72; margin: 0.12rem 0 0; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
+    .mn-dish__price { font-weight: 700; color: var(--citrus, #E2722B); white-space: nowrap; }
+    .mn-ord { display: flex; flex-direction: column; gap: 0.15rem; }
+    .mn-ord .linkbtn { padding: 0; font-size: 1rem; line-height: 1; }
+    .mn-dish__acts { display: flex; flex-direction: column; gap: 0.3rem; }
+    /* Modale editor */
+    .mn-modal { position: fixed; inset: 0; background: rgba(18,33,70,0.45); display: flex; align-items: flex-start; justify-content: center; padding: 4vh 1rem; overflow: auto; z-index: 50; }
+    .mn-modal[hidden] { display: none; }
+    .mn-modal__box { background: #fff; border-radius: 18px; padding: 1.5rem; width: min(560px, 96vw); box-shadow: 0 30px 70px -20px rgba(18,33,70,0.5); }
+    .mn-chk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem 0.8rem; }
+    @media (max-width: 480px) { .mn-chk-grid { grid-template-columns: 1fr; } }
+    .mn-chk { display: flex; align-items: center; gap: 0.4rem; font-weight: 400; font-size: 0.88rem; margin: 0; }
+    .mn-chk input { width: auto; }
+    details.mn-tr { margin: 0.2rem 0 1rem; border: 1px dashed rgba(27,64,150,0.28); border-radius: 10px; padding: 0.5rem 0.85rem; }
+    details.mn-tr summary { cursor: pointer; font-size: 0.85rem; font-weight: 600; color: var(--cobalt, #1B4096); }
+    details.mn-tr[open] { padding-bottom: 0.2rem; }
   </style>
 </head>
 
@@ -183,7 +208,114 @@
         </form>
       </div>
 
+      <!-- Menù del ristorante -->
+      <div class="card">
+        <h2>Menù</h2>
+        <p style="opacity:.75;font-size:.88rem;margin:-.5rem 0 1.1rem">
+          Scegli una categoria, poi aggiungi o modifica i piatti. Le modifiche
+          compaiono <strong>subito</strong> sul sito. Usa ▲ ▼ per cambiare l'ordine.
+        </p>
+        <div class="mn-catbar">
+          <select id="mn-cat-select" aria-label="Categoria del menù"></select>
+          <button type="button" class="linkbtn" id="mn-cat-up" title="Sposta su">▲</button>
+          <button type="button" class="linkbtn" id="mn-cat-down" title="Sposta giù">▼</button>
+          <button type="button" class="linkbtn" id="mn-cat-edit">Rinomina</button>
+          <button type="button" class="linkbtn linkbtn--danger" id="mn-cat-del">Elimina</button>
+          <button type="button" class="btn btn--ghost btn--sm" id="mn-cat-new">＋ Categoria</button>
+        </div>
+        <div class="mn-dishes" id="mn-dishes"><p class="empty">Caricamento…</p></div>
+        <div class="actions">
+          <button type="button" class="btn btn--cobalt" id="mn-dish-new">＋ Nuovo piatto</button>
+        </div>
+        <p class="msg" id="mn-msg"></p>
+      </div>
+
     </section>
+  </div>
+
+  <!-- ====== MODALE PIATTO ====== -->
+  <div class="mn-modal" id="dish-modal" hidden>
+    <div class="mn-modal__box">
+      <h2 id="dish-modal-title">Nuovo piatto</h2>
+      <form id="dish-form">
+        <input type="hidden" id="d-id" />
+        <input type="hidden" id="d-cat" />
+        <div class="row">
+          <div class="field">
+            <label for="d-n">Nome del piatto *</label>
+            <input type="text" id="d-n" placeholder="Es. Spaghetti alle vongole" required />
+          </div>
+          <div class="field">
+            <label for="d-p">Prezzo</label>
+            <input type="text" id="d-p" placeholder="€12" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="d-d">Descrizione / ingredienti</label>
+          <textarea id="d-d" placeholder="Vongole, aglio, olio, prezzemolo…"></textarea>
+        </div>
+        <div class="field">
+          <label>Allergeni <span class="hint">(spunta quelli presenti)</span></label>
+          <div class="mn-chk-grid" id="d-all"></div>
+        </div>
+        <div class="field">
+          <label>Tipo di piatto <span class="hint">(per i filtri del sito)</span></label>
+          <div class="mn-chk-grid" id="d-tags"></div>
+        </div>
+        <div class="field check">
+          <input type="checkbox" id="d-vis" checked />
+          <label for="d-vis" style="margin:0">Visibile sul sito</label>
+        </div>
+        <details class="mn-tr">
+          <summary>Traduzioni inglese / francese — facoltative</summary>
+          <div class="row">
+            <div class="field"><label for="d-e">Nome (inglese)</label><input type="text" id="d-e" /></div>
+            <div class="field"><label for="d-f">Nome (francese)</label><input type="text" id="d-f" /></div>
+          </div>
+          <div class="field"><label for="d-de">Descrizione (inglese)</label><textarea id="d-de"></textarea></div>
+          <div class="field"><label for="d-df">Descrizione (francese)</label><textarea id="d-df"></textarea></div>
+        </details>
+        <div class="actions">
+          <button type="submit" class="btn btn--cobalt" id="d-save">Salva piatto</button>
+          <button type="button" class="btn btn--ghost btn--sm" data-close-modal>Annulla</button>
+        </div>
+        <p class="msg" id="d-msg"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ====== MODALE CATEGORIA ====== -->
+  <div class="mn-modal" id="cat-modal" hidden>
+    <div class="mn-modal__box">
+      <h2 id="cat-modal-title">Nuova categoria</h2>
+      <form id="cat-form">
+        <input type="hidden" id="c-id" />
+        <div class="field">
+          <label for="c-cat">Nome della categoria *</label>
+          <input type="text" id="c-cat" placeholder="Es. Antipasti di Mare" required />
+        </div>
+        <details class="mn-tr">
+          <summary>Traduzioni e nota — facoltative</summary>
+          <div class="row">
+            <div class="field"><label for="c-en">Nome (inglese)</label><input type="text" id="c-en" /></div>
+            <div class="field"><label for="c-fr">Nome (francese)</label><input type="text" id="c-fr" /></div>
+          </div>
+          <div class="field">
+            <label for="c-note">Nota <span class="hint">es. «Prezzo: calice / bottiglia»</span></label>
+            <input type="text" id="c-note" />
+          </div>
+          <div class="row">
+            <div class="field"><label for="c-note-en">Nota (inglese)</label><input type="text" id="c-note-en" /></div>
+            <div class="field"><label for="c-note-fr">Nota (francese)</label><input type="text" id="c-note-fr" /></div>
+          </div>
+        </details>
+        <div class="actions">
+          <button type="submit" class="btn btn--cobalt" id="c-save">Salva categoria</button>
+          <button type="button" class="btn btn--ghost btn--sm" data-close-modal>Annulla</button>
+        </div>
+        <p class="msg" id="c-msg"></p>
+      </form>
+    </div>
   </div>
 
   <script src="assets/js/supabase.min.js"></script>
@@ -193,6 +325,7 @@
     "use strict";
     const sb = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
     const $ = (s) => document.querySelector(s);
+    const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
 
     const loginView = $("#login"), appView = $("#app"), logoutBtn = $("#logout");
     const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
@@ -224,7 +357,7 @@
       loginView.hidden = on;
       appView.hidden = !on;
       logoutBtn.hidden = !on;
-      if (on) { $("#who").textContent = session.user.email; loadList(); loadOrari(); }
+      if (on) { $("#who").textContent = session.user.email; loadList(); loadOrari(); loadMenu(); }
     }
 
     /* ---------- LOGIN / LOGOUT ---------- */
@@ -472,6 +605,256 @@
       } catch (err) { ormsg(errText(err), true); }
       btn.disabled = false;
     });
+
+    /* ==================================================================
+       MENÙ — categorie e piatti (tabelle menu_categorie / menu_piatti)
+       ================================================================== */
+    const ALLERGENI = [
+      [1, "Glutine"], [2, "Crostacei"], [3, "Uova"], [4, "Pesce"], [5, "Frutta a guscio"],
+      [6, "Latte"], [7, "Sedano"], [8, "Solfiti"], [9, "Molluschi"],
+    ];
+    const TAGCHOICES = [["mare", "Mare"], ["terra", "Terra"], ["veg", "Vegetariano"], ["vini", "Vino"]];
+    const TAGMAP = { mare: "Mare", terra: "Terra", veg: "Veg", vini: "Vino" };
+
+    let MN_CATS = [];      // categorie ordinate
+    let MN_DISHES = [];    // tutti i piatti
+    let currentCat = null; // id categoria selezionata
+
+    function mnmsg(text, isErr) {
+      const el = $("#mn-msg");
+      el.textContent = text;
+      el.className = "msg " + (isErr ? "msg--err" : "msg--ok");
+    }
+    function dmsg(text, isErr) { const el = $("#d-msg"); el.textContent = text; el.className = "msg " + (isErr ? "msg--err" : "msg--ok"); }
+    function cmsg(text, isErr) { const el = $("#c-msg"); el.textContent = text; el.className = "msg " + (isErr ? "msg--err" : "msg--ok"); }
+
+    // Griglie di spunte (una sola volta)
+    $("#d-all").innerHTML = ALLERGENI.map(([code, label]) =>
+      '<label class="mn-chk"><input type="checkbox" data-all-code="' + code + '"> ' + code + ". " + esc(label) + "</label>").join("");
+    $("#d-tags").innerHTML = TAGCHOICES.map(([v, label]) =>
+      '<label class="mn-chk"><input type="checkbox" data-tag="' + v + '"> ' + esc(label) + "</label>").join("");
+
+    async function loadMenu() {
+      const box = $("#mn-dishes");
+      const [catsRes, dishRes] = await Promise.all([
+        sb.from("menu_categorie").select("*").order("ordine", { ascending: true }),
+        sb.from("menu_piatti").select("*").order("ordine", { ascending: true }),
+      ]);
+      if (catsRes.error) { box.innerHTML = '<p class="empty">' + esc(errText(catsRes.error)) + "</p>"; return; }
+      if (dishRes.error) { box.innerHTML = '<p class="empty">' + esc(errText(dishRes.error)) + "</p>"; return; }
+      MN_CATS = catsRes.data || [];
+      MN_DISHES = dishRes.data || [];
+      if (currentCat == null || !MN_CATS.some((c) => String(c.id) === String(currentCat))) {
+        currentCat = MN_CATS.length ? MN_CATS[0].id : null;
+      }
+      renderCatSelect();
+      renderDishes();
+    }
+
+    function renderCatSelect() {
+      const sel = $("#mn-cat-select");
+      if (!MN_CATS.length) { sel.innerHTML = '<option value="">— nessuna categoria —</option>'; return; }
+      sel.innerHTML = MN_CATS.map((c) => {
+        const n = MN_DISHES.filter((d) => String(d.categoria_id) === String(c.id)).length;
+        return '<option value="' + c.id + '"' + (String(c.id) === String(currentCat) ? " selected" : "") +
+          ">" + esc(c.cat) + " (" + n + ")</option>";
+      }).join("");
+    }
+
+    function renderDishes() {
+      const box = $("#mn-dishes");
+      if (!currentCat) { box.innerHTML = '<p class="empty">Crea prima una categoria con «＋ Categoria».</p>'; return; }
+      const list = MN_DISHES.filter((d) => String(d.categoria_id) === String(currentCat))
+        .sort((a, b) => a.ordine - b.ordine);
+      if (!list.length) { box.innerHTML = '<p class="empty">Nessun piatto in questa categoria. Aggiungine uno con «＋ Nuovo piatto».</p>'; return; }
+      box.innerHTML = list.map((d, i) => {
+        const tags = (d.t || []).map((t) => TAGMAP[t] || t).join(" · ");
+        const alls = (d.a || []).length ? "Allergeni: " + d.a.join(", ") : "";
+        const sub = [d.d, tags, alls].filter(Boolean).join(" — ");
+        return '<div class="mn-dish' + (d.visibile ? "" : " is-hidden-dish") + '">' +
+          '<div class="mn-ord">' +
+            '<button type="button" class="linkbtn" data-up="' + d.id + '"' + (i === 0 ? " disabled" : "") + ' aria-label="Sposta su">▲</button>' +
+            '<button type="button" class="linkbtn" data-down="' + d.id + '"' + (i === list.length - 1 ? " disabled" : "") + ' aria-label="Sposta giù">▼</button>' +
+          "</div>" +
+          '<div class="mn-dish__body">' +
+            '<p class="mn-dish__name">' + esc(d.n) + (d.visibile ? "" : ' <span class="tag tag--draft">nascosto</span>') + "</p>" +
+            (sub ? '<p class="mn-dish__sub">' + esc(sub) + "</p>" : "") +
+          "</div>" +
+          '<span class="mn-dish__price">' + esc(d.p || "") + "</span>" +
+          '<div class="mn-dish__acts">' +
+            '<button type="button" class="linkbtn" data-edit-dish="' + d.id + '">Modifica</button>' +
+            '<button type="button" class="linkbtn linkbtn--danger" data-del-dish="' + d.id + '">Elimina</button>' +
+          "</div>" +
+        "</div>";
+      }).join("");
+    }
+
+    // Cambio categoria dal menu a tendina
+    $("#mn-cat-select").addEventListener("change", (e) => { currentCat = e.target.value; renderDishes(); });
+
+    /* ----- Modale piatto ----- */
+    function openDish(dish) {
+      $("#dish-modal-title").textContent = dish ? "Modifica piatto" : "Nuovo piatto";
+      $("#d-id").value = dish ? dish.id : "";
+      $("#d-cat").value = currentCat;
+      $("#d-n").value = dish ? (dish.n || "") : "";
+      $("#d-p").value = dish ? (dish.p || "") : "";
+      $("#d-d").value = dish ? (dish.d || "") : "";
+      $("#d-e").value = dish ? (dish.e || "") : "";
+      $("#d-f").value = dish ? (dish.f || "") : "";
+      $("#d-de").value = dish ? (dish.de || "") : "";
+      $("#d-df").value = dish ? (dish.df || "") : "";
+      $("#d-vis").checked = dish ? !!dish.visibile : true;
+      const a = (dish && dish.a) || [], t = (dish && dish.t) || [];
+      $$("#d-all [data-all-code]").forEach((cb) => { cb.checked = a.includes(Number(cb.dataset.allCode)); });
+      $$("#d-tags [data-tag]").forEach((cb) => { cb.checked = t.includes(cb.dataset.tag); });
+      dmsg("", false);
+      $("#dish-modal").hidden = false;
+      $("#d-n").focus();
+    }
+
+    $("#mn-dish-new").addEventListener("click", () => {
+      if (!currentCat) { mnmsg("Crea prima una categoria.", true); return; }
+      openDish(null);
+    });
+
+    $("#mn-dishes").addEventListener("click", async (e) => {
+      const t = e.target;
+      const editId = t.getAttribute("data-edit-dish");
+      const delId = t.getAttribute("data-del-dish");
+      const upId = t.getAttribute("data-up");
+      const downId = t.getAttribute("data-down");
+      if (editId) { const d = MN_DISHES.find((x) => String(x.id) === String(editId)); if (d) openDish(d); return; }
+      if (delId) {
+        const d = MN_DISHES.find((x) => String(x.id) === String(delId));
+        if (!d) return;
+        if (!confirm('Eliminare il piatto "' + (d.n || "") + '"? L\'operazione non è reversibile.')) return;
+        const { error } = await sb.from("menu_piatti").delete().eq("id", delId);
+        if (error) { mnmsg(errText(error), true); return; }
+        mnmsg("Piatto eliminato. ✓", false); await loadMenu(); return;
+      }
+      if (upId || downId) { await moveDish(upId || downId, upId ? -1 : 1); }
+    });
+
+    async function moveDish(id, dir) {
+      const list = MN_DISHES.filter((d) => String(d.categoria_id) === String(currentCat)).sort((a, b) => a.ordine - b.ordine);
+      const i = list.findIndex((d) => String(d.id) === String(id));
+      const j = i + dir;
+      if (i < 0 || j < 0 || j >= list.length) return;
+      const A = list[i], B = list[j];
+      const r1 = await sb.from("menu_piatti").update({ ordine: B.ordine }).eq("id", A.id);
+      const r2 = await sb.from("menu_piatti").update({ ordine: A.ordine }).eq("id", B.id);
+      if (r1.error || r2.error) { mnmsg(errText(r1.error || r2.error), true); return; }
+      await loadMenu();
+    }
+
+    $("#dish-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = $("#d-save"); btn.disabled = true; dmsg("", false);
+      try {
+        const id = $("#d-id").value;
+        const a = $$("#d-all [data-all-code]").filter((cb) => cb.checked).map((cb) => Number(cb.dataset.allCode));
+        const t = $$("#d-tags [data-tag]").filter((cb) => cb.checked).map((cb) => cb.dataset.tag);
+        const row = {
+          n: $("#d-n").value.trim(), p: $("#d-p").value.trim(),
+          d: $("#d-d").value.trim(), e: $("#d-e").value.trim(), f: $("#d-f").value.trim(),
+          de: $("#d-de").value.trim(), df: $("#d-df").value.trim(),
+          a, t, visibile: $("#d-vis").checked,
+        };
+        if (!row.n) { dmsg("Il nome del piatto è obbligatorio.", true); btn.disabled = false; return; }
+        if (id) {
+          const { error } = await sb.from("menu_piatti").update(row).eq("id", id);
+          if (error) throw error;
+        } else {
+          row.categoria_id = $("#d-cat").value;
+          const inCat = MN_DISHES.filter((d) => String(d.categoria_id) === String(row.categoria_id));
+          row.ordine = inCat.length ? Math.max.apply(null, inCat.map((d) => d.ordine)) + 1 : 0;
+          const { error } = await sb.from("menu_piatti").insert(row);
+          if (error) throw error;
+        }
+        $("#dish-modal").hidden = true;
+        mnmsg("Menù aggiornato: è già online sul sito. ✓", false);
+        await loadMenu();
+      } catch (err) { dmsg(errText(err), true); }
+      btn.disabled = false;
+    });
+
+    /* ----- Modale categoria ----- */
+    function openCat(cat) {
+      $("#cat-modal-title").textContent = cat ? "Rinomina categoria" : "Nuova categoria";
+      $("#c-id").value = cat ? cat.id : "";
+      $("#c-cat").value = cat ? (cat.cat || "") : "";
+      $("#c-en").value = cat ? (cat.en || "") : "";
+      $("#c-fr").value = cat ? (cat.fr || "") : "";
+      $("#c-note").value = cat ? (cat.note || "") : "";
+      $("#c-note-en").value = cat ? (cat.note_en || "") : "";
+      $("#c-note-fr").value = cat ? (cat.note_fr || "") : "";
+      cmsg("", false);
+      $("#cat-modal").hidden = false;
+      $("#c-cat").focus();
+    }
+
+    $("#mn-cat-new").addEventListener("click", () => openCat(null));
+    $("#mn-cat-edit").addEventListener("click", () => {
+      const c = MN_CATS.find((x) => String(x.id) === String(currentCat));
+      if (c) openCat(c); else mnmsg("Nessuna categoria selezionata.", true);
+    });
+    $("#mn-cat-del").addEventListener("click", async () => {
+      const c = MN_CATS.find((x) => String(x.id) === String(currentCat));
+      if (!c) return;
+      const n = MN_DISHES.filter((d) => String(d.categoria_id) === String(c.id)).length;
+      if (!confirm('Eliminare la categoria "' + (c.cat || "") + '"' + (n ? " e i suoi " + n + " piatti" : "") + "? L'operazione non è reversibile.")) return;
+      const { error } = await sb.from("menu_categorie").delete().eq("id", c.id);
+      if (error) { mnmsg(errText(error), true); return; }
+      currentCat = null;
+      mnmsg("Categoria eliminata. ✓", false);
+      await loadMenu();
+    });
+    $("#mn-cat-up").addEventListener("click", () => moveCat(-1));
+    $("#mn-cat-down").addEventListener("click", () => moveCat(1));
+
+    async function moveCat(dir) {
+      const i = MN_CATS.findIndex((c) => String(c.id) === String(currentCat));
+      const j = i + dir;
+      if (i < 0 || j < 0 || j >= MN_CATS.length) return;
+      const A = MN_CATS[i], B = MN_CATS[j];
+      const r1 = await sb.from("menu_categorie").update({ ordine: B.ordine }).eq("id", A.id);
+      const r2 = await sb.from("menu_categorie").update({ ordine: A.ordine }).eq("id", B.id);
+      if (r1.error || r2.error) { mnmsg(errText(r1.error || r2.error), true); return; }
+      await loadMenu();
+    }
+
+    $("#cat-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = $("#c-save"); btn.disabled = true; cmsg("", false);
+      try {
+        const id = $("#c-id").value;
+        const row = {
+          cat: $("#c-cat").value.trim(), en: $("#c-en").value.trim(), fr: $("#c-fr").value.trim(),
+          note: $("#c-note").value.trim(), note_en: $("#c-note-en").value.trim(), note_fr: $("#c-note-fr").value.trim(),
+        };
+        if (!row.cat) { cmsg("Il nome della categoria è obbligatorio.", true); btn.disabled = false; return; }
+        if (id) {
+          const { error } = await sb.from("menu_categorie").update(row).eq("id", id);
+          if (error) throw error;
+        } else {
+          row.ordine = MN_CATS.length ? Math.max.apply(null, MN_CATS.map((c) => c.ordine)) + 1 : 0;
+          const { data, error } = await sb.from("menu_categorie").insert(row).select("id").single();
+          if (error) throw error;
+          if (data) currentCat = data.id;
+        }
+        $("#cat-modal").hidden = true;
+        mnmsg("Categoria salvata. ✓", false);
+        await loadMenu();
+      } catch (err) { cmsg(errText(err), true); }
+      btn.disabled = false;
+    });
+
+    // Chiusura modali (pulsanti «Annulla» e clic sullo sfondo)
+    $$("[data-close-modal]").forEach((b) => b.addEventListener("click", () => {
+      $("#dish-modal").hidden = true; $("#cat-modal").hidden = true;
+    }));
+    $$(".mn-modal").forEach((m) => m.addEventListener("click", (e) => { if (e.target === m) m.hidden = true; }));
 
     init();
   })();
