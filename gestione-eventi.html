@@ -124,6 +124,12 @@
     .fx-voce-in { flex: 1; padding: 0.4rem 0.6rem; border: 1.5px solid rgba(27,64,150,0.18); border-radius: 9px; background: #fff; font-family: inherit; font-size: 0.95rem; color: var(--ink, #122146); }
     .fx-ord { display: inline-flex; flex-direction: column; gap: 0.1rem; }
     .fx-ord .linkbtn { padding: 0; font-size: 0.9rem; line-height: 1; }
+    .fx-grip { cursor: grab; color: rgba(27,64,150,0.42); font-size: 1.1rem; line-height: 1; padding: 0 0.15rem; user-select: none; touch-action: none; }
+    .fx-grip:active { cursor: grabbing; }
+    .fx-voce.fx-dragging { opacity: 0.4; }
+    .fx-voce.fx-over { box-shadow: inset 0 2px 0 0 var(--cobalt, #1B4096); }
+    .fx-voce.fx-over--after { box-shadow: inset 0 -2px 0 0 var(--cobalt, #1B4096); }
+    .fx-addvoce { margin-top: 0.1rem; font-weight: 700; }
   </style>
 </head>
 
@@ -913,6 +919,7 @@
        ================================================================== */
     let FX = { prezzo: "", nota: { it: "", en: "", fr: "" }, cats: [] };
     let fxLang = "it";
+    let fxDrag = null; // { ci, vi } della voce trascinata
 
     function fxmsg(text, isErr) { const el = $("#fx-msg"); el.textContent = text; el.className = "msg " + (isErr ? "msg--err" : "msg--ok"); }
     function fxL(o) { return (o && o[fxLang] != null) ? o[fxLang] : ""; }
@@ -937,21 +944,22 @@
       $("#fx-nota").value = fxL(FX.nota);
       $("#fx-grid").innerHTML = FX.cats.map((c, ci) => {
         const voci = c.voci.map((v, vi) =>
-          '<li class="fx-voce">' +
+          '<li class="fx-voce" data-ci="' + ci + '" data-vi="' + vi + '">' +
+            '<span class="fx-grip" draggable="true" title="Trascina per spostare" aria-hidden="true">⠿</span>' +
             '<input class="fx-voce-in" value="' + esc(fxL(v.n)) + '" placeholder="Nome piatto">' +
             '<span class="fx-ord"><button type="button" class="linkbtn" data-vup="' + ci + ":" + vi + '" aria-label="Su">▲</button>' +
             '<button type="button" class="linkbtn" data-vdown="' + ci + ":" + vi + '" aria-label="Giù">▼</button></span>' +
             '<button type="button" class="linkbtn linkbtn--danger" data-vdel="' + ci + ":" + vi + '" aria-label="Elimina">✕</button>' +
           "</li>").join("");
-        return '<section class="fixed-cat fx-cat">' +
+        return '<section class="fixed-cat fx-cat" data-ci="' + ci + '">' +
           '<div class="fx-cat-head">' +
             '<input class="fx-cat-title" value="' + esc(fxL(c.name)) + '" placeholder="Nome categoria">' +
             '<span class="fx-ord"><button type="button" class="linkbtn" data-cup="' + ci + '" aria-label="Su">▲</button>' +
             '<button type="button" class="linkbtn" data-cdown="' + ci + '" aria-label="Giù">▼</button></span>' +
-            '<button type="button" class="linkbtn linkbtn--danger" data-cdel="' + ci + '">Elimina</button>' +
+            '<button type="button" class="linkbtn linkbtn--danger" data-cdel="' + ci + '">Elimina categoria</button>' +
           "</div>" +
           '<ul class="fx-voci">' + voci + "</ul>" +
-          '<button type="button" class="linkbtn" data-vadd="' + ci + '">＋ piatto</button>' +
+          '<button type="button" class="linkbtn fx-addvoce" data-vadd="' + ci + '">＋ Aggiungi piatto</button>' +
         "</section>";
       }).join("");
     }
@@ -1009,6 +1017,74 @@
       else if ((a = g("data-vdown")) != null) { const p = a.split(":").map(Number); fxSync(); moveArr(FX.cats[p[0]].voci, p[1], 1); fxRender(); }
       else if ((a = g("data-vdel")) != null) { const p = a.split(":").map(Number); fxSync(); FX.cats[p[0]].voci.splice(p[1], 1); fxRender(); }
     });
+
+    /* ----- Trascinamento dei piatti (drag & drop), anche tra categorie ----- */
+    function fxCleanupDrag() {
+      $$("#fx-grid .fx-over, #fx-grid .fx-over--after").forEach((x) => x.classList.remove("fx-over", "fx-over--after"));
+      $$("#fx-grid .fx-dragging").forEach((x) => x.classList.remove("fx-dragging"));
+    }
+    const fxGrid = $("#fx-grid");
+
+    fxGrid.addEventListener("dragstart", (e) => {
+      const grip = e.target.closest && e.target.closest(".fx-grip");
+      if (!grip) return;
+      const li = grip.closest(".fx-voce");
+      if (!li) return;
+      fxSync(); // salva le modifiche in corso prima di riordinare
+      fxDrag = { ci: +li.dataset.ci, vi: +li.dataset.vi };
+      e.dataTransfer.effectAllowed = "move";
+      try { e.dataTransfer.setData("text/plain", "voce"); } catch (_) {}
+      try { e.dataTransfer.setDragImage(li, 12, 12); } catch (_) {}
+      li.classList.add("fx-dragging");
+    });
+
+    fxGrid.addEventListener("dragover", (e) => {
+      if (!fxDrag) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "move";
+      $$("#fx-grid .fx-over, #fx-grid .fx-over--after").forEach((x) => x.classList.remove("fx-over", "fx-over--after"));
+      const li = e.target.closest && e.target.closest(".fx-voce");
+      if (li) {
+        const rect = li.getBoundingClientRect();
+        const after = (e.clientY - rect.top) > rect.height / 2;
+        li.classList.add(after ? "fx-over--after" : "fx-over");
+      }
+    });
+
+    fxGrid.addEventListener("drop", (e) => {
+      if (!fxDrag) return;
+      e.preventDefault();
+      const src = fxDrag; fxDrag = null;
+      const srcCat = FX.cats[src.ci];
+      if (!srcCat) { fxCleanupDrag(); return; }
+
+      // Categoria e posizione di destinazione (calcolate prima di rimuovere)
+      let tci, tvi;
+      const li = e.target.closest && e.target.closest(".fx-voce");
+      if (li) {
+        tci = +li.dataset.ci;
+        const rect = li.getBoundingClientRect();
+        const after = (e.clientY - rect.top) > rect.height / 2;
+        tvi = +li.dataset.vi + (after ? 1 : 0);
+      } else {
+        const sec = e.target.closest && e.target.closest(".fx-cat");
+        if (!sec) { fxCleanupDrag(); return; }
+        tci = +sec.dataset.ci;
+        tvi = FX.cats[tci] ? FX.cats[tci].voci.length : 0; // in fondo alla categoria
+      }
+
+      const moved = srcCat.voci.splice(src.vi, 1)[0];
+      if (!moved) { fxCleanupDrag(); fxRender(); return; }
+      // La rimozione da una posizione precedente nella stessa categoria sposta gli indici
+      if (tci === src.ci && tvi > src.vi) tvi--;
+      const tgt = FX.cats[tci] || srcCat;
+      if (tvi < 0) tvi = 0;
+      if (tvi > tgt.voci.length) tvi = tgt.voci.length;
+      tgt.voci.splice(tvi, 0, moved);
+      fxRender();
+    });
+
+    fxGrid.addEventListener("dragend", () => { fxDrag = null; fxCleanupDrag(); });
 
     // Salvataggio (allinea il database al modello: aggiorna, inserisce, elimina)
     $("#fx-save").addEventListener("click", async () => {
