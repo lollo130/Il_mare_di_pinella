@@ -106,6 +106,24 @@
     details.mn-tr { margin: 0.2rem 0 1rem; border: 1px dashed rgba(27,64,150,0.28); border-radius: 10px; padding: 0.5rem 0.85rem; }
     details.mn-tr summary { cursor: pointer; font-size: 0.85rem; font-weight: 600; color: var(--cobalt, #1B4096); }
     details.mn-tr[open] { padding-bottom: 0.2rem; }
+    /* ===== Menù fisso: editor "come sul sito" ===== */
+    .fx-langbar { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; font-size: 0.85rem; font-weight: 600; color: var(--ink, #122146); }
+    .fx-langs { display: inline-flex; gap: 0.25rem; }
+    .fx-langs button { border: 1.5px solid rgba(27,64,150,0.25); background: #fff; border-radius: 8px; padding: 0.25rem 0.6rem; font-weight: 700; cursor: pointer; color: var(--ink, #122146); font-family: inherit; }
+    .fx-langs button.is-active { background: var(--cobalt, #1B4096); color: #fff; border-color: var(--cobalt, #1B4096); }
+    .fx-edit { background: rgba(27,64,150,0.03); border: 1px solid rgba(27,64,150,0.14); border-radius: 14px; padding: 1.2rem; }
+    .fx-price-row, .fx-note-row { display: flex; align-items: center; gap: 0.6rem; font-weight: 600; font-size: 0.9rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .fx-in { padding: 0.5rem 0.7rem; border: 1.5px solid rgba(27,64,150,0.25); border-radius: 10px; background: #fff; font-family: inherit; font-size: 1rem; color: var(--ink, #122146); flex: 1; min-width: 140px; }
+    .fx-in--price { max-width: 130px; flex: 0 0 auto; font-weight: 700; }
+    #fx-grid { display: block !important; }
+    .fx-cat { margin-bottom: 1.1rem; }
+    .fx-cat-head { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.45rem; }
+    .fx-cat-title { flex: 1; padding: 0.4rem 0.6rem; border: 1.5px solid rgba(27,64,150,0.2); border-radius: 9px; background: #fff; font-family: var(--font-display, serif); font-size: 1.05rem; color: var(--ink, #122146); }
+    .fx-voci { list-style: none; padding: 0; margin: 0 0 0.45rem; display: grid; gap: 0.35rem; }
+    .fx-voce { display: flex; align-items: center; gap: 0.4rem; }
+    .fx-voce-in { flex: 1; padding: 0.4rem 0.6rem; border: 1.5px solid rgba(27,64,150,0.18); border-radius: 9px; background: #fff; font-family: inherit; font-size: 0.95rem; color: var(--ink, #122146); }
+    .fx-ord { display: inline-flex; flex-direction: column; gap: 0.1rem; }
+    .fx-ord .linkbtn { padding: 0; font-size: 0.9rem; line-height: 1; }
   </style>
 </head>
 
@@ -228,6 +246,39 @@
           <button type="button" class="btn btn--cobalt" id="mn-dish-new">＋ Nuovo piatto</button>
         </div>
         <p class="msg" id="mn-msg"></p>
+      </div>
+
+      <!-- Menù fisso (editor "come sul sito") -->
+      <div class="card">
+        <h2>Menù fisso</h2>
+        <p style="opacity:.75;font-size:.88rem;margin:-.5rem 0 1.1rem">
+          Modifica qui sotto: è il menù fisso <strong>come appare sul sito</strong>.
+          Cambia prezzo, categorie e piatti, poi «Salva». Usa IT / EN / FR per le traduzioni.
+        </p>
+        <div class="fx-langbar">
+          <span>Lingua dei testi:</span>
+          <div class="fx-langs">
+            <button type="button" data-fx-lang="it" class="is-active">IT</button>
+            <button type="button" data-fx-lang="en">EN</button>
+            <button type="button" data-fx-lang="fr">FR</button>
+          </div>
+        </div>
+        <div class="fixed-menu fx-edit">
+          <div class="fx-price-row">
+            <label for="fx-prezzo" style="margin:0">Prezzo</label>
+            <input type="text" id="fx-prezzo" class="fx-in fx-in--price" placeholder="€30" />
+          </div>
+          <div id="fx-grid"></div>
+          <button type="button" class="btn btn--ghost btn--sm" id="fx-add-cat">＋ Aggiungi categoria</button>
+          <div class="fx-note-row" style="margin-top:1.1rem">
+            <label for="fx-nota" style="margin:0">Nota</label>
+            <input type="text" id="fx-nota" class="fx-in" placeholder="Es. Bevande escluse" />
+          </div>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn btn--cobalt" id="fx-save">Salva menù fisso</button>
+        </div>
+        <p class="msg" id="fx-msg"></p>
       </div>
 
     </section>
@@ -357,7 +408,7 @@
       loginView.hidden = on;
       appView.hidden = !on;
       logoutBtn.hidden = !on;
-      if (on) { $("#who").textContent = session.user.email; loadList(); loadOrari(); loadMenu(); }
+      if (on) { $("#who").textContent = session.user.email; loadList(); loadOrari(); loadMenu(); loadFisso(); }
     }
 
     /* ---------- LOGIN / LOGOUT ---------- */
@@ -855,6 +906,154 @@
       $("#dish-modal").hidden = true; $("#cat-modal").hidden = true;
     }));
     $$(".mn-modal").forEach((m) => m.addEventListener("click", (e) => { if (e.target === m) m.hidden = true; }));
+
+    /* ==================================================================
+       MENÙ FISSO — editor inline "come sul sito"
+       Modello in memoria: FX = { prezzo, nota{it,en,fr}, cats:[{id,name{it,en,fr},voci:[{id,n{it,en,fr}}]}] }
+       ================================================================== */
+    let FX = { prezzo: "", nota: { it: "", en: "", fr: "" }, cats: [] };
+    let fxLang = "it";
+
+    function fxmsg(text, isErr) { const el = $("#fx-msg"); el.textContent = text; el.className = "msg " + (isErr ? "msg--err" : "msg--ok"); }
+    function fxL(o) { return (o && o[fxLang] != null) ? o[fxLang] : ""; }
+    function moveArr(arr, i, dir) { const j = i + dir; if (j < 0 || j >= arr.length) return false; const t = arr[i]; arr[i] = arr[j]; arr[j] = t; return true; }
+
+    // Legge i valori attuali dei campi nel modello (per la lingua corrente)
+    function fxSync() {
+      FX.prezzo = $("#fx-prezzo").value;
+      FX.nota[fxLang] = $("#fx-nota").value;
+      $$("#fx-grid .fx-cat").forEach((el, ci) => {
+        const c = FX.cats[ci]; if (!c) return;
+        c.name[fxLang] = el.querySelector(".fx-cat-title").value;
+        $$(".fx-voce", el).forEach((li, vi) => {
+          const v = c.voci[vi]; if (!v) return;
+          v.n[fxLang] = li.querySelector(".fx-voce-in").value;
+        });
+      });
+    }
+
+    function fxRender() {
+      $("#fx-prezzo").value = FX.prezzo;
+      $("#fx-nota").value = fxL(FX.nota);
+      $("#fx-grid").innerHTML = FX.cats.map((c, ci) => {
+        const voci = c.voci.map((v, vi) =>
+          '<li class="fx-voce">' +
+            '<input class="fx-voce-in" value="' + esc(fxL(v.n)) + '" placeholder="Nome piatto">' +
+            '<span class="fx-ord"><button type="button" class="linkbtn" data-vup="' + ci + ":" + vi + '" aria-label="Su">▲</button>' +
+            '<button type="button" class="linkbtn" data-vdown="' + ci + ":" + vi + '" aria-label="Giù">▼</button></span>' +
+            '<button type="button" class="linkbtn linkbtn--danger" data-vdel="' + ci + ":" + vi + '" aria-label="Elimina">✕</button>' +
+          "</li>").join("");
+        return '<section class="fixed-cat fx-cat">' +
+          '<div class="fx-cat-head">' +
+            '<input class="fx-cat-title" value="' + esc(fxL(c.name)) + '" placeholder="Nome categoria">' +
+            '<span class="fx-ord"><button type="button" class="linkbtn" data-cup="' + ci + '" aria-label="Su">▲</button>' +
+            '<button type="button" class="linkbtn" data-cdown="' + ci + '" aria-label="Giù">▼</button></span>' +
+            '<button type="button" class="linkbtn linkbtn--danger" data-cdel="' + ci + '">Elimina</button>' +
+          "</div>" +
+          '<ul class="fx-voci">' + voci + "</ul>" +
+          '<button type="button" class="linkbtn" data-vadd="' + ci + '">＋ piatto</button>' +
+        "</section>";
+      }).join("");
+    }
+
+    async function loadFisso() {
+      const [metaRes, catRes, vociRes] = await Promise.all([
+        sb.from("menu_fisso_meta").select("*").eq("id", 1),
+        sb.from("menu_fisso_cat").select("*").order("ordine", { ascending: true }),
+        sb.from("menu_fisso_voci").select("*").order("ordine", { ascending: true }),
+      ]);
+      if (catRes.error) { fxmsg(errText(catRes.error), true); return; }
+      const m = (metaRes.data && metaRes.data[0]) || { prezzo: "€30", nota: "", nota_en: "", nota_fr: "" };
+      FX.prezzo = m.prezzo || "";
+      FX.nota = { it: m.nota || "", en: m.nota_en || "", fr: m.nota_fr || "" };
+      const byId = {};
+      FX.cats = (catRes.data || []).map((c) => {
+        const o = { id: c.id, name: { it: c.cat || "", en: c.en || "", fr: c.fr || "" }, voci: [] };
+        byId[c.id] = o; return o;
+      });
+      (vociRes.data || []).forEach((v) => {
+        const c = byId[v.categoria_id];
+        if (c) c.voci.push({ id: v.id, n: { it: v.n || "", en: v.e || "", fr: v.f || "" } });
+      });
+      fxLang = "it";
+      $$(".fx-langs [data-fx-lang]").forEach((x) => x.classList.toggle("is-active", x.dataset.fxLang === "it"));
+      fxmsg("", false);
+      fxRender();
+    }
+
+    // Cambio lingua dei testi
+    $$(".fx-langs [data-fx-lang]").forEach((b) => b.addEventListener("click", () => {
+      fxSync();
+      fxLang = b.dataset.fxLang;
+      $$(".fx-langs [data-fx-lang]").forEach((x) => x.classList.toggle("is-active", x === b));
+      fxRender();
+    }));
+
+    // Aggiungi categoria
+    $("#fx-add-cat").addEventListener("click", () => {
+      fxSync();
+      FX.cats.push({ name: { it: "", en: "", fr: "" }, voci: [{ n: { it: "", en: "", fr: "" } }] });
+      fxRender();
+    });
+
+    // Azioni su categorie / voci (riordino, elimina, aggiungi piatto)
+    $("#fx-grid").addEventListener("click", (e) => {
+      const t = e.target;
+      const g = (a) => t.getAttribute(a);
+      let a;
+      if ((a = g("data-cup")) != null) { fxSync(); moveArr(FX.cats, +a, -1); fxRender(); }
+      else if ((a = g("data-cdown")) != null) { fxSync(); moveArr(FX.cats, +a, 1); fxRender(); }
+      else if ((a = g("data-cdel")) != null) { fxSync(); if (confirm("Eliminare questa categoria e le sue voci?")) { FX.cats.splice(+a, 1); fxRender(); } }
+      else if ((a = g("data-vadd")) != null) { fxSync(); FX.cats[+a].voci.push({ n: { it: "", en: "", fr: "" } }); fxRender(); }
+      else if ((a = g("data-vup")) != null) { const p = a.split(":").map(Number); fxSync(); moveArr(FX.cats[p[0]].voci, p[1], -1); fxRender(); }
+      else if ((a = g("data-vdown")) != null) { const p = a.split(":").map(Number); fxSync(); moveArr(FX.cats[p[0]].voci, p[1], 1); fxRender(); }
+      else if ((a = g("data-vdel")) != null) { const p = a.split(":").map(Number); fxSync(); FX.cats[p[0]].voci.splice(p[1], 1); fxRender(); }
+    });
+
+    // Salvataggio (allinea il database al modello: aggiorna, inserisce, elimina)
+    $("#fx-save").addEventListener("click", async () => {
+      const btn = $("#fx-save"); btn.disabled = true; fxmsg("", false);
+      try {
+        fxSync();
+        const { error: em } = await sb.from("menu_fisso_meta").upsert({
+          id: 1, prezzo: FX.prezzo.trim(),
+          nota: FX.nota.it.trim(), nota_en: FX.nota.en.trim(), nota_fr: FX.nota.fr.trim(),
+          aggiornato_il: new Date().toISOString(),
+        });
+        if (em) throw em;
+
+        const exCats = ((await sb.from("menu_fisso_cat").select("id")).data || []).map((r) => r.id);
+        const keptC = [];
+        for (let i = 0; i < FX.cats.length; i++) {
+          const c = FX.cats[i];
+          const row = { ordine: i, cat: (c.name.it || "").trim(), en: (c.name.en || "").trim(), fr: (c.name.fr || "").trim() };
+          if (!row.cat) continue; // categoria senza nome IT: ignorata
+          if (c.id) { const { error } = await sb.from("menu_fisso_cat").update(row).eq("id", c.id); if (error) throw error; }
+          else { const { data, error } = await sb.from("menu_fisso_cat").insert(row).select("id").single(); if (error) throw error; c.id = data.id; }
+          keptC.push(c.id);
+
+          const exV = ((await sb.from("menu_fisso_voci").select("id").eq("categoria_id", c.id)).data || []).map((r) => r.id);
+          const keptV = [];
+          let ord = 0;
+          for (const v of c.voci) {
+            const n = (v.n.it || "").trim();
+            if (!n) continue; // voce senza nome IT: ignorata
+            const vr = { categoria_id: c.id, ordine: ord++, n: n, e: (v.n.en || "").trim(), f: (v.n.fr || "").trim() };
+            if (v.id) { const { error } = await sb.from("menu_fisso_voci").update(vr).eq("id", v.id); if (error) throw error; }
+            else { const { data, error } = await sb.from("menu_fisso_voci").insert(vr).select("id").single(); if (error) throw error; v.id = data.id; }
+            keptV.push(v.id);
+          }
+          const delV = exV.filter((id) => keptV.indexOf(id) === -1);
+          if (delV.length) { const { error } = await sb.from("menu_fisso_voci").delete().in("id", delV); if (error) throw error; }
+        }
+        const delC = exCats.filter((id) => keptC.indexOf(id) === -1);
+        if (delC.length) { const { error } = await sb.from("menu_fisso_cat").delete().in("id", delC); if (error) throw error; }
+
+        fxmsg("Menù fisso salvato: è già online sul sito. ✓", false);
+        await loadFisso();
+      } catch (err) { fxmsg(errText(err), true); }
+      btn.disabled = false;
+    });
 
     init();
   })();
