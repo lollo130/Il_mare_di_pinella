@@ -257,7 +257,11 @@ let MENU = Array.isArray(window.MENU_SEED) ? window.MENU_SEED : [];
   function render() {
     if (!DATA || !DATA.cats.length) return; // niente dati: resta l'HTML statico
     const l = lang();
-    if (priceEl && DATA.meta.prezzo) priceEl.textContent = DATA.meta.prezzo;
+    if (DATA.meta.prezzo) {
+      if (priceEl) priceEl.textContent = DATA.meta.prezzo;
+      // Prezzo anche nel pulsante selettore "Menù Fisso · €.." (fuori dal pannello)
+      document.querySelectorAll("[data-fisso-price]").forEach((el) => { el.textContent = DATA.meta.prezzo; });
+    }
     if (noteEl) noteEl.textContent = noteTxt(l);
     grid.innerHTML = DATA.cats.map((c) => {
       const items = c.voci.map((v) => "<li>" + esc(vName(v, l)) + "</li>").join("");
